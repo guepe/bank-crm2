@@ -1,0 +1,10 @@
+<html>
+	<body>
+		<h1>Liste des file</h1>
+		{% for cat in filelinked %}
+			<p>{{ cat.name }} </p>
+		{% else %}
+			<p>Aucune catégorie n'a été trouvée.</p>
+		{% endfor %}
+	</body>
+</html>

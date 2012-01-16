@@ -1,0 +1,63 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block title %}Edit/add des account{% endblock %}
+		
+{% block warning %}
+	{% if message %}
+		<div class="warning">{{ message }}</div>
+	{% endif %}
+{% 	endblock %}
+
+{% block content %}
+{% if account|length > 0 %}		
+		<div id="showaccount"> 
+		<div class="headblock-element">
+		<h1>{{account.name}}<a href="{{ path('EditAccount',{'id': account.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a></h1>
+
+		<br/> {{account.type}} {{account.companyStatut}} {{ account.startingdate|date('d/m/Y') }}
+		<br/> {{account.notes}}
+		</div>
+		<br/>
+		<h2>Contacts <a href="{{ path('SelectContact',{'account_id': account.id }) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<ul> 
+		{% for contact in account.contacts %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"	
+			{%else%}
+				id="line2"
+			{% endif %}
+			>{{contact.firstname}} {{contact.lastname}} <a href=" {{path('ShowContact',{'id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>
+			<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></li>
+		{% else %}
+			<p>Aucune contacts n'a �t� trouv�e.</p>
+		{% endfor %}
+		</ul>
+		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<ul>
+		{% for bankproduct in account.bankproduct %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"				
+			{%else%}
+				id="line2"
+			{% endif %}
+			>{{bankproduct.name}} {{bankproduct.type}}</li>
+		{% else %}
+			<p>Aucune bankproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+		<h2>Produits Crédit <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		</ul>
+		{% for creditproduct in account.creditproduct %}
+			<li>{{creditproduct.name}} {{creditproduct.type}}</li>
+		{% else %}
+			<p>Aucune creditproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+
+		</div>
+{% endif %}	
+{% endblock %}
+
+

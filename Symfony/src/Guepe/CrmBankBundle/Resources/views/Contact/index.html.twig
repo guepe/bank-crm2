@@ -1,0 +1,7 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block title %}Liste des contacts{% endblock %}
+
+{% block content %}
+	    {% include 'GuepeCrmBankBundle:Contact:list.html.twig' with {'contacts' : contacts}  %}
+{% endblock %}

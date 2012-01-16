@@ -1,0 +1,4 @@
+GuepeUserBundle_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: GuepeUserBundle:Default:index }
+

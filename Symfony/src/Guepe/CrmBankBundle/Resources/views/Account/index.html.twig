@@ -1,0 +1,7 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block title %}Edit/add des account{% endblock %}
+		
+{% block content %}
+    {% include 'GuepeCrmBankBundle:Account:list.html.twig' with {'accounts' : accounts}  %}
+{% endblock %}	

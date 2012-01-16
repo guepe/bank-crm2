@@ -1,0 +1,7 @@
+parameters:
+#    guepe_crm_bank.example.class: Guepe\CrmBankBundle\Example
+
+services:
+#    guepe_crm_bank.example:
+#        class: %guepe_crm_bank.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

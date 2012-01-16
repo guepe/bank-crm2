@@ -1,0 +1,124 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block title %}Edit contacts{% endblock %}
+
+{% block content %}
+		{% if message %}
+		<p>{{ message }}</p>
+		{% endif %}
+		
+		<form action="" method="post" {{ form_enctype(form) }}>
+		<div class="headblock-element">
+
+		<table>
+			<tr>
+				<td>{{ form_label(form.firstname) }}</td>
+				<td>
+					{{ form_errors(form.firstname) }}
+				{{ form_widget(form.firstname) }}
+				</td>
+				<td>{{ form_label(form.lastname) }}</td>
+				<td>
+				
+				{{ form_widget(form.lastname) }}
+				{{ form_errors(form.lastname) }}
+				</td>
+		
+				<td>{{ form_label(form.birthdate) }}</td>
+				<td>
+					{{ form_errors(form.birthdate) }}
+				{{ form_widget(form.birthdate) }}
+				</td>
+				<td>{{ form_label(form.birthplace) }}</td>
+				<td>
+					{{ form_errors(form.birthplace) }}
+				{{ form_widget(form.birthplace) }}
+				</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.email) }}</td>
+				<td>
+					{{ form_errors(form.email) }}
+				{{ form_widget(form.email) }}
+				</td>
+				<td>{{ form_label(form.gsm) }}</td>
+				<td>
+					{{ form_errors(form.gsm) }}
+				{{ form_widget(form.gsm) }}
+				</td>
+				<td>{{ form_label(form.phone) }}</td>
+				<td>
+					{{ form_errors(form.phone) }}
+				{{ form_widget(form.phone) }}
+				</td>
+				<td>{{ form_label(form.niss) }}</td>
+				<td>
+					{{ form_errors(form.niss) }}
+				{{ form_widget(form.niss) }}
+				</td>
+			</tr>		    
+		</table>
+		</div>
+		<hr>
+		<table>
+			<tr>
+				<td>{{ form_label(form.street_num) }}</td>
+				<td>
+					{{ form_errors(form.street_num) }}
+				{{ form_widget(form.street_num) }}
+				</td>
+				<td>{{ form_label(form.city) }}</td>
+				<td>
+					{{ form_errors(form.city) }}
+				{{ form_widget(form.city) }}
+				</td>
+				<td>{{ form_label(form.zip) }}</td>
+				<td>
+					{{ form_errors(form.zip) }}
+				{{ form_widget(form.zip) }}
+				</td>
+				<td>{{ form_label(form.country) }}</td>
+				<td>
+					{{ form_errors(form.country) }}
+				{{ form_widget(form.country) }}
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td>{{ form_label(form.eid) }}</td>
+				<td>
+					{{ form_errors(form.eid) }}
+					{{ form_widget(form.eid) }}
+				</td>
+				<td>{{ form_label(form.marital_status) }}</td>
+				<td>
+					{{ form_errors(form.marital_status) }}
+				{{ form_widget(form.marital_status) }}
+				</td>
+		</table
+		<table>		
+				<td>{{ form_label(form.income_amount) }}</td>
+				<td>
+					{{ form_errors(form.income_amount) }}
+				{{ form_widget(form.income_amount) }}
+				</td>
+				<td>{{ form_label(form.income_recurence) }}</td>
+				<td>
+					{{ form_errors(form.income_recurence) }}
+				{{ form_widget(form.income_recurence) }}
+				</td>
+				<td>{{ form_label(form.income_date) }}</td>
+				<td>
+					{{ form_widget(form.income_date) }}
+					{{ form_errors(form.income_date) }}
+				</td>
+			</tr>
+		</table>
+		    {{ form_rest(form) }}
+
+		    <input type="submit" />
+		</form>
+		<p><a href="{{ path('AllContacts') }}">Retour � la liste des contacts</a></p>
+		
+{% endblock %}	

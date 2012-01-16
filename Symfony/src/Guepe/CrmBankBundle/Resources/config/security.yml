@@ -1,0 +1,30 @@
+security:
+    encoders:
+      Symfony\Component\Security\Core\User\User: plaintext
+      Guepe\UserBundle\Entity\User: plaintext
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+
+    firewalls:
+        main:
+            pattern:      .*
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /login
+                use_forward:    false
+                check_path:     /login_check
+                failure_path:   null
+                default_target_path: /
+            logout:
+                path:   /logout
+                target: /
+            anonymous:    true
+
+    role_hierarchy:
+        ROLE_ADMIN:      ROLE_USER
+        ROLE_SUPERADMIN: ROLE_ADMIN
+
+    access_control:
+#          - { path: ^/account/edit/, role: ROLE_USER }

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>{% block title %}Filmoth�que{% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../public/css/main.css" type="text/css" media="all" />
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script> 
+    </head>
+    <body>
+        <div id="page">
+            <div id="header">
+            <a href="{{ path('AddAccounts') }}">New Accounts</a> - 
+            <a href="{{ path('AddContact') }}">New Contact</a>
+			</div>
+			<div id="leftpane">
+				<div id="menu">
+					<ul id="menu">
+					    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}">Accueil</a></li>
+					    <li><a href="{{ path('AllAccounts') }}">Accounts</a></li>
+					    <li><a href="{{ path('AllContacts') }}">Contacts</a></li>                    
+					</ul>
+	            </div>
+            </div>
+			<div id="centerpane">
+				<div class="warning">Erreur d'encodage</div>
+			
+	            <div id="content">
+	            
+	                <h1>{{ block('title') }}</h1>
+	                {% block content %}	
+	                {% endblock %}
+	            </div>
+            </div>
+            <div id="footer">
+            	<img src="../public/css/images/new-logo.jpg'" alt="belspace"  height="30" />
+                Tous droits réservés (c) 2011
+            </div>
+        </div>
+    </body>
+</html>
