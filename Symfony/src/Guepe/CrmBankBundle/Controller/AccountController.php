@@ -30,7 +30,8 @@ class AccountController extends Controller
     {
 
     	$em = $this->container->get('doctrine')->getEntityManager();
-    	$accounts =$this->getDoctrine()->getRepository('GuepeCrmBankBundle:Account')->findAll();
+    	$accounts =$this->getDoctrine()->getRepository('GuepeCrmBankBundle:Account')->findBy(array(),
+    		array('name'=>'asc'));
 		
     	return array(
 		 'accounts' => $accounts);    	
@@ -189,7 +190,8 @@ class AccountController extends Controller
 public function listAction()
 {
 	$em = $this->container->get('doctrine')->getEntityManager();
-    $accounts = $em->getRepository('GuepeCrmBankBundle:Account')->findAll();
+    $accounts = $em->getRepository('GuepeCrmBankBundle:Account')->findBy(array(),
+    		array('name'=>'asc'));
 		
 	$form = $this->container->get('form.factory')->create(new AccountSearchForm());
 	
@@ -232,7 +234,8 @@ public function searchAction()
                $accounts = $query->getResult();
         }
         else {
-            $accounts = $em->getRepository('GuepeCrmBankBundle:Account')->findAll();
+            $accounts = $em->getRepository('GuepeCrmBankBundle:Account')->findBy(array(),
+    		array('name'=>'asc'));
         }
 
         return $this->container->get('templating')->renderResponse('GuepeCrmBankBundle:Account:list.html.twig', array(

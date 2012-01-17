@@ -28,7 +28,8 @@ class ContactController extends Controller
     {
 
     	$em = $this->container->get('doctrine')->getEntityManager();
-    	$contacts =$this->getDoctrine()->getRepository('GuepeCrmBankBundle:Contact')->findAll();
+    	$contacts =$this->getDoctrine()->getRepository('GuepeCrmBankBundle:Contact')->findBy(array(),
+    		array('lastname'=>'asc'));
     	        
     	return array(
 		 'contacts' => $contacts,
@@ -119,7 +120,8 @@ class ContactController extends Controller
 public function listAction($account_id=null)
 {
 	$em = $this->container->get('doctrine')->getEntityManager();
-    $contacts = $em->getRepository('GuepeCrmBankBundle:Contact')->findAll();
+    $contacts = $em->getRepository('GuepeCrmBankBundle:Contact')->findBy(array(),
+    		array('lastname'=>'asc'));
 		
 	$form = $this->container->get('form.factory')->create(new ContactSearchForm());
 	
@@ -131,22 +133,21 @@ public function listAction($account_id=null)
 }
 
 	/**	
-	* @Route("/search", name="SearchContact")
+	* @Route("/search/", name="SearchContact")
  	* @Route("/{account_id}", name="SelectContact")
  	* @Route("/",name="AllContacts",defaults={"account_id" = null})
 	*/
 public function searchAction($account_id=null)
 {               
     $request = $this->container->get('request');
-
     
     $message = '';
+    
     if($request->isXmlHttpRequest())
     {
-        $lastname = 'seul';
-        $lastname = $request->request->get('lastname');
-        $firstname = 'mar';
-        $firstname = $request->request->get('firstname');
+    	$lastname ='';
+    	$lastname = $request->request->get('lastname');
+        //$firstname = $request->request->get('firstname');
         $em = $this->container->get('doctrine')->getEntityManager();
         if($lastname != '')
         {
@@ -161,7 +162,9 @@ public function searchAction($account_id=null)
                $contacts = $query->getResult();
         }
         else {
-            $contacts = $em->getRepository('GuepeCrmBankBundle:Contact')->findAll();
+            $contacts = $em->getRepository('GuepeCrmBankBundle:Contact')->findBy(array(),
+    		array('lastname'=>'asc'));
+    		
         }
 
         return $this->container->get('templating')->renderResponse('GuepeCrmBankBundle:Contact:list.html.twig', array(
