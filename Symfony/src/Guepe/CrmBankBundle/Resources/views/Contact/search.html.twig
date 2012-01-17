@@ -23,8 +23,8 @@
 $(".loading").hide();
 $("#form_recherche").submit(function(){ 
     $(".loading").show();
-    var motcle = $("#contactsearch_motcle").val();
-    var DATA = 'motcle=' + motcle;
+    var lastname = $("#contactsearch_lastname").val();
+    var DATA = 'lastname=' + lastname;
     $.ajax({
         type: "POST",
         url: "{{ path('SearchContact')}}",
