@@ -18,7 +18,10 @@ class Contact
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+	/**
+ 	 * @ORM\Column(type="string", length=100,nullable=true)
+	 */
+    protected $titre;
 	/**
  	 * @ORM\Column(type="string", length=100,nullable=true)
 	 */
@@ -58,6 +61,10 @@ class Contact
 	 * @ORM\Column(type="string", length=100,nullable=true)
      */
     protected $phone;
+        /**
+	 * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    protected $phone2;
     /**
 	 * @ORM\Column(type="string", length=16,nullable=true)
      */
@@ -521,5 +528,45 @@ class Contact
     public function getAccounts()
     {
         return $this->accounts;
+    }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string 
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set phone2
+     *
+     * @param string $phone2
+     */
+    public function setPhone2($phone2)
+    {
+        $this->phone2 = $phone2;
+    }
+
+    /**
+     * Get phone2
+     *
+     * @return string 
+     */
+    public function getPhone2()
+    {
+        return $this->phone2;
     }
 }

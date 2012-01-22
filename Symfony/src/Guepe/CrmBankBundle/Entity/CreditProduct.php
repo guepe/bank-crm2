@@ -9,15 +9,31 @@ use Doctrine\ORM\Mapping as ORM;
 class CreditProduct extends MetaProduct
 {
 	/**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(name="garantee",type="string", length=100,nullable=true)
      */
-    protected $garantee;
+    protected $Garantee;
+    /**
+ 	 * @ORM\Column(name="number",type="string", length=100)
+	 */    
+    protected $Number;
+     /**
+ 	 * @ORM\Column(name="purpose",type="text",nullable=true)
+	 */    
+    protected $Purpose;
+	/**
+     * @ORM\Column(name="garantee_start",type="date",nullable=true)
+     */
+    protected $GaranteeStart;    
+	/**
+     * @ORM\Column(name="variability",type="decimal",nullable=true)
+     */
+    protected $Variability;    
+    
     
     /**
      * @var integer $id
      */
     protected $id;
-
     /**
      * @var string $Name
      */
@@ -51,7 +67,7 @@ class CreditProduct extends MetaProduct
      */
     public function setGarantee($garantee)
     {
-        $this->garantee = $garantee;
+        $this->Garantee = $garantee;
     }
 
     /**
@@ -61,7 +77,7 @@ class CreditProduct extends MetaProduct
      */
     public function getGarantee()
     {
-        return $this->garantee;
+        return $this->Garantee;
     }
 
     /**
@@ -142,5 +158,261 @@ class CreditProduct extends MetaProduct
     public function getAccount()
     {
         return $this->account;
+    }
+    /**
+     * @var decimal $Amount
+     */
+    protected $Amount;
+
+    /**
+     * @var date $StartDate
+     */
+    protected $StartDate;
+
+    /**
+     * @var date $EndDate
+     */
+    protected $EndDate;
+
+    /**
+     * @var text $Notes
+     */
+    protected $Notes;
+    
+
+    /**
+     * @var string $References
+     */
+    protected $References;
+
+    /**
+     * @var text $Company
+     */
+    protected $Company;
+
+    /**
+     * @var smallint $TauxInteret
+     */
+    protected $TauxInteret;
+
+
+    /**
+     * Set Number
+     *
+     * @param string $number
+     */
+    public function setNumber($number)
+    {
+        $this->Number = $number;
+    }
+
+    /**
+     * Get Number
+     *
+     * @return string 
+     */
+    public function getNumber()
+    {
+        return $this->Number;
+    }
+
+    /**
+     * Set Amount
+     *
+     * @param decimal $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->Amount = $amount;
+    }
+
+    /**
+     * Get Amount
+     *
+     * @return decimal 
+     */
+    public function getAmount()
+    {
+        return $this->Amount;
+    }
+
+    /**
+     * Set StartDate
+     *
+     * @param date $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->StartDate = $startDate;
+    }
+
+    /**
+     * Get StartDate
+     *
+     * @return date 
+     */
+    public function getStartDate()
+    {
+        return $this->StartDate;
+    }
+
+    /**
+     * Set EndDate
+     *
+     * @param date $endDate
+     */
+    public function setEndDate($endDate)
+    {
+        $this->EndDate = $endDate;
+    }
+
+    /**
+     * Get EndDate
+     *
+     * @return date 
+     */
+    public function getEndDate()
+    {
+        return $this->EndDate;
+    }
+
+    /**
+     * Set Notes
+     *
+     * @param text $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->Notes = $notes;
+    }
+
+    /**
+     * Get Notes
+     *
+     * @return text 
+     */
+    public function getNotes()
+    {
+        return $this->Notes;
+    }
+
+    /**
+     * Set References
+     *
+     * @param string $references
+     */
+    public function setReferences($references)
+    {
+        $this->References = $references;
+    }
+
+    /**
+     * Get References
+     *
+     * @return string 
+     */
+    public function getReferences()
+    {
+        return $this->References;
+    }
+
+    /**
+     * Set Company
+     *
+     * @param text $company
+     */
+    public function setCompany($company)
+    {
+        $this->Company = $company;
+    }
+
+    /**
+     * Get Company
+     *
+     * @return text 
+     */
+    public function getCompany()
+    {
+        return $this->Company;
+    }
+
+    /**
+     * Set TauxInteret
+     *
+     * @param smallint $tauxInteret
+     */
+    public function setTauxInteret($tauxInteret)
+    {
+        $this->TauxInteret = $tauxInteret;
+    }
+
+    /**
+     * Get TauxInteret
+     *
+     * @return smallint 
+     */
+    public function getTauxInteret()
+    {
+        return $this->TauxInteret;
+    }
+
+    /**
+     * Set Purpose
+     *
+     * @param text $purpose
+     */
+    public function setPurpose($purpose)
+    {
+        $this->Purpose = $purpose;
+    }
+
+    /**
+     * Get Purpose
+     *
+     * @return text 
+     */
+    public function getPurpose()
+    {
+        return $this->Purpose;
+    }
+
+    /**
+     * Set GaranteeStart
+     *
+     * @param date $garanteeStart
+     */
+    public function setGaranteeStart($garanteeStart)
+    {
+        $this->GaranteeStart = $garanteeStart;
+    }
+
+    /**
+     * Get GaranteeStart
+     *
+     * @return date 
+     */
+    public function getGaranteeStart()
+    {
+        return $this->GaranteeStart;
+    }
+
+    /**
+     * Set Variability
+     *
+     * @param decimal $variability
+     */
+    public function setVariability($variability)
+    {
+        $this->Variability = $variability;
+    }
+
+    /**
+     * Get Variability
+     *
+     * @return decimal 
+     */
+    public function getVariability()
+    {
+        return $this->Variability;
     }
 }

@@ -27,6 +27,23 @@ class Account
      * @ORM\JoinTable(name="accounts_contacts")
      */   
     protected $contacts;
+    
+        /**
+	 * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    protected $street_num;
+	/**
+	 * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    protected $city;
+    /**
+	 * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    protected $zip;   
+	/**
+	 * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    protected $country; 
     /**
  	 * @ORM\Column(type="string", length=100,nullable=true)
      */
@@ -62,6 +79,7 @@ class Account
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->metaproduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->bankproduct = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creditproduct = new \Doctrine\Common\Collections\ArrayCollection();
         
     }
 
@@ -255,5 +273,85 @@ class Account
     public function getCreditproduct()
     {
         return $this->creditproduct;
+    }
+
+    /**
+     * Set street_num
+     *
+     * @param string $streetNum
+     */
+    public function setStreetNum($streetNum)
+    {
+        $this->street_num = $streetNum;
+    }
+
+    /**
+     * Get street_num
+     *
+     * @return string 
+     */
+    public function getStreetNum()
+    {
+        return $this->street_num;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set zip
+     *
+     * @param string $zip
+     */
+    public function setZip($zip)
+    {
+        $this->zip = $zip;
+    }
+
+    /**
+     * Get zip
+     *
+     * @return string 
+     */
+    public function getZip()
+    {
+        return $this->zip;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }

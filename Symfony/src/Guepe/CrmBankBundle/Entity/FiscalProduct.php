@@ -6,18 +6,40 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class  BankProduct extends MetaProduct
+class  FiscalProduct extends MetaProduct
 {
     /**
      * @var integer $id
      */
     protected $id;
     /**
- 	 * @ORM\Column(name="number",type="string", length=100)
+ 	 * @ORM\Column(name="revision_date",type="date",nullable="true")
 	 */
-    protected $Number;
-    
-
+    protected $RevisionDate;
+   	 /**
+ 	 * @ORM\Column(name="unique_prime_amount",type="decimal",nullable="true")
+	 */
+    protected $UniquePrimeAmount;
+ 	/**
+ 	 * @ORM\Column(name="unique_prime_date",type="date",nullable="true")
+	 */
+    protected $UniquePrimeDate;
+     /**
+ 	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",nullable="true")
+	 */
+    protected $RecurrentPrimeAmount;
+     /**
+ 	 * @ORM\Column(name="capital_terme",type="decimal",nullable="true")
+	 */
+    protected $CapitalTerme;
+      /**
+ 	 * @ORM\Column(name="reserve",type="decimal",nullable="true")
+	 */
+    protected $Reserve;
+ 	/**
+ 	 * @ORM\Column(name="reserve_date",type="date",nullable="true")
+	 */
+    protected $ReserveDate;    
 
     public function __construct()
     {
@@ -321,5 +343,145 @@ class  BankProduct extends MetaProduct
     public function getTauxInteret()
     {
         return $this->TauxInteret;
+    }
+
+    /**
+     * Set RevisionDate
+     *
+     * @param date $revisionDate
+     */
+    public function setRevisionDate($revisionDate)
+    {
+        $this->RevisionDate = $revisionDate;
+    }
+
+    /**
+     * Get RevisionDate
+     *
+     * @return date 
+     */
+    public function getRevisionDate()
+    {
+        return $this->RevisionDate;
+    }
+
+    /**
+     * Set UniquePrimeAmount
+     *
+     * @param decimal $uniquePrimeAmount
+     */
+    public function setUniquePrimeAmount($uniquePrimeAmount)
+    {
+        $this->UniquePrimeAmount = $uniquePrimeAmount;
+    }
+
+    /**
+     * Get UniquePrimeAmount
+     *
+     * @return decimal 
+     */
+    public function getUniquePrimeAmount()
+    {
+        return $this->UniquePrimeAmount;
+    }
+
+    /**
+     * Set UniquePrimeDate
+     *
+     * @param date $uniquePrimeDate
+     */
+    public function setUniquePrimeDate($uniquePrimeDate)
+    {
+        $this->UniquePrimeDate = $uniquePrimeDate;
+    }
+
+    /**
+     * Get UniquePrimeDate
+     *
+     * @return date 
+     */
+    public function getUniquePrimeDate()
+    {
+        return $this->UniquePrimeDate;
+    }
+
+    /**
+     * Set RecurrentPrimeAmount
+     *
+     * @param decimal $recurrentPrimeAmount
+     */
+    public function setRecurrentPrimeAmount($recurrentPrimeAmount)
+    {
+        $this->RecurrentPrimeAmount = $recurrentPrimeAmount;
+    }
+
+    /**
+     * Get RecurrentPrimeAmount
+     *
+     * @return decimal 
+     */
+    public function getRecurrentPrimeAmount()
+    {
+        return $this->RecurrentPrimeAmount;
+    }
+
+    /**
+     * Set CapitalTerme
+     *
+     * @param decimal $capitalTerme
+     */
+    public function setCapitalTerme($capitalTerme)
+    {
+        $this->CapitalTerme = $capitalTerme;
+    }
+
+    /**
+     * Get CapitalTerme
+     *
+     * @return decimal 
+     */
+    public function getCapitalTerme()
+    {
+        return $this->CapitalTerme;
+    }
+
+    /**
+     * Set Reserve
+     *
+     * @param decimal $reserve
+     */
+    public function setReserve($reserve)
+    {
+        $this->Reserve = $reserve;
+    }
+
+    /**
+     * Get Reserve
+     *
+     * @return decimal 
+     */
+    public function getReserve()
+    {
+        return $this->Reserve;
+    }
+
+    /**
+     * Set ReserveDate
+     *
+     * @param date $reserveDate
+     */
+    public function setReserveDate($reserveDate)
+    {
+        $this->ReserveDate = $reserveDate;
+    }
+
+    /**
+     * Get ReserveDate
+     *
+     * @return date 
+     */
+    public function getReserveDate()
+    {
+        return $this->ReserveDate;
     }
 }

@@ -18,11 +18,12 @@ class AccountForm extends AbstractType
             ->add('company_statut','choice',array('choices' =>
             	 array(
             	 'Personne physique' => 'Personne physique',
-            	 'SC' => 'SC',
+            	 'S.C.' => 'S.C.',
             	 'SPRL' => 'SPRL',
             	 'SA' => 'SA',
             	 'ASS de fait' => 'ASS de fait',
-            	 'Indivision' => 'Indivision'
+            	 'Indivision' => 'Indivision',
+            	 'Administration' => 'Administration'
             	 )))
             ->add('notes')
             ->add('type','choice',array('choices' =>
@@ -32,7 +33,11 @@ class AccountForm extends AbstractType
             	'Standard' => 'Standard')))
             ->add('starting_date')
             ->add('contacts', 'collection', array('type' => new ContactForm()))
-			->add('bankproduct', 'collection', array('type' => new BankProductForm()));
+			->add('bankproduct', 'collection', array('type' => new BankProductForm()))
+			//->add('creditproduct', 'collection', array('type' => new CreditProductForm()));
+			//->add('fiscalproduct', 'collection', array('type' => new FiscalProductForm()));
+			//->add('savingsproduct', 'collection', array('type' => new SavingsProductForm()));
+			
 			
             
             

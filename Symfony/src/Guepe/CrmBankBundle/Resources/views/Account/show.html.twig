@@ -30,7 +30,7 @@
 			>{{contact.firstname}} {{contact.lastname}} <a href=" {{path('ShowContact',{'id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>
 			<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></li>
 		{% else %}
-			<p>Aucune contacts n'a �t� trouv�e.</p>
+			<p>Aucune contacts n'a été trouvé.</p>
 		{% endfor %}
 		</ul>
 		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
@@ -47,7 +47,7 @@
 			<p>Aucune bankproduct n'a été trouvée.</p>
 		{% endfor %}
 		</ul>
-		<h2>Produits Crédit <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<h2>Produits Crédit <a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
 		</ul>
 		{% for creditproduct in account.creditproduct %}
 			<li>{{creditproduct.name}} {{creditproduct.type}}</li>

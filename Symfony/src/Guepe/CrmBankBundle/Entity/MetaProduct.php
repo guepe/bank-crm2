@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"bankproduct" = "BankProduct","creditproduct"="CreditProduct"})
+ * @ORM\DiscriminatorMap({"bankproduct" = "BankProduct","creditproduct"="CreditProduct","fiscalproduct"="FiscalProduct","savingsproduct"="SavingsProduct"})
  * @ORM\Table(name="metaproduct")
  */
 
@@ -21,7 +21,7 @@ class MetaProduct
     protected $id;
 
 	/**
- 	 * @ORM\Column(type="string", length=100)
+ 	 * @ORM\Column(name="name",type="string", length=100)
 	 */
     protected $Name;
 	/**
@@ -33,24 +33,36 @@ class MetaProduct
      */
     protected $account;
     /**
- 	 * @ORM\Column(type="string", length=100)
+ 	 * @ORM\Column(name="type",type="string", length=100)
 	 */
     protected $Type;
-    
-    protected $Number;
-    
+    /**
+ 	 * @ORM\Column(name="amount",type="decimal",nullable=true)
+	 */
     protected $Amount;
-    
+ 	/**
+ 	 * @ORM\Column(name="start_date",type="date",nullable=true)
+	 */
     protected $StartDate;
-    
+ 	/**
+ 	 * @ORM\Column(name="end_date",type="date",nullable=true)
+	 */
     protected $EndDate;
-    
+ 	/**
+ 	 * @ORM\Column(name="notes",type="text",nullable=true)
+	 */
     protected $Notes;
-    
+    /**
+ 	 * @ORM\Column(name="reference",type="string", length=100,nullable=true)
+	 */
     protected $References;
-    
+ 	/**
+ 	 * @ORM\Column(name="company",type="text",nullable=true)
+	 */
     protected $Company;
-    
+	/**
+ 	 * @ORM\Column(name="taux_interet",type="smallint",nullable=true)
+	 */
     protected $TauxInteret;
     
 
@@ -146,5 +158,145 @@ class MetaProduct
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set Amount
+     *
+     * @param decimal $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->Amount = $amount;
+    }
+
+    /**
+     * Get Amount
+     *
+     * @return decimal 
+     */
+    public function getAmount()
+    {
+        return $this->Amount;
+    }
+
+    /**
+     * Set StartDate
+     *
+     * @param date $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->StartDate = $startDate;
+    }
+
+    /**
+     * Get StartDate
+     *
+     * @return date 
+     */
+    public function getStartDate()
+    {
+        return $this->StartDate;
+    }
+
+    /**
+     * Set EndDate
+     *
+     * @param date $endDate
+     */
+    public function setEndDate($endDate)
+    {
+        $this->EndDate = $endDate;
+    }
+
+    /**
+     * Get EndDate
+     *
+     * @return date 
+     */
+    public function getEndDate()
+    {
+        return $this->EndDate;
+    }
+
+    /**
+     * Set Notes
+     *
+     * @param text $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->Notes = $notes;
+    }
+
+    /**
+     * Get Notes
+     *
+     * @return text 
+     */
+    public function getNotes()
+    {
+        return $this->Notes;
+    }
+
+    /**
+     * Set References
+     *
+     * @param string $references
+     */
+    public function setReferences($references)
+    {
+        $this->References = $references;
+    }
+
+    /**
+     * Get References
+     *
+     * @return string 
+     */
+    public function getReferences()
+    {
+        return $this->References;
+    }
+
+    /**
+     * Set Company
+     *
+     * @param text $company
+     */
+    public function setCompany($company)
+    {
+        $this->Company = $company;
+    }
+
+    /**
+     * Get Company
+     *
+     * @return text 
+     */
+    public function getCompany()
+    {
+        return $this->Company;
+    }
+
+    /**
+     * Set TauxInteret
+     *
+     * @param smallint $tauxInteret
+     */
+    public function setTauxInteret($tauxInteret)
+    {
+        $this->TauxInteret = $tauxInteret;
+    }
+
+    /**
+     * Get TauxInteret
+     *
+     * @return smallint 
+     */
+    public function getTauxInteret()
+    {
+        return $this->TauxInteret;
     }
 }
