@@ -125,6 +125,7 @@
 			{% endif %}
 		>
 		<table>
+			<tr>
 			<td>{{ form_label(bankproduct.name) }}</td>
 			<td> {{ form_errors(bankproduct.name) }}
 			{{ form_widget(bankproduct.name) }} </td>
@@ -135,7 +136,133 @@
 		</table>
 		</div>
 		{% endfor %}
-		<hr>
+		<h2>Produits Crédit <a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		{% for creditproduct in form.creditproduct %}
+		<div
+		{% if loop.index % 2 %} 
+				id="line1"	
+			{%else%}
+				id="line2"
+			{% endif %}
+		>
+		<table>
+			<tr>
+			<td>{{ form_label(creditproduct.name) }}</td>
+			<td> {{ form_errors(creditproduct.name) }}
+			{{ form_widget(creditproduct.name) }} </td>
+			<td>{{ form_label(creditproduct.Type) }}</td>
+			<td> {{ form_widget(creditproduct.Type) }}
+			{{ form_errors(creditproduct.Type) }} </td>
+			<td>{{ form_label(creditproduct.Garantee) }}</td>
+			<td> {{ form_widget(creditproduct.Garantee) }}
+			{{ form_errors(creditproduct.Garantee) }} </td>
+			<td>{{ form_label(creditproduct.GaranteeStart) }}</td>
+			<td> {{ form_widget(creditproduct.GaranteeStart) }}
+			{{ form_errors(creditproduct.GaranteeStart) }} </td>
+			<td>{{ form_label(creditproduct.Variability) }}</td>
+			<td> {{ form_widget(creditproduct.Variability) }}
+			{{ form_errors(creditproduct.Variability) }} </td>
+			</tr>
+			<tr>
+			<td>{{ form_label(creditproduct.Number) }}</td>
+			<td> {{ form_widget(creditproduct.Number) }}
+			{{ form_errors(creditproduct.Number) }} </td>
+
+			<td>{{ form_label(creditproduct.Purpose) }}</td>
+			<td> {{ form_widget(creditproduct.Purpose) }}
+			{{ form_errors(creditproduct.Purpose) }} </td>
+			</tr>
+		</table>
+		</div>
+		{% endfor %}	
+		<h2>Produits Fiscaux <a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		{% for fiscalproduct in form.fiscalproduct %}
+		<div
+		{% if loop.index % 2 %} 
+				id="line1"	
+			{%else%}
+				id="line2"
+			{% endif %}
+		>
+		<table>
+			<tr>
+			<td>{{ form_label(fiscalproduct.name) }}</td>
+			<td> {{ form_errors(fiscalproduct.name) }}
+			{{ form_widget(fiscalproduct.name) }} </td>
+			<td>{{ form_label(fiscalproduct.Type) }}</td>
+			<td> {{ form_widget(fiscalproduct.Type) }}
+			{{ form_errors(fiscalproduct.Type) }} </td>
+			<td>{{ form_label(fiscalproduct.RevisionDate) }}</td>
+			<td> {{ form_errors(fiscalproduct.RevisionDate) }}
+			{{ form_widget(fiscalproduct.RevisionDate) }} </td>
+			<td>{{ form_label(fiscalproduct.UniquePrimeAmount) }}</td>
+			<td> {{ form_errors(fiscalproduct.UniquePrimeAmount) }}
+			{{ form_widget(fiscalproduct.UniquePrimeAmount) }} </td>
+			</tr>
+			<tr>
+			<td>{{ form_label(fiscalproduct.UniquePrimeDate) }}</td>
+			<td> {{ form_errors(fiscalproduct.UniquePrimeDate) }}
+			{{ form_widget(fiscalproduct.UniquePrimeDate) }} </td>
+			<td>{{ form_label(fiscalproduct.RecurrentPrimeAmount) }}</td>
+			<td> {{ form_errors(fiscalproduct.RecurrentPrimeAmount) }}
+			{{ form_widget(fiscalproduct.RecurrentPrimeAmount) }} </td>
+			<td>{{ form_label(fiscalproduct.CapitalTerme) }}</td>
+			<td> {{ form_errors(fiscalproduct.CapitalTerme) }}
+			{{ form_widget(fiscalproduct.CapitalTerme) }} </td>
+			<td>{{ form_label(fiscalproduct.Reserve) }}</td>
+			<td> {{ form_errors(fiscalproduct.Reserve) }}
+			{{ form_widget(fiscalproduct.Reserve) }} </td>
+			</tr>
+			<tr>
+			<td>{{ form_label(fiscalproduct.ReserveDate) }}</td>
+			<td> {{ form_errors(fiscalproduct.ReserveDate) }}
+			{{ form_widget(fiscalproduct.ReserveDate) }} </td>
+			</tr>
+		</table>
+		</div>
+		{% endfor %}	
+		<h2>Produits Epargne <a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		{% for savingsproduct in form.savingsproduct %}
+		<div
+		{% if loop.index % 2 %} 
+				id="line1"	
+			{%else%}
+				id="line2"
+			{% endif %}
+		>
+		<table>
+			<tr>
+			<td>{{ form_label(savingsproduct.name) }}</td>
+			<td> {{ form_errors(savingsproduct.name) }}
+			{{ form_widget(savingsproduct.name) }} </td>
+			<td>{{ form_label(savingsproduct.Type) }}</td>
+			<td> {{ form_widget(savingsproduct.Type) }}
+			{{ form_errors(savingsproduct.Type) }} </td>
+			<td>{{ form_label(savingsproduct.RevisionDate) }}</td>
+			<td> {{ form_widget(savingsproduct.RevisionDate) }}
+			{{ form_errors(savingsproduct.RevisionDate) }} </td>
+
+			<td>{{ form_label(savingsproduct.RecurrentPrimeAmount) }}</td>
+			<td> {{ form_widget(savingsproduct.RecurrentPrimeAmount) }}
+			{{ form_errors(savingsproduct.RecurrentPrimeAmount) }} </td>
+			</tr>
+			<tr>
+			<td>{{ form_label(savingsproduct.Reserve) }}</td>
+			<td> {{ form_errors(savingsproduct.Reserve) }}
+			{{ form_widget(savingsproduct.Reserve) }} </td>
+			<td>{{ form_label(savingsproduct.ReserveDate) }}</td>
+			<td> {{ form_errors(savingsproduct.ReserveDate) }}
+			{{ form_widget(savingsproduct.ReserveDate) }} </td>
+			</tr>
+			<tr>
+			<td>{{ form_label(savingsproduct.Description) }}</td>
+			<td> {{ form_errors(savingsproduct.Description) }}
+			{{ form_widget(savingsproduct.Description) }} </td>
+				
+			</tr>
+		</table>
+		</div>
+		{% endfor %}						
 		{{ form_rest(form) }}
 		<input type="submit" />
 	</form>

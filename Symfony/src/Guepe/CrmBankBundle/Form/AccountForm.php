@@ -34,9 +34,9 @@ class AccountForm extends AbstractType
             ->add('starting_date')
             ->add('contacts', 'collection', array('type' => new ContactForm()))
 			->add('bankproduct', 'collection', array('type' => new BankProductForm()))
-			//->add('creditproduct', 'collection', array('type' => new CreditProductForm()));
-			//->add('fiscalproduct', 'collection', array('type' => new FiscalProductForm()));
-			//->add('savingsproduct', 'collection', array('type' => new SavingsProductForm()));
+			->add('creditproduct', 'collection', array('type' => new CreditProductForm()))
+			->add('fiscalproduct', 'collection', array('type' => new FiscalProductForm()))
+			->add('savingsproduct', 'collection', array('type' => new SavingsProductForm()));
 			
 			
             

@@ -74,12 +74,25 @@ class Account
      * @ORM\ManyToMany(targetEntity="CreditProduct")
      */
     protected $creditproduct;
+    /**
+     * @ORM\ManyToMany(targetEntity="FiscalProduct")
+     */
+    protected $fiscalproduct;
+
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="SavingsProduct")
+     */
+    protected $savingsproduct;
+    
     public function __construct()
     {
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->metaproduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->bankproduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->creditproduct = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fiscalproduct = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->savingsproduct = new \Doctrine\Common\Collections\ArrayCollection();
         
     }
 
@@ -353,5 +366,45 @@ class Account
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Add fiscalproduct
+     *
+     * @param Guepe\CrmBankBundle\Entity\FiscalProduct $fiscalproduct
+     */
+    public function addFiscalProduct(\Guepe\CrmBankBundle\Entity\FiscalProduct $fiscalproduct)
+    {
+        $this->fiscalproduct[] = $fiscalproduct;
+    }
+
+    /**
+     * Get fiscalproduct
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFiscalproduct()
+    {
+        return $this->fiscalproduct;
+    }
+
+    /**
+     * Add savingsproduct
+     *
+     * @param Guepe\CrmBankBundle\Entity\SavingsProduct $savingsproduct
+     */
+    public function addSavingsProduct(\Guepe\CrmBankBundle\Entity\SavingsProduct $savingsproduct)
+    {
+        $this->savingsproduct[] = $savingsproduct;
+    }
+
+    /**
+     * Get savingsproduct
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getSavingsproduct()
+    {
+        return $this->savingsproduct;
     }
 }

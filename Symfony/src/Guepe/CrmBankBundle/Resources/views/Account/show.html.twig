@@ -56,6 +56,26 @@
 		{% endfor %}
 		</ul>
 
+		<h2>Produits Fiscal <a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		</ul>
+		{% for fiscalproduct in account.fiscalproduct %}
+			<li>{{fiscalproduct.name}} {{fiscalproduct.type}}</li>
+		{% else %}
+			<p>Aucune fiscalproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+
+		<h2>Produits Epargne <a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		</ul>
+		{% for savingsproduct in account.savingsproduct %}
+			<li>{{savingsproduct.name}} {{savingsproduct.type}}</li>
+		{% else %}
+			<p>Aucune savingsproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+
+
+
 		</div>
 {% endif %}	
 {% endblock %}
