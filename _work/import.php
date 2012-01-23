@@ -1,6 +1,6 @@
 <?php 
 
-$pdo = new PDO(
+//$pdo = new PDO(
     'mysql:host=localhost;dbname=bankcrm',
     'root',
     ''
