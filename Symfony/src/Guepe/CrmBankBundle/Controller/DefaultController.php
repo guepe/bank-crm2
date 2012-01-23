@@ -93,6 +93,14 @@ class DefaultController extends Controller
 	    		  $em->remove($contact);
 	    	}
     	}
+    	
+    	$bankproducts = $this->getDoctrine()->getRepository('GuepeCrmBankBundle:BankProduct')->findAll();
+    	if ($bankproducts) {
+    		foreach($bankproducts as $bankproduct) {
+    			$em->remove($bankproduct);
+    		}
+    	}
+    	
     	$em->flush();
     	
     	$name = "Clean UP Ok";
