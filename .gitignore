@@ -38,3 +38,4 @@ _$*
 _svn
 svn-commit*.tmp
 Symfony/app/cache
+_work/both.csv
