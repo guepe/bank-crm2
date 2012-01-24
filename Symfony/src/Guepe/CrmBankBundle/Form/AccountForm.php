@@ -31,7 +31,7 @@ class AccountForm extends AbstractType
             	'Core' => 'Core',
             	'Potentiel' => 'Potentiel',
             	'Standard' => 'Standard')))
-            ->add('starting_date')
+            ->add('starting_date','date',array('widget' => 'single_text'))
             ->add('contacts', 'collection', array('type' => new ContactForm()))
 			->add('bankproduct', 'collection', array('type' => new BankProductForm()))
 			->add('creditproduct', 'collection', array('type' => new CreditProductForm()))

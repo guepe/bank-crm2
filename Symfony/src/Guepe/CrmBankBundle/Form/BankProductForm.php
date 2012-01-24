@@ -11,6 +11,8 @@ class BankProductForm extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('number',null,array("label" => "Numéro de compte"))
+            ->add('amount','money',array("label" => "Montant"))
             ->add('type','choice',array('choices' =>
             	 array(
             	 'courant' => 'courant',

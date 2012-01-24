@@ -2,10 +2,14 @@
 
 {% block title %}Ajout de produit banquaire{% endblock %}
 
+{% form_theme form 'GuepeCrmBankBundle:Form:fields.html.twig' %}
+
 
 {% block content %}
 <form action="" method="post" {{ form_enctype(form) }}>
+    <table>
     {{ form_widget(form) }}
+    </table>
     <p>
         <button type="submit">Create</button>
     </p>

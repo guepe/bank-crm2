@@ -1,8 +1,17 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
+
 {% block title %}Edit/add des account{% endblock %}
 
 {% block content %}
+
+<script type="text/javascript">
+	$(function(){
+		// Datepicker
+		$('#account_starting_date').datepicker($.datepicker.regional["fr"]);
+	});
+</script>
+
 
 {% if message %}
 <p>
@@ -25,7 +34,8 @@
 				{{ form_widget(form.type) }} </td>
 				<td>{{ form_label(form.starting_date,"Début de la relation") }}</td>
 				<td> {{ form_errors(form.starting_date) }}
-				{{ form_widget(form.starting_date) }} </td>
+				{{ form_widget(form.starting_date,{ 'attr': {'class': 'datepicker'} }) }}
+				</td>
 			</tr>
 			<tr>
 				<td>{{ form_label(form.notes) }}</td>
@@ -129,6 +139,12 @@
 			<td>{{ form_label(bankproduct.name) }}</td>
 			<td> {{ form_errors(bankproduct.name) }}
 			{{ form_widget(bankproduct.name) }} </td>
+			<td>{{ form_label(bankproduct.number) }}</td>
+			<td> {{ form_errors(bankproduct.number) }}
+			{{ form_widget(bankproduct.number) }} </td>
+			<td>{{ form_label(bankproduct.amount) }}</td>
+			<td> {{ form_errors(bankproduct.amount) }}
+			{{ form_widget(bankproduct.amount) }} </td>
 			<td>{{ form_label(bankproduct.type) }}</td>
 			<td> {{ form_widget(bankproduct.type) }}
 			{{ form_errors(bankproduct.type) }} </td>
