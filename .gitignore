@@ -39,3 +39,9 @@ _svn
 svn-commit*.tmp
 Symfony/app/cache
 _work/both.csv
+Symfony/web/bundles*
+Symfony/web/bundles/framework
+Symfony/web/bundles/guepecrmbank
+Symfony/web/bundles/guepeuser
+Symfony/web/bundles/sensiodistribution
+Symfony/web/bundles/webprofiler

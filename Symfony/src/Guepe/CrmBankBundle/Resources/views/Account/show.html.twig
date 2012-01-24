@@ -9,6 +9,26 @@
 {% 	endblock %}
 
 {% block content %}
+
+<script>
+	$(function() {
+		$( "#accountdetail" ).accordion({
+			collapsible: true,
+			icons: false		
+		});
+	});
+	
+	
+	jQuery(document).ready(function(){
+	$('#accordion h2').click(function() {
+		$(this).next().toggle('fast');
+		return false;
+	}).next().hide();
+	});
+	
+</script>
+
+
 {% if account|length > 0 %}		
 		<div id="showaccount"> 
 		<div class="headblock-element">
@@ -18,7 +38,10 @@
 		<br/> {{account.notes}}
 		</div>
 		<br/>
-		<h2>Contacts <a href="{{ path('SelectContact',{'account_id': account.id }) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<div id="accordion">
+
+		<h2>Contacts </h2>
+		<div>
 		<ul> 
 		{% for contact in account.contacts %}
 			<li
@@ -33,7 +56,9 @@
 			<p>Aucune contacts n'a été trouvé.</p>
 		{% endfor %}
 		</ul>
-		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		</div>
+		<h2>Produits Banquaires</h2>
+		<div>
 		<ul>
 		{% for bankproduct in account.bankproduct %}
 			<li
@@ -47,34 +72,38 @@
 			<p>Aucune bankproduct n'a été trouvée.</p>
 		{% endfor %}
 		</ul>
-		<h2>Produits Crédit <a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		</ul>
+		</div>
+		<h2>Produits Crédit</h2>
+		<div>
+		<ul>
 		{% for creditproduct in account.creditproduct %}
 			<li>{{creditproduct.name}} {{creditproduct.type}}</li>
 		{% else %}
 			<p>Aucune creditproduct n'a été trouvée.</p>
 		{% endfor %}
 		</ul>
-
-		<h2>Produits Fiscal <a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		</ul>
+		</div>
+		<h2>Produits Fiscal</h2>
+		<div>
+		<ul>
 		{% for fiscalproduct in account.fiscalproduct %}
 			<li>{{fiscalproduct.name}} {{fiscalproduct.type}}</li>
 		{% else %}
 			<p>Aucune fiscalproduct n'a été trouvée.</p>
 		{% endfor %}
 		</ul>
-
-		<h2>Produits Epargne <a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		</ul>
+		</div>
+		<h2>Produits Epargnes</h2>
+		<div>
+		<ul>
 		{% for savingsproduct in account.savingsproduct %}
 			<li>{{savingsproduct.name}} {{savingsproduct.type}}</li>
 		{% else %}
 			<p>Aucune savingsproduct n'a été trouvée.</p>
 		{% endfor %}
 		</ul>
-
-
+		</div>
+		</div>
 
 		</div>
 {% endif %}	
