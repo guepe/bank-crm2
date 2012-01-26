@@ -38,29 +38,30 @@
             	<a href="{{ path('AddAccount') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Accounts</a> - 
             	<a href="{{ path('AddContact') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Contact</a>
 			</div>
-		<div id="leftpane">
-			<div id="menu">
-				<ul id="menu">
-				    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
-				    <li><a href="{{ path('AllAccounts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts</a></li>
-				    <li><a href="{{ path('AllContacts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts</a></li>                    
-				</ul>
+			<div id="leftpane">
+				<div id="menu">
+					<ul id="menu">
+					    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
+					    <li><a href="{{ path('AllAccounts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts</a></li>
+					    <li><a href="{{ path('AllContacts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts</a></li>                    
+					</ul>
+		        </div>
+		        <hr width=80%>
 	        </div>
-	        <hr width=80%>
-        </div>
-		<div id="centerpane">
-				{% block warning %}
-				{% 	endblock %}
-
-            <div id="content">
-                {% block content %}	
-                {% endblock %}
-            </div>
- 		</div>
+			<div id="centerpane">
+					{% block warning %}
+					{% 	endblock %}
+	
+	            <div id="content">
+	                {% block content %}	
+	                {% endblock %}
+	            </div>
+	 		</div>
+            <div class="push"></div>
         </div>
         <div id="footer">
- 	    	     <img src="{{ asset('bundles/guepecrmbank/images/logo-transparent.gif') }}" alt="belspace"  height="30" />
-                Tous droits réservés (c) 2011
+ 	    	     <img src="{{ asset('bundles/guepecrmbank/images/logo-transparent.gif') }}" alt="belspace"  height="30" valign="middle" />
+                Tous droits réservés (c) 2012
         </div>
     </body>
 </html>

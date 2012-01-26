@@ -13,19 +13,22 @@ font-family: "Trebuchet Ms", arial, verdana, sans-serif;
 }
 
 
-body {
+html, body {
     color: #000;
     //font: normal 90% Tahoma, Verdana, Helvetica, Sans-Serif;
     background-color: #DDD;
     font-family: "Trebuchet Ms", arial, verdana, sans-serif;
+    height: 100%
     
 }
 
 #page {    
     width:100%;    
-    margin: 0 auto;
+    margin: 0 auto -10em;
     background-color: #DDD;
-    height: 100%;
+    height: auto ;
+    height:100%;
+    min-height: 100%;
    
 }
 
@@ -68,8 +71,8 @@ a:hover {
 #centerpane {
     float:left;
     width:80%;
-    margin-top:10px;
-    margin-left: 100px;
+    margin-top:-100px;
+    margin-left: 220px;
     background-color: white;
 	border-width: thin;
 	border-style: inset;
@@ -136,13 +139,16 @@ a:hover {
     margin-top:-130px;
 }
 
-#footer {
+#footer, .push {
 	width:100%;
-	float:none;
     text-align: center;
     color: #999;
     font-size: 85%;
+	height: 10em;
+    clear: both;
 	}
+	
+	
 
 .headblock-element {
 	background-color: #def1fa;
