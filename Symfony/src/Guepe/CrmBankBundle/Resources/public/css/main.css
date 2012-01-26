@@ -18,7 +18,8 @@ html, body {
     //font: normal 90% Tahoma, Verdana, Helvetica, Sans-Serif;
     background-color: #DDD;
     font-family: "Trebuchet Ms", arial, verdana, sans-serif;
-    height: 100%
+    height: 100%;
+    width: auto;
     
 }
 
@@ -70,7 +71,7 @@ a:hover {
 
 #centerpane {
     float:left;
-    width:80%;
+    width: 80%;
     margin-top:-100px;
     margin-left: 220px;
     background-color: white;
