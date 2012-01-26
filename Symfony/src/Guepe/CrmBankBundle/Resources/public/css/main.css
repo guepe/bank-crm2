@@ -205,6 +205,19 @@ a:hover {
     color:#090;
 }
 
+.div-round-border {
+	border-color: black;
+	border-style: solid;
+	border-width: thin; 	
+	border-radius: 	5px;
+    box-shadow: 3px 3px 3px #888;
+    margin: 0 20px 20px 0;
+    height:auto;
+    padding:10px 10px 10px 10px;
+    width:auto;
+    background-color: #EEE;
+}
+
 .listelements {
 	border-color: black;
 	border-style: solid;
@@ -224,6 +237,9 @@ div .list-big-element {
 
 }
 
+#home {
+	
+}
 
 .listelements th{
 	background-color: lightgray;
