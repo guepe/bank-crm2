@@ -22,7 +22,7 @@ class ContactForm extends AbstractType
             ->add('phone')
             ->add('gsm')
             ->add('birthplace')
-            ->add('birthdate','birthday')
+            ->add('birthdate','birthday',array('widget' => 'single_text'))
             ->add('eid')
             ->add('niss')
             ->add('marital_status','choice',array('choices' =>
@@ -38,7 +38,7 @@ class ContactForm extends AbstractType
             	 'monthly' => 'Mensuel',
             	 'annual' => 'Annuel'
             	 )))
-            ->add('income_date')
+            ->add('income_date','date',array('widget' => 'single_text'))
             //->add('charged_people')
            // ->add('files')
             ;

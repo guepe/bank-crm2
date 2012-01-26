@@ -3,6 +3,16 @@
 {% block title %}Edit contacts{% endblock %}
 
 {% block content %}
+<script type="text/javascript">
+	$(function(){
+		// Datepicker
+		$('#contact_birthdate').datepicker($.datepicker.regional["fr"]);
+		$('#contact_income_date').datepicker($.datepicker.regional["fr"]);
+
+		
+	});
+</script>
+
 		{% if message %}
 		<p>{{ message }}</p>
 		{% endif %}
