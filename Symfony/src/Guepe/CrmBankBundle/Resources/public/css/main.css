@@ -174,11 +174,39 @@ a:hover {
 	padding-left: 5px;
 	border-radius: 	3px;
     box-shadow: 3px 3px 3px #888;
+    float:none;
 }
 
 #showaccount ul {
 	padding: 0px;
 }
+
+.products_row  .cell label {
+	display:block;
+}
+
+.product_row {
+	
+}
+
+.product-show-label {
+	font-weight:bold;
+	font-variant:small-caps;
+	font-size:large;
+	color:#777;	
+}
+
+.hidden {
+	display:none;
+}
+
+.products_row .cell {
+	display:inline; 
+	vertical-align:top;
+	border:none;
+	margin-right:1em;
+}
+
 
 #showaccount li {
 	list-style: none;
@@ -186,6 +214,7 @@ a:hover {
 	margin-left:0px;
 	padding:1px;
 }
+
 
 #showaccount #line1 {
 	background-color: #f5ffd6;

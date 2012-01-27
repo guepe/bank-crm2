@@ -2,8 +2,20 @@
 
 {% block title %}Ajout de produit Credit{% endblock %}
 
+{% form_theme form 'GuepeCrmBankBundle:Form:fields.html.twig' %}
+
 
 {% block content %}
+
+<script type="text/javascript">
+	$(function(){
+		// Datepicker
+		$('#guepe_crmbankbundle_creditproducttype_startdate').datepicker($.datepicker.regional["fr"]);
+		$('#guepe_crmbankbundle_creditproducttype_enddate').datepicker($.datepicker.regional["fr"]);
+		$('#guepe_crmbankbundle_creditproducttype_paymentdate').datepicker($.datepicker.regional["fr"]);
+	});
+</script>
+
 <form action="" method="post" {{ form_enctype(form) }}>
     <table>
     {{ form_widget(form) }}

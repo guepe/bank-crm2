@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Guepe\CrmBankBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,58 +11,58 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="metaproduct")
  */
 
-class MetaProduct
-{
+class MetaProduct {
 	/**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-     /**
- 	 * @ORM\Column(name="number",type="string", length=100)
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-    protected $Number;
+	protected $id;
+	/**
+	 * @ORM\Column(name="number",type="string", length=100)
+	 */
+	protected $Number;
+	/**
+	 * @ORM\ManyToMany(targetEntity="Category")
+	 */ 
+	protected $Category;
+	/**
+	 * @ORM\ManyToMany(targetEntity="Account", mappedBy="metaproduct")
+	 */
+	protected $account;
+	/**
+	 * @ORM\Column(name="type",type="string", length=100)
+	 */
+	protected $Type;
 
 	/**
- 	 * @ORM\Column(name="name",type="string", length=100)
+	 * @ORM\Column(name="notes",type="text",nullable=true)
 	 */
-    protected $Name;
+	protected $Notes;
 	/**
-     * @ORM\ManyToMany(targetEntity="Category")
-     */    
-    protected $Category;    
-    /**
-     * @ORM\ManyToMany(targetEntity="Account", mappedBy="metaproduct")
-     */
-    protected $account;
-    /**
- 	 * @ORM\Column(name="type",type="string", length=100)
+	 * @ORM\Column(name="description",type="text",nullable=true)
 	 */
-    protected $Type;
- 
- 	/**
- 	 * @ORM\Column(name="notes",type="text",nullable=true)
-	 */
-    protected $Notes;
-    /**
- 	 * @ORM\Column(name="description",type="text",nullable=true)
-	 */
-    protected $Description;
-    /**
- 	 * @ORM\Column(name="reference",type="string", length=100,nullable=true)
-	 */
-    protected $References;
- 	/**
- 	 * @ORM\Column(name="company",type="text",nullable=true)
-	 */
-    protected $Company;
+	protected $Description;
 	/**
- 	 * @ORM\Column(name="taux_interet",type="smallint",nullable=true)
+	 * @ORM\Column(name="reference",type="string", length=100,nullable=true)
 	 */
-    protected $TauxInteret;
+	protected $References;
+	/**
+	 * @ORM\Column(name="company",type="text",nullable=true)
+	 */
+	protected $Company;
+	/**
+	 * @ORM\Column(name="taux_interet",type="smallint",nullable=true)
+	 */
+	protected $TauxInteret;
+
+
+    public function __construct()
+    {
+        $this->Category = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->account = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     
-
     /**
      * Get id
      *
@@ -74,147 +74,43 @@ class MetaProduct
     }
 
     /**
-     * Set name
+     * Set Number
      *
-     * @param string $name
+     * @param string $number
      */
-    public function setName($name)
+    public function setNumber($number)
     {
-        $this->name = $name;
+        $this->Number = $number;
     }
 
     /**
-     * Get name
+     * Get Number
      *
      * @return string 
      */
-    public function getName()
+    public function getNumber()
     {
-        return $this->name;
-    }
-    public function __construct()
-    {
-        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add category
-     *
-     * @param Guepe\CrmBankBundle\Entity\Category $category
-     */
-    public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category)
-    {
-        $this->category[] = $category;
+        return $this->Number;
     }
 
     /**
-     * Get category
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * Add account
-     *
-     * @param Guepe\CrmBankBundle\Entity\Account $account
-     */
-    public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account)
-    {
-        $this->account[] = $account;
-    }
-
-    /**
-     * Get account
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
-
-    /**
-     * Set type
+     * Set Type
      *
      * @param string $type
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->Type = $type;
     }
 
     /**
-     * Get type
+     * Get Type
      *
      * @return string 
      */
     public function getType()
     {
-        return $this->type;
-    }
-
-    /**
-     * Set Amount
-     *
-     * @param decimal $amount
-     */
-    public function setAmount($amount)
-    {
-        $this->Amount = $amount;
-    }
-
-    /**
-     * Get Amount
-     *
-     * @return decimal 
-     */
-    public function getAmount()
-    {
-        return $this->Amount;
-    }
-
-    /**
-     * Set StartDate
-     *
-     * @param date $startDate
-     */
-    public function setStartDate($startDate)
-    {
-        $this->StartDate = $startDate;
-    }
-
-    /**
-     * Get StartDate
-     *
-     * @return date 
-     */
-    public function getStartDate()
-    {
-        return $this->StartDate;
-    }
-
-    /**
-     * Set EndDate
-     *
-     * @param date $endDate
-     */
-    public function setEndDate($endDate)
-    {
-        $this->EndDate = $endDate;
-    }
-
-    /**
-     * Get EndDate
-     *
-     * @return date 
-     */
-    public function getEndDate()
-    {
-        return $this->EndDate;
+        return $this->Type;
     }
 
     /**
@@ -235,6 +131,26 @@ class MetaProduct
     public function getNotes()
     {
         return $this->Notes;
+    }
+
+    /**
+     * Set Description
+     *
+     * @param text $description
+     */
+    public function setDescription($description)
+    {
+        $this->Description = $description;
+    }
+
+    /**
+     * Get Description
+     *
+     * @return text 
+     */
+    public function getDescription()
+    {
+        return $this->Description;
     }
 
     /**
@@ -298,42 +214,42 @@ class MetaProduct
     }
 
     /**
-     * Set Number
+     * Add Category
      *
-     * @param string $number
+     * @param Guepe\CrmBankBundle\Entity\Category $category
      */
-    public function setNumber($number)
+    public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category)
     {
-        $this->Number = $number;
+        $this->Category[] = $category;
     }
 
     /**
-     * Get Number
+     * Get Category
      *
-     * @return string 
+     * @return Doctrine\Common\Collections\Collection 
      */
-    public function getNumber()
+    public function getCategory()
     {
-        return $this->Number;
+        return $this->Category;
     }
 
     /**
-     * Set Description
+     * Add account
      *
-     * @param text $description
+     * @param Guepe\CrmBankBundle\Entity\Account $account
      */
-    public function setDescription($description)
+    public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account)
     {
-        $this->Description = $description;
+        $this->account[] = $account;
     }
 
     /**
-     * Get Description
+     * Get account
      *
-     * @return text 
+     * @return Doctrine\Common\Collections\Collection 
      */
-    public function getDescription()
+    public function getAccount()
     {
-        return $this->Description;
+        return $this->account;
     }
 }

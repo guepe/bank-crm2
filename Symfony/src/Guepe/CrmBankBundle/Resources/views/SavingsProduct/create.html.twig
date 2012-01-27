@@ -1,9 +1,24 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
-{% block title %}Ajout de produit Epargne{% endblock %}
+{% block title %}Ajout de produit Placements{% endblock %}
+
+{% form_theme form 'GuepeCrmBankBundle:Form:fields.html.twig' %}
 
 
 {% block content %}
+
+<script type="text/javascript">
+	$(function(){
+		// Datepicker
+		$('#guepe_crmbankbundle_savingsproducttype_startdate').datepicker($.datepicker.regional["fr"]);
+		$('#guepe_crmbankbundle_savingsproducttype_enddate').datepicker($.datepicker.regional["fr"]);
+		$('#guepe_crmbankbundle_savingsproducttype_paymentdate').datepicker($.datepicker.regional["fr"]);
+		$('#guepe_crmbankbundle_savingsproducttype_reservedate').datepicker($.datepicker.regional["fr"]);
+
+		
+	});
+</script>
+
 <form action="" method="post" {{ form_enctype(form) }}>
     <table>
     {{ form_widget(form) }}

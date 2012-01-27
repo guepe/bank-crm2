@@ -10,16 +10,19 @@ class BankProductForm extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('number',null,array("label" => "Numéro de compte"))
-            ->add('amount','money',array("label" => "Montant"))
-            ->add('type','choice',array('choices' =>
+        	->add('type','choice',array('choices' =>
             	 array(
-            	 'courant' => 'courant',
+            	 'vue' => 'vue',
             	 'epargne' => 'epargne',
-            	 'titre' => 'titre',
-            	 'terme' => 'terme'
+            	 'epargne+' => 'epargne+'
             	 )))
+            ->add('references',null,array("label" => "Références"))
+            ->add('number',null,array("label" => "Numéro de compte"))
+            ->add('company',null,array("label" => "Organisme"))
+            ->add('amount','money',array("label" => "Montant"))
+            ->add('notes','textarea',array("label" => "Notes"))
+            ->add('tauxinteret',null,array("label" => "Taux d'intérêt"))
+            ->add('description','textarea',array("label" => "Description"))
         ;
     }
 

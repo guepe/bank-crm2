@@ -53,11 +53,6 @@ class FiscalProduct extends MetaProduct {
 	}
 
 	/**
-	 * @var string $Name
-	 */
-	protected $Name;
-
-	/**
 	 * @var string $Type
 	 */
 	protected $Type;
@@ -72,77 +67,7 @@ class FiscalProduct extends MetaProduct {
 	 */
 	protected $account;
 
-	/**
-	 * Set Name
-	 *
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->Name = $name;
-	}
 
-	/**
-	 * Get Name
-	 *
-	 * @return string 
-	 */
-	public function getName() {
-		return $this->Name;
-	}
-
-	/**
-	 * Set Type
-	 *
-	 * @param string $type
-	 */
-	public function setType($type) {
-		$this->Type = $type;
-	}
-
-	/**
-	 * Get Type
-	 *
-	 * @return string 
-	 */
-	public function getType() {
-		return $this->Type;
-	}
-
-	/**
-	 * Add Category
-	 *
-	 * @param Guepe\CrmBankBundle\Entity\Category $category
-	 */
-	public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category) {
-		$this->Category[] = $category;
-	}
-
-	/**
-	 * Get Category
-	 *
-	 * @return Doctrine\Common\Collections\Collection 
-	 */
-	public function getCategory() {
-		return $this->Category;
-	}
-
-	/**
-	 * Add account
-	 *
-	 * @param Guepe\CrmBankBundle\Entity\Account $account
-	 */
-	public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account) {
-		$this->account[] = $account;
-	}
-
-	/**
-	 * Get account
-	 *
-	 * @return Doctrine\Common\Collections\Collection 
-	 */
-	public function getAccount() {
-		return $this->account;
-	}
 
 	/**
 	 * @var text $Notes
@@ -163,276 +88,6 @@ class FiscalProduct extends MetaProduct {
 	 * @var smallint $TauxInteret
 	 */
 	protected $TauxInteret;
-
-	/**
-	 * Set Number
-	 *
-	 * @param string $number
-	 */
-	public function setNumber($number) {
-		$this->Number = $number;
-	}
-
-	/**
-	 * Get Number
-	 *
-	 * @return string 
-	 */
-	public function getNumber() {
-		return $this->Number;
-	}
-
-	/**
-	 * Set Amount
-	 *
-	 * @param decimal $amount
-	 */
-	public function setAmount($amount) {
-		$this->Amount = $amount;
-	}
-
-	/**
-	 * Get Amount
-	 *
-	 * @return decimal 
-	 */
-	public function getAmount() {
-		return $this->Amount;
-	}
-
-	/**
-	 * Set StartDate
-	 *
-	 * @param date $startDate
-	 */
-	public function setStartDate($startDate) {
-		$this->StartDate = $startDate;
-	}
-
-	/**
-	 * Get StartDate
-	 *
-	 * @return date 
-	 */
-	public function getStartDate() {
-		return $this->StartDate;
-	}
-
-	/**
-	 * Set EndDate
-	 *
-	 * @param date $endDate
-	 */
-	public function setEndDate($endDate) {
-		$this->EndDate = $endDate;
-	}
-
-	/**
-	 * Get EndDate
-	 *
-	 * @return date 
-	 */
-	public function getEndDate() {
-		return $this->EndDate;
-	}
-
-	/**
-	 * Set Notes
-	 *
-	 * @param text $notes
-	 */
-	public function setNotes($notes) {
-		$this->Notes = $notes;
-	}
-
-	/**
-	 * Get Notes
-	 *
-	 * @return text 
-	 */
-	public function getNotes() {
-		return $this->Notes;
-	}
-
-	/**
-	 * Set References
-	 *
-	 * @param string $references
-	 */
-	public function setReferences($references) {
-		$this->References = $references;
-	}
-
-	/**
-	 * Get References
-	 *
-	 * @return string 
-	 */
-	public function getReferences() {
-		return $this->References;
-	}
-
-	/**
-	 * Set Company
-	 *
-	 * @param text $company
-	 */
-	public function setCompany($company) {
-		$this->Company = $company;
-	}
-
-	/**
-	 * Get Company
-	 *
-	 * @return text 
-	 */
-	public function getCompany() {
-		return $this->Company;
-	}
-
-	/**
-	 * Set TauxInteret
-	 *
-	 * @param smallint $tauxInteret
-	 */
-	public function setTauxInteret($tauxInteret) {
-		$this->TauxInteret = $tauxInteret;
-	}
-
-	/**
-	 * Get TauxInteret
-	 *
-	 * @return smallint 
-	 */
-	public function getTauxInteret() {
-		return $this->TauxInteret;
-	}
-
-	/**
-	 * Set RevisionDate
-	 *
-	 * @param date $revisionDate
-	 */
-	public function setRevisionDate($revisionDate) {
-		$this->RevisionDate = $revisionDate;
-	}
-
-	/**
-	 * Get RevisionDate
-	 *
-	 * @return date 
-	 */
-	public function getRevisionDate() {
-		return $this->RevisionDate;
-	}
-
-	/**
-	 * Set UniquePrimeAmount
-	 *
-	 * @param decimal $uniquePrimeAmount
-	 */
-	public function setUniquePrimeAmount($uniquePrimeAmount) {
-		$this->UniquePrimeAmount = $uniquePrimeAmount;
-	}
-
-	/**
-	 * Get UniquePrimeAmount
-	 *
-	 * @return decimal 
-	 */
-	public function getUniquePrimeAmount() {
-		return $this->UniquePrimeAmount;
-	}
-
-	/**
-	 * Set UniquePrimeDate
-	 *
-	 * @param date $uniquePrimeDate
-	 */
-	public function setUniquePrimeDate($uniquePrimeDate) {
-		$this->UniquePrimeDate = $uniquePrimeDate;
-	}
-
-	/**
-	 * Get UniquePrimeDate
-	 *
-	 * @return date 
-	 */
-	public function getUniquePrimeDate() {
-		return $this->UniquePrimeDate;
-	}
-
-	/**
-	 * Set RecurrentPrimeAmount
-	 *
-	 * @param decimal $recurrentPrimeAmount
-	 */
-	public function setRecurrentPrimeAmount($recurrentPrimeAmount) {
-		$this->RecurrentPrimeAmount = $recurrentPrimeAmount;
-	}
-
-	/**
-	 * Get RecurrentPrimeAmount
-	 *
-	 * @return decimal 
-	 */
-	public function getRecurrentPrimeAmount() {
-		return $this->RecurrentPrimeAmount;
-	}
-
-	/**
-	 * Set CapitalTerme
-	 *
-	 * @param decimal $capitalTerme
-	 */
-	public function setCapitalTerme($capitalTerme) {
-		$this->CapitalTerme = $capitalTerme;
-	}
-
-	/**
-	 * Get CapitalTerme
-	 *
-	 * @return decimal 
-	 */
-	public function getCapitalTerme() {
-		return $this->CapitalTerme;
-	}
-
-	/**
-	 * Set Reserve
-	 *
-	 * @param decimal $reserve
-	 */
-	public function setReserve($reserve) {
-		$this->Reserve = $reserve;
-	}
-
-	/**
-	 * Get Reserve
-	 *
-	 * @return decimal 
-	 */
-	public function getReserve() {
-		return $this->Reserve;
-	}
-
-	/**
-	 * Set ReserveDate
-	 *
-	 * @param date $reserveDate
-	 */
-	public function setReserveDate($reserveDate) {
-		$this->ReserveDate = $reserveDate;
-	}
-
-	/**
-	 * Get ReserveDate
-	 *
-	 * @return date 
-	 */
-	public function getReserveDate() {
-		return $this->ReserveDate;
-	}
 	/**
 	 * @var string $Number
 	 */
@@ -443,75 +98,185 @@ class FiscalProduct extends MetaProduct {
 	 */
 	protected $Description;
 
-	/**
-	 * Set Description
-	 *
-	 * @param text $description
-	 */
-	public function setDescription($description) {
-		$this->Description = $description;
-	}
 
-	/**
-	 * Get Description
-	 *
-	 * @return text 
-	 */
-	public function getDescription() {
-		return $this->Description;
-	}
 
-	/**
-	 * Set Garantee
-	 *
-	 * @param string $garantee
-	 */
-	public function setGarantee($garantee) {
-		$this->Garantee = $garantee;
-	}
+    /**
+     * Set RecurrentPrimeAmount
+     *
+     * @param decimal $recurrentPrimeAmount
+     */
+    public function setRecurrentPrimeAmount($recurrentPrimeAmount)
+    {
+        $this->RecurrentPrimeAmount = $recurrentPrimeAmount;
+    }
 
-	/**
-	 * Get Garantee
-	 *
-	 * @return string 
-	 */
-	public function getGarantee() {
-		return $this->Garantee;
-	}
+    /**
+     * Get RecurrentPrimeAmount
+     *
+     * @return decimal 
+     */
+    public function getRecurrentPrimeAmount()
+    {
+        return $this->RecurrentPrimeAmount;
+    }
 
-	/**
-	 * Set PaymentDate
-	 *
-	 * @param string $paymentDate
-	 */
-	public function setPaymentDate($paymentDate) {
-		$this->PaymentDate = $paymentDate;
-	}
+    /**
+     * Set CapitalTerme
+     *
+     * @param decimal $capitalTerme
+     */
+    public function setCapitalTerme($capitalTerme)
+    {
+        $this->CapitalTerme = $capitalTerme;
+    }
 
-	/**
-	 * Get PaymentDate
-	 *
-	 * @return string 
-	 */
-	public function getPaymentDate() {
-		return $this->PaymentDate;
-	}
+    /**
+     * Get CapitalTerme
+     *
+     * @return decimal 
+     */
+    public function getCapitalTerme()
+    {
+        return $this->CapitalTerme;
+    }
 
-	/**
-	 * Set PaymentDeadline
-	 *
-	 * @param string $paymentDeadline
-	 */
-	public function setPaymentDeadline($paymentDeadline) {
-		$this->PaymentDeadline = $paymentDeadline;
-	}
+    /**
+     * Set Garantee
+     *
+     * @param string $garantee
+     */
+    public function setGarantee($garantee)
+    {
+        $this->Garantee = $garantee;
+    }
 
-	/**
-	 * Get PaymentDeadline
-	 *
-	 * @return string 
-	 */
-	public function getPaymentDeadline() {
-		return $this->PaymentDeadline;
-	}
+    /**
+     * Get Garantee
+     *
+     * @return string 
+     */
+    public function getGarantee()
+    {
+        return $this->Garantee;
+    }
+
+    /**
+     * Set PaymentDate
+     *
+     * @param string $paymentDate
+     */
+    public function setPaymentDate($paymentDate)
+    {
+        $this->PaymentDate = $paymentDate;
+    }
+
+    /**
+     * Get PaymentDate
+     *
+     * @return string 
+     */
+    public function getPaymentDate()
+    {
+        return $this->PaymentDate;
+    }
+
+    /**
+     * Set PaymentDeadline
+     *
+     * @param string $paymentDeadline
+     */
+    public function setPaymentDeadline($paymentDeadline)
+    {
+        $this->PaymentDeadline = $paymentDeadline;
+    }
+
+    /**
+     * Get PaymentDeadline
+     *
+     * @return string 
+     */
+    public function getPaymentDeadline()
+    {
+        return $this->PaymentDeadline;
+    }
+
+    /**
+     * Set Reserve
+     *
+     * @param decimal $reserve
+     */
+    public function setReserve($reserve)
+    {
+        $this->Reserve = $reserve;
+    }
+
+    /**
+     * Get Reserve
+     *
+     * @return decimal 
+     */
+    public function getReserve()
+    {
+        return $this->Reserve;
+    }
+
+    /**
+     * Set ReserveDate
+     *
+     * @param date $reserveDate
+     */
+    public function setReserveDate($reserveDate)
+    {
+        $this->ReserveDate = $reserveDate;
+    }
+
+    /**
+     * Get ReserveDate
+     *
+     * @return date 
+     */
+    public function getReserveDate()
+    {
+        return $this->ReserveDate;
+    }
+
+    /**
+     * Set StartDate
+     *
+     * @param date $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->StartDate = $startDate;
+    }
+
+    /**
+     * Get StartDate
+     *
+     * @return date 
+     */
+    public function getStartDate()
+    {
+        return $this->StartDate;
+    }
+
+    /**
+     * Set EndDate
+     *
+     * @param date $endDate
+     */
+    public function setEndDate($endDate)
+    {
+        $this->EndDate = $endDate;
+    }
+
+    /**
+     * Get EndDate
+     *
+     * @return date 
+     */
+    public function getEndDate()
+    {
+        return $this->EndDate;
+    }
 }
