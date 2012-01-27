@@ -19,6 +19,10 @@ class MetaProduct
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+     /**
+ 	 * @ORM\Column(name="number",type="string", length=100)
+	 */
+    protected $Number;
 
 	/**
  	 * @ORM\Column(name="name",type="string", length=100)
@@ -36,22 +40,15 @@ class MetaProduct
  	 * @ORM\Column(name="type",type="string", length=100)
 	 */
     protected $Type;
-    /**
- 	 * @ORM\Column(name="amount",type="decimal",nullable=true)
-	 */
-    protected $Amount;
- 	/**
- 	 * @ORM\Column(name="start_date",type="date",nullable=true)
-	 */
-    protected $StartDate;
- 	/**
- 	 * @ORM\Column(name="end_date",type="date",nullable=true)
-	 */
-    protected $EndDate;
+ 
  	/**
  	 * @ORM\Column(name="notes",type="text",nullable=true)
 	 */
     protected $Notes;
+    /**
+ 	 * @ORM\Column(name="description",type="text",nullable=true)
+	 */
+    protected $Description;
     /**
  	 * @ORM\Column(name="reference",type="string", length=100,nullable=true)
 	 */
@@ -298,5 +295,45 @@ class MetaProduct
     public function getTauxInteret()
     {
         return $this->TauxInteret;
+    }
+
+    /**
+     * Set Number
+     *
+     * @param string $number
+     */
+    public function setNumber($number)
+    {
+        $this->Number = $number;
+    }
+
+    /**
+     * Get Number
+     *
+     * @return string 
+     */
+    public function getNumber()
+    {
+        return $this->Number;
+    }
+
+    /**
+     * Set Description
+     *
+     * @param text $description
+     */
+    public function setDescription($description)
+    {
+        $this->Description = $description;
+    }
+
+    /**
+     * Get Description
+     *
+     * @return text 
+     */
+    public function getDescription()
+    {
+        return $this->Description;
     }
 }

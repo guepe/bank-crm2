@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Guepe\CrmBankBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
@@ -6,320 +6,311 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class  BankProduct extends MetaProduct
-{
-    /**
-     * @var integer $id
-     */
-    protected $id;
-    /**
- 	 * @ORM\Column(name="number",type="string", length=100)
+class BankProduct extends MetaProduct {
+	/**
+	 * @var integer $id
 	 */
-    protected $Number;
-    
+	protected $id;
+	/**
+	 * @ORM\Column(name="amount",type="decimal",nullable=true)
+	 */
+	protected $Amount;
 
+	public function __construct() {
+		$this->category = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->account = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
-    public function __construct()
-    {
-        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->account = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-  
-    
+	/**
+	 * @var string $Name
+	 */
+	protected $Name;
 
-    /**
-     * @var string $Name
-     */
-    protected $Name;
+	/**
+	 * @var string $Type
+	 */
+	protected $Type;
 
-    /**
-     * @var string $Type
-     */
-    protected $Type;
+	/**
+	 * @var Guepe\CrmBankBundle\Entity\Category
+	 */
+	protected $Category;
 
-    /**
-     * @var Guepe\CrmBankBundle\Entity\Category
-     */
-    protected $Category;
+	/**
+	 * @var Guepe\CrmBankBundle\Entity\Account
+	 */
+	protected $account;
 
-    /**
-     * @var Guepe\CrmBankBundle\Entity\Account
-     */
-    protected $account;
+	/**
+	 * Set Name
+	 *
+	 * @param string $name
+	 */
+	public function setName($name) {
+		$this->Name = $name;
+	}
 
+	/**
+	 * Get Name
+	 *
+	 * @return string 
+	 */
+	public function getName() {
+		return $this->Name;
+	}
 
-    /**
-     * Set Name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->Name = $name;
-    }
+	/**
+	 * Set Type
+	 *
+	 * @param string $type
+	 */
+	public function setType($type) {
+		$this->Type = $type;
+	}
 
-    /**
-     * Get Name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->Name;
-    }
+	/**
+	 * Get Type
+	 *
+	 * @return string 
+	 */
+	public function getType() {
+		return $this->Type;
+	}
 
-    /**
-     * Set Type
-     *
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->Type = $type;
-    }
+	/**
+	 * Add Category
+	 *
+	 * @param Guepe\CrmBankBundle\Entity\Category $category
+	 */
+	public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category) {
+		$this->Category[] = $category;
+	}
 
-    /**
-     * Get Type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->Type;
-    }
+	/**
+	 * Get Category
+	 *
+	 * @return Doctrine\Common\Collections\Collection 
+	 */
+	public function getCategory() {
+		return $this->Category;
+	}
 
-    /**
-     * Add Category
-     *
-     * @param Guepe\CrmBankBundle\Entity\Category $category
-     */
-    public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category)
-    {
-        $this->Category[] = $category;
-    }
+	/**
+	 * Add account
+	 *
+	 * @param Guepe\CrmBankBundle\Entity\Account $account
+	 */
+	public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account) {
+		$this->account[] = $account;
+	}
 
-    /**
-     * Get Category
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getCategory()
-    {
-        return $this->Category;
-    }
+	/**
+	 * Get account
+	 *
+	 * @return Doctrine\Common\Collections\Collection 
+	 */
+	public function getAccount() {
+		return $this->account;
+	}
 
-    /**
-     * Add account
-     *
-     * @param Guepe\CrmBankBundle\Entity\Account $account
-     */
-    public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account)
-    {
-        $this->account[] = $account;
-    }
+	/**
+	 * @var date $StartDate
+	 */
+	protected $StartDate;
 
-    /**
-     * Get account
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
-    /**
-     * @var decimal $Amount
-     */
-    protected $Amount;
+	/**
+	 * @var date $EndDate
+	 */
+	protected $EndDate;
 
-    /**
-     * @var date $StartDate
-     */
-    protected $StartDate;
+	/**
+	 * @var text $Notes
+	 */
+	protected $Notes;
 
-    /**
-     * @var date $EndDate
-     */
-    protected $EndDate;
+	/**
+	 * @var string $References
+	 */
+	protected $References;
 
-    /**
-     * @var text $Notes
-     */
-    protected $Notes;
+	/**
+	 * @var text $Company
+	 */
+	protected $Company;
 
-    /**
-     * @var string $References
-     */
-    protected $References;
+	/**
+	 * @var smallint $TauxInteret
+	 */
+	protected $TauxInteret;
 
-    /**
-     * @var text $Company
-     */
-    protected $Company;
+	/**
+	 * Set Number
+	 *
+	 * @param string $number
+	 */
+	public function setNumber($number) {
+		$this->Number = $number;
+	}
 
-    /**
-     * @var smallint $TauxInteret
-     */
-    protected $TauxInteret;
+	/**
+	 * Get Number
+	 *
+	 * @return string 
+	 */
+	public function getNumber() {
+		return $this->Number;
+	}
 
+	/**
+	 * Set Amount
+	 *
+	 * @param decimal $amount
+	 */
+	public function setAmount($amount) {
+		$this->Amount = $amount;
+	}
 
-    /**
-     * Set Number
-     *
-     * @param string $number
-     */
-    public function setNumber($number)
-    {
-        $this->Number = $number;
-    }
+	/**
+	 * Get Amount
+	 *
+	 * @return decimal 
+	 */
+	public function getAmount() {
+		return $this->Amount;
+	}
 
-    /**
-     * Get Number
-     *
-     * @return string 
-     */
-    public function getNumber()
-    {
-        return $this->Number;
-    }
+	/**
+	 * Set StartDate
+	 *
+	 * @param date $startDate
+	 */
+	public function setStartDate($startDate) {
+		$this->StartDate = $startDate;
+	}
 
-    /**
-     * Set Amount
-     *
-     * @param decimal $amount
-     */
-    public function setAmount($amount)
-    {
-        $this->Amount = $amount;
-    }
+	/**
+	 * Get StartDate
+	 *
+	 * @return date 
+	 */
+	public function getStartDate() {
+		return $this->StartDate;
+	}
 
-    /**
-     * Get Amount
-     *
-     * @return decimal 
-     */
-    public function getAmount()
-    {
-        return $this->Amount;
-    }
+	/**
+	 * Set EndDate
+	 *
+	 * @param date $endDate
+	 */
+	public function setEndDate($endDate) {
+		$this->EndDate = $endDate;
+	}
 
-    /**
-     * Set StartDate
-     *
-     * @param date $startDate
-     */
-    public function setStartDate($startDate)
-    {
-        $this->StartDate = $startDate;
-    }
+	/**
+	 * Get EndDate
+	 *
+	 * @return date 
+	 */
+	public function getEndDate() {
+		return $this->EndDate;
+	}
 
-    /**
-     * Get StartDate
-     *
-     * @return date 
-     */
-    public function getStartDate()
-    {
-        return $this->StartDate;
-    }
+	/**
+	 * Set Notes
+	 *
+	 * @param text $notes
+	 */
+	public function setNotes($notes) {
+		$this->Notes = $notes;
+	}
 
-    /**
-     * Set EndDate
-     *
-     * @param date $endDate
-     */
-    public function setEndDate($endDate)
-    {
-        $this->EndDate = $endDate;
-    }
+	/**
+	 * Get Notes
+	 *
+	 * @return text 
+	 */
+	public function getNotes() {
+		return $this->Notes;
+	}
 
-    /**
-     * Get EndDate
-     *
-     * @return date 
-     */
-    public function getEndDate()
-    {
-        return $this->EndDate;
-    }
+	/**
+	 * Set References
+	 *
+	 * @param string $references
+	 */
+	public function setReferences($references) {
+		$this->References = $references;
+	}
 
-    /**
-     * Set Notes
-     *
-     * @param text $notes
-     */
-    public function setNotes($notes)
-    {
-        $this->Notes = $notes;
-    }
+	/**
+	 * Get References
+	 *
+	 * @return string 
+	 */
+	public function getReferences() {
+		return $this->References;
+	}
 
-    /**
-     * Get Notes
-     *
-     * @return text 
-     */
-    public function getNotes()
-    {
-        return $this->Notes;
-    }
+	/**
+	 * Set Company
+	 *
+	 * @param text $company
+	 */
+	public function setCompany($company) {
+		$this->Company = $company;
+	}
 
-    /**
-     * Set References
-     *
-     * @param string $references
-     */
-    public function setReferences($references)
-    {
-        $this->References = $references;
-    }
+	/**
+	 * Get Company
+	 *
+	 * @return text 
+	 */
+	public function getCompany() {
+		return $this->Company;
+	}
 
-    /**
-     * Get References
-     *
-     * @return string 
-     */
-    public function getReferences()
-    {
-        return $this->References;
-    }
+	/**
+	 * Set TauxInteret
+	 *
+	 * @param smallint $tauxInteret
+	 */
+	public function setTauxInteret($tauxInteret) {
+		$this->TauxInteret = $tauxInteret;
+	}
 
-    /**
-     * Set Company
-     *
-     * @param text $company
-     */
-    public function setCompany($company)
-    {
-        $this->Company = $company;
-    }
+	/**
+	 * Get TauxInteret
+	 *
+	 * @return smallint 
+	 */
+	public function getTauxInteret() {
+		return $this->TauxInteret;
+	}
+	/**
+	 * @var string $Number
+	 */
+	protected $Number;
 
-    /**
-     * Get Company
-     *
-     * @return text 
-     */
-    public function getCompany()
-    {
-        return $this->Company;
-    }
+	/**
+	 * @var text $Description
+	 */
+	protected $Description;
 
-    /**
-     * Set TauxInteret
-     *
-     * @param smallint $tauxInteret
-     */
-    public function setTauxInteret($tauxInteret)
-    {
-        $this->TauxInteret = $tauxInteret;
-    }
+	/**
+	 * Set Description
+	 *
+	 * @param text $description
+	 */
+	public function setDescription($description) {
+		$this->Description = $description;
+	}
 
-    /**
-     * Get TauxInteret
-     *
-     * @return smallint 
-     */
-    public function getTauxInteret()
-    {
-        return $this->TauxInteret;
-    }
+	/**
+	 * Get Description
+	 *
+	 * @return text 
+	 */
+	public function getDescription() {
+		return $this->Description;
+	}
 }
