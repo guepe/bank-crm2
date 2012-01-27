@@ -30,7 +30,7 @@ class SavingsProduct extends MetaProduct {
 	 */
 	protected $CapitalTerme;
 	/**
-	 * @ORM\Column(name="garantee",type="string", length=100,nullable=true)
+	 * @ORM\Column(name="garantee",type="text",nullable=true)
 	 */
 	protected $Garantee;
 	/**
