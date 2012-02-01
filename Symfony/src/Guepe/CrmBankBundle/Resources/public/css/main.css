@@ -23,15 +23,7 @@ html, body {
     
 }
 
-#page {    
-    width:100%;    
-    margin: 0 auto -10em;
-    background-color: #DDD;
-    height: auto ;
-    height:100%;
-    min-height: 100%;
-   
-}
+
 
 h2 {
 	font-size: large;
@@ -69,8 +61,14 @@ a:hover {
     text-decoration: underline;
 }
 
+#page {    
+    width:100%;    
+    margin: 0 auto -10em;
+    background-color: #DDD;
+}
+
 #centerpane {
-    float:left;
+    postion:relative;
     width: 80%;
     margin-top:-100px;
     margin-left: 220px;
@@ -80,32 +78,46 @@ a:hover {
 	border-color:black;
 }
 
-.warning {
-	background-color: #FFAEAE;
-	border-color: #c33;
-	border-style: inset;
-	border-width: thin;	
-	margin:0 auto;
-}
-
 #content {
 	padding: 5px;
 }
 
 #leftpane {
     width: 200px;
-    float:left;
+    position:relative;
     padding:0;
     margin:0;	
 }
 
+#footer {
+	width:100%;
+    text-align: center;
+    color: #999;
+    font-size: 85%;
+	height: 35px;
+	border-top:thin solid;
+	vertical-align:middle;
+	bottom:0px;
+    position:fixed;
+    background-color: #FFF;
+	}
+
 #menu {
-	padding-top: 15px;
+	padding-top: 5px;
     list-style: none;
     width: 100px;
     padding-right:30px;
     
 	
+}
+
+
+.warning {
+	background-color: #FFAEAE;
+	border-color: #c33;
+	border-style: inset;
+	border-width: thin;	
+	margin:0 auto;
 }
 
 #menu li {    
@@ -128,7 +140,7 @@ a:hover {
     padding-left:5px;
     border-bottom: medium solid #57afe6;
     font-size: large;	
-     vertical-align: middle;    
+    vertical-align: middle;    
 }
 
 #header a {
@@ -140,14 +152,7 @@ a:hover {
     margin-top:-130px;
 }
 
-#footer, .push {
-	width:100%;
-    text-align: center;
-    color: #999;
-    font-size: 85%;
-	height: 10em;
-    clear: both;
-	}
+
 	
 	
 
