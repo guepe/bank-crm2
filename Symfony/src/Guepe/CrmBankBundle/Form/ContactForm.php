@@ -17,7 +17,7 @@ class ContactForm extends AbstractType
             ->add('street_num','text',array("label" => "Rue et numéro"))
             ->add('city','text',array("label" => "Ville"))
             ->add('zip','text',array("label" => "Code postal"))
-            ->add('country','country',array("label" => "Pays"))
+            ->add('country','country',array("label" => "Pays",'preferred_choices' => array('BE')))
             ->add('email','email',array("label" => "Email"))
             ->add('phone','text',array("label" => "Téléphone"))
             ->add('gsm','text',array("label" => "GSM"))
