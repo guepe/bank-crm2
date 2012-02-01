@@ -14,6 +14,7 @@ class ContactSearchForm extends AbstractType
    public function buildForm(FormBuilder $builder, array $options)
     {        
         $builder->add('lastname', 'text', array('label' => 'Nom'));
+        
     }
     
     public function getName()

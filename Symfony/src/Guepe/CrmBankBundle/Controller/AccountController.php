@@ -28,7 +28,6 @@ class AccountController extends Controller
 	
    public function indexAction()
     {
-
     	$em = $this->container->get('doctrine')->getEntityManager();
     	$accounts =$this->getDoctrine()->getRepository('GuepeCrmBankBundle:Account')->findBy(array(),
     		array('name'=>'asc'));

@@ -75,11 +75,11 @@ class ContactController extends Controller
 				$em->flush();
 				if (isset($id)) 
 				{
-					$message='Contact modifi� avec succ�s !';
+					$message='Contact modifié avec succès !';
 				}
 				else 
 				{
-					$message='Contact ajout� avec succ�s !';
+					$message='Contact ajouté avec succès !';
 				}
 				return $this->redirect($this->generateUrl('ShowContact', array('id' => $contact->getId())));
 				
@@ -107,7 +107,7 @@ class ContactController extends Controller
 			$entity = $em->find('GuepeCrmBankBundle:Contact', $id);
 			if (!$entity)
 			{
-				$message='Aucun contact trouv�';
+				$message='Aucun contact trouvés';
 			}
 		}
 	return array(
@@ -133,7 +133,7 @@ public function listAction($account_id=null)
 }
 
 	/**	
-	* @Route("/search/", name="SearchContact")
+	* @Route("/search/{account_id}", name="SearchContact",defaults={"account_id" = null})
  	* @Route("/{account_id}", name="SelectContact")
  	* @Route("/",name="AllContacts",defaults={"account_id" = null})
 	*/
@@ -147,7 +147,6 @@ public function searchAction($account_id=null)
     {
     	$lastname ='';
     	$lastname = $request->request->get('lastname');
-        //$firstname = $request->request->get('firstname');
         $em = $this->container->get('doctrine')->getEntityManager();
         if($lastname != '')
         {
