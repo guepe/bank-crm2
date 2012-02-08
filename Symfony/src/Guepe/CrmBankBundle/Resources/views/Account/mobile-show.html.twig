@@ -1,0 +1,158 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+{% block other_pages %}
+
+{% if account|length > 0 %}		
+<div data-role="page" id="Account_{{ account.id }}" >
+		<div data-role="header" >
+			<a href="{{ path('AllAccounts') }}#home" data-transition="slide" data-ajax="false">Retour</a>
+			<h1>{{account.name}}</h1>
+		</div><!-- /header -->
+		<br/> {{account.type}} {{account.companyStatut}} {{ account.startingdate|date('d/m/Y') }}
+		<br/> {{account.notes}}
+		<div data-role="collapsible">
+		<h3>Contacts </h3>
+		<ul> 
+		{% for contact in account.contacts %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"	
+			{%else%}
+				id="line2"
+			{% endif %}
+			>{{contact.firstname}} {{contact.lastname}}</li>
+		{% else %}
+			<p>Aucune contacts n'a été trouvé.</p>
+		{% endfor %}
+		</ul>
+		</div>
+		<div data-role="collapsible">
+
+		<h3>Produits Banquaires</h3>
+		<ul>
+		{% for bankproduct in account.bankproduct %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"				
+			{%else%}
+				id="line2"
+			{% endif %}
+			>
+			<span class="product-show-label">Type:</span> {{bankproduct.type }}
+			<span class="product-show-label">Références:</span> {{bankproduct.references }}
+			<span class="product-show-label">Numéro de compte:</span> {{bankproduct.number }}
+			<span class="product-show-label">Organisme: </span> {{bankproduct.company }}
+			<span class="product-show-label">Montant: </span> {{bankproduct.amount }}
+			<span class="product-show-label">Notes: </span> {{bankproduct.notes }}
+			<span class="product-show-label">Taux d'intérêt: </span> {{bankproduct.tauxinteret }}
+			<span class="product-show-label">Description:  </span> {{bankproduct.description }}
+			</li>
+		{% else %}
+			<p>Aucune bankproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+		</div>
+		<div data-role="collapsible">
+		<h3>Produits Crédit</h3>
+		<ul>
+		{% for creditproduct in account.creditproduct %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"				
+			{%else%}
+				id="line2"
+			{% endif %}
+			>
+			<span class="product-show-label">Type:</span> {{creditproduct.type }}
+			<span class="product-show-label">Références:</span> {{creditproduct.references }}
+			<span class="product-show-label">Numéro de compte:</span> {{creditproduct.number }}
+			<span class="product-show-label">Organisme: </span> {{creditproduct.company }}
+			<span class="product-show-label">Montant: </span> {{creditproduct.amount }}
+			<span class="product-show-label">Date de début: </span> {{creditproduct.startdate|date('d/m/Y') }}
+			<span class="product-show-label">Date de fin: </span> {{creditproduct.enddate|date('d/m/Y') }}
+			<span class="product-show-label">Notes: </span> {{creditproduct.notes }}
+			<span class="product-show-label">Montant mensualité: </span> {{creditproduct.recurrentprimeamount }}
+			<span class="product-show-label">Taux d'intérêt: </span> {{creditproduct.tauxinteret }}
+			<span class="product-show-label">Durée: </span> {{creditproduct.duration }}
+			<span class="product-show-label">Variabilité: </span> {{creditproduct.variability }}
+			<span class="product-show-label">Garantie: </span> {{creditproduct.garantee }}
+			<span class="product-show-label">But: </span> {{creditproduct.purpose }}
+			<span class="product-show-label">Description:  </span> {{creditproduct.description }}
+			<span class="product-show-label">Date de paiement: </span> {{creditproduct.paymentdate|date('d/m/Y') }}
+			</li>
+		{% else %}
+			<p>Aucune creditproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+		</div>
+		<div data-role="collapsible">
+		<h2>Produits Fiscal</h2>
+		<ul>
+		{% for fiscalproduct in account.fiscalproduct %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"				
+			{%else%}
+				id="line2"
+			{% endif %}
+			>
+			<span class="product-show-label">Type:</span> {{fiscalproduct.type }}
+			<span class="product-show-label">Références:</span> {{fiscalproduct.references }}
+			<span class="product-show-label">Numéro de compte:</span> {{fiscalproduct.number }}
+			<span class="product-show-label">Organisme: </span> {{fiscalproduct.company }}
+			<span class="product-show-label">Date de début: </span> {{fiscalproduct.startdate|date('d/m/Y') }}
+			<span class="product-show-label">Date de fin: </span> {{fiscalproduct.enddate|date('d/m/Y') }}
+			<span class="product-show-label">Notes: </span> {{fiscalproduct.notes }}
+			<span class="product-show-label">Montant prime annuelle: </span> {{fiscalproduct.recurrentprimeamount }}
+			<span class="product-show-label">Taux d'intérêt: </span> {{fiscalproduct.tauxinteret }}
+			<span class="product-show-label">Garantie: </span> {{fiscalproduct.garantee }}
+			<span class="product-show-label">Description:  </span> {{fiscalproduct.description }}
+			<span class="product-show-label">Date de paiement: </span> {{fiscalproduct.paymentdate|date('d/m/Y') }}
+			<span class="product-show-label">Reserve:  </span> {{fiscalproduct.reserve }}
+			<span class="product-show-label">Date de réserve: </span> {{fiscalproduct.reservedate|date('d/m/Y') }}
+			</li>
+		{% else %}
+			<p>Aucune fiscalproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+		</div>
+		<div data-role="collapsible">
+		<h2>Produits Epargnes</h2>
+
+		<ul>
+		{% for savingsproduct in account.savingsproduct %}
+			<li
+			{% if loop.index % 2 %} 
+				id="line1"				
+			{%else%}
+				id="line2"
+			{% endif %}
+			>
+			<span class="product-show-label">Type:</span> {{savingsproduct.type }}
+			<span class="product-show-label">Références:</span> {{savingsproduct.references }}
+			<span class="product-show-label">Numéro de compte:</span> {{savingsproduct.number }}
+			<span class="product-show-label">Organisme: </span> {{savingsproduct.company }}
+			<span class="product-show-label">Montant: </span> {{savingsproduct.amount }}
+			<span class="product-show-label">Date de début: </span> {{savingsproduct.startdate|date('d/m/Y') }}
+			<span class="product-show-label">Date de fin: </span> {{savingsproduct.enddate|date('d/m/Y') }}
+			<span class="product-show-label">Notes: </span> {{savingsproduct.notes }}
+			<span class="product-show-label">Capital à terme: </span> {{savingsproduct.capitalterme }}
+			<span class="product-show-label">Taux d'intérêt: </span> {{savingsproduct.tauxinteret }}
+			<span class="product-show-label">Durée: </span> {{savingsproduct.duration }}
+			<span class="product-show-label">Garantie: </span> {{savingsproduct.garantee }}
+			<span class="product-show-label">Description:  </span> {{savingsproduct.description }}
+			<span class="product-show-label">Date de paiement: </span> {{savingsproduct.paymentdate|date('d/m/Y') }}
+			<span class="product-show-label">Echéance de paiement: </span> {{savingsproduct.paymentdate }}
+			<span class="product-show-label">Reserve:  </span> {{savingsproduct.reserve }}
+			<span class="product-show-label">Date de réserve: </span> {{savingsproduct.reservedate|date('d/m/Y') }}
+			</li>
+		{% else %}
+			<p>Aucune savingsproduct n'a été trouvée.</p>
+		{% endfor %}
+		</ul>
+		</div>
+	</div><!-- /page -->	
+
+{% endif %}	
+{% endblock %}
+
+

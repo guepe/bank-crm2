@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Bank-CRM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+</head>
+<body>
+	
+	<div data-role="page" id="home">
+		<div data-role="header">
+			<h1>Bank-CRM</h1>
+		</div><!-- /header -->
+		<div data-role="navbar">	
+			<ul>
+				<li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"  data-transition="slideup"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
+				<li><a href="{{ path('AllAccounts') }}" data-ajax="false"  data-transition="slideup"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts</a></li>
+				<li><a href="{{ path('AllContacts') }}" data-ajax="false" data-transition="slideup"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts</a></li> 
+			</ul>	
+		</div><!-- /content -->
+		 <div data-role="content">	
+		 	{% block content %}	
+		 	{% endblock %}
+		</div>
+	</div>
+	{% block other_pages %}	
+ 	{% endblock %}
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% for cat in accounts %}
+	<div data-role="page" id="Account_{{ cat.id }}" >
+		<div data-role="header" >
+			<a href="#back"></a>
+			<h1>{{ cat.name }}</h1>
+		</div><!-- /header -->
+	
+		<div data-role="content">		
+			<strong>Statut:</strong> {{ cat.companystatut }}
+			<strong>Type: </strong>{{ cat.type }}
+			<strong>Début de la relation: </strong>{{ cat.startingdate|date('d/m/Y') }}
+			<strong>Notes: </strong>{{ cat.notes }}
+		</div><!-- /content -->
+	</div><!-- /page {{ cat.id }} -->	
+{% endfor %}
+
+	

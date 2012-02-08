@@ -1,0 +1,9 @@
+	<ul data-role="listview"  data-filter="true">
+	{% for cat in contacts %}
+		<li><a href="#Account_{{ cat.id }}" data-transition="slide" >{{ cat.lastname }} {{ cat.firstname }}  </a></li>
+	{% else %}
+		{% block warning %}
+		<div class="warning">Aucun account n'a été trouvé.</div>
+		{% endblock %}
+	{% endfor %}
+	</ul>

@@ -1,0 +1,5 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block content %}
+	{% include 'GuepeCrmBankBundle:Account:mobile-list.html.twig' with {'accounts' : accounts}  %}
+{% endblock %}	

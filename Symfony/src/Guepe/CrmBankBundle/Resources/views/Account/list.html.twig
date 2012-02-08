@@ -1,5 +1,5 @@
 {% for cat in accounts %}
-	<div class="list-big-element">&nbsp;<img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/account-list.png') }}" > {{ cat.name }}    <a href="{{ path('ShowAccount',{'id': cat.id}) }}"><img src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a></td><td> <a href="{{ path('EditAccount',{'id': cat.id}) }}"><img src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a>
+	<div class="list-big-element">&nbsp;<img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/account-list.png') }}" > {{ cat.name }}    <a href="{{ path('ShowAccount',{'id': cat.id}) }}"><img src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>  <a href="{{ path('EditAccount',{'id': cat.id}) }}"><img src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a>
 	</div>
 	<br/>
 	<strong>Statut:</strong> {{ cat.companystatut }}
