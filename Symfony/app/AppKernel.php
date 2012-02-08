@@ -20,7 +20,9 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Guepe\CrmBankBundle\GuepeCrmBankBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Guepe\UserBundle\GuepeUserBundle(),            
+            new Guepe\UserBundle\GuepeUserBundle(),   
+            new Zenstruck\Bundle\MobileBundle\ZenstruckMobileBundle(),            
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

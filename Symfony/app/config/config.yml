@@ -68,4 +68,12 @@ fos_user:
     use_listener: false
     user_class:   Guepe\UserBundle\Entity\User
     
+zenstruck_mobile:
+    full_host: localhost
+    mobile_host: mobile
+    #use_listener: true
+    use_helper: true
+    use_twig_engine: false
+    mobile: true   
+    
 
