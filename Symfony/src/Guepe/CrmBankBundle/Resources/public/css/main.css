@@ -95,6 +95,11 @@ a:hover {
     background-color: #FFF;
     clear: both;
 	}
+	
+#clearfix {
+	height:50px;
+	clear:both;
+}	
 
 div#menu {
     list-style: none;
