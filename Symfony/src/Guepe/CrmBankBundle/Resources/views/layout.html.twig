@@ -34,19 +34,16 @@
     </head>
     <body>
         <div id="page">
-            <div id="header">
+            <div id="banner">
             	<a href="{{ path('AddAccount') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Accounts</a> - 
             	<a href="{{ path('AddContact') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Contact</a>
 			</div>
-			<div id="leftpane">
-				<div id="menu">
-					<ul id="menu">
-					    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
-					    <li><a href="{{ path('AllAccounts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts</a></li>
-					    <li><a href="{{ path('AllContacts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts</a></li>                    
-					</ul>
-		        </div>
-		        <hr width=80%>
+			<div id="menu">
+				<ul id="menu">
+				    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
+				    <li><a href="{{ path('AllAccounts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts</a></li>
+				    <li><a href="{{ path('AllContacts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts</a></li>                    
+				</ul>
 	        </div>
 			<div id="centerpane">
 					{% block warning %}
