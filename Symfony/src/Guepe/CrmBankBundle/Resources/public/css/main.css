@@ -23,6 +23,9 @@ html, body {
     
 }
 
+a img {
+	border:none;
+}
 
 
 h2 {
