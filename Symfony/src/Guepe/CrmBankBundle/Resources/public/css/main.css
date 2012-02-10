@@ -62,16 +62,13 @@ a:hover {
 }
 
 #page {    
-    width:100%;    
-    margin: 0 auto -10em;
     background-color: #DDD;
+    margin: 0; /* changed from 1em 5% */
 }
 
 #centerpane {
-    postion:relative;
-    width: 80%;
-    margin-top:-100px;
-    margin-left: 220px;
+    padding-top: 1em;
+	margin: 1em 2em 0 200px;
     background-color: white;
 	border-width: thin;
 	border-style: inset;
@@ -80,13 +77,6 @@ a:hover {
 
 #content {
 	padding: 5px;
-}
-
-#leftpane {
-    width: 200px;
-    position:relative;
-    padding:0;
-    margin:0;	
 }
 
 #footer {
@@ -100,17 +90,21 @@ a:hover {
 	bottom:0px;
     position:fixed;
     background-color: #FFF;
+    clear: both;
 	}
 
-#menu {
-	padding-top: 5px;
+div#menu {
     list-style: none;
-    width: 100px;
-    padding-right:30px;
-    
-	
+    float: left;
+	width: 160px;
+	margin-left: 10px;
+	padding-top: 1em;
+	border-bottom:solid #000 thin;
 }
 
+ul#menu {
+	list-style: none;
+}
 
 .warning {
 	background-color: #FFAEAE;
@@ -132,18 +126,16 @@ a:hover {
     color:#7ca60a;
 }
 
-#header {
-    margin-top: 0px;
-    width:100%;
+#banner {
+    margin: 0;
     background-color: #234098;
     height: 25px;
-    padding-left:5px;
+	padding: .5em;
     border-bottom: medium solid #57afe6;
     font-size: large;	
-    vertical-align: middle;    
 }
 
-#header a {
+#banner a {
 	color:white;
 	}
 
