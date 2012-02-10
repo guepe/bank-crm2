@@ -14,7 +14,7 @@ class ContactForm extends AbstractType
         $builder
             ->add('firstname','text',array("label" => "Prénom"))
             ->add('lastname','text',array("label" => "Nom", 'required' => true))
-            ->add('street_num','text',array("label" => "Rue et numéro"))
+            ->add('street_num','text',array("label" => "Rue et numéro", 'required' => false))
             ->add('city','text',array("label" => "Ville"))
             ->add('zip','text',array("label" => "Code postal"))
             ->add('country','country',array("label" => "Pays",'preferred_choices' => array('BE')))
