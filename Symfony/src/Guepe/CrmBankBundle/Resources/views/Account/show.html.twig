@@ -25,9 +25,16 @@
 		<div id="showaccount"> 
 		<div class="headblock-element">
 		<h1>{{account.name}}<a href="{{ path('EditAccount',{'id': account.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a></h1>
-
-		<br/> {{account.type}} {{account.companyStatut}} {{ account.startingdate|date('d/m/Y') }}
-		<br/> {{account.notes}}
+		<p class="list-show">
+		<strong>Statut:</strong> {{ account.companystatut }}
+		<strong>Type: </strong>{{ account.type }}
+		<strong>Début de la relation: </strong>{{ account.startingdate|date('d/m/Y') }}
+		<strong>Autre Banque: </strong> {{ account.otherbank }}
+		<br/>
+		<strong>Addresse: </strong> {{ account.streetnum }} {{ account.zip }} {{ account.city }} {{account.country}}
+		<br/><br/> 
+		<strong>Notes: </strong>{{ account.notes }}
+		</p>
 		</div>
 		<br/>
 		<div id="accordion">

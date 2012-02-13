@@ -64,9 +64,28 @@
 				<td>{{ form_label(form.type) }}</td>
 				<td> {{ form_errors(form.type) }}
 				{{ form_widget(form.type) }} </td>
-				<td>{{ form_label(form.starting_date,"Début de la relation") }}</td>
+				<td>{{ form_label(form.starting_date) }}</td>
 				<td> {{ form_errors(form.starting_date) }}
 				{{ form_widget(form.starting_date) }}
+				</td>
+				<td>{{ form_label(form.otherbank) }}</td>
+				<td> {{ form_errors(form.otherbank) }}
+				{{ form_widget(form.otherbank) }}
+				</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.streetnum) }}</td>
+				<td colspan="3"> {{ form_errors(form.streetnum) }}
+				{{ form_widget(form.streetnum) }} </td>
+				<td>{{ form_label(form.zip) }}</td>
+				<td> {{ form_errors(form.zip) }}
+				{{ form_widget(form.zip) }} </td>
+				<td>{{ form_label(form.city) }}</td>
+				<td> {{ form_errors(form.city) }}
+				{{ form_widget(form.city) }} </td>
+				<td>{{ form_label(form.country) }}</td>
+				<td > {{ form_errors(form.country) }}
+				{{ form_widget(form.country) }}
 				</td>
 			</tr>
 			<tr>

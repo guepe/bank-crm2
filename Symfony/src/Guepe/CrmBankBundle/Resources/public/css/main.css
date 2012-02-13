@@ -271,6 +271,11 @@ div .list-big-element {
 
 }
 
+.show-list {
+	text-align:justify; 
+	margin-left:1em;
+}
+
 #home {
 	
 }
