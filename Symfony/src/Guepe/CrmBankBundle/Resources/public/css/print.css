@@ -1,187 +1,146 @@
-html, body, form, fieldset {
-  
-}
-
-
-
 html, body {
-    color: #000;
-    font-family: "Trebuchet Ms", arial, verdana, sans-serif;
-    height: 100%;
-    width: auto;
-    
+	color: #000;
+	font-family: "Trebuchet Ms", arial, verdana, sans-serif;
+	height: 100%;
+	width: auto;
 }
-
 h2 {
 	font-size: large;
-	font-variant: small-caps; 
-	}
-
+	font-variant: small-caps;
+}
 a * {
-   display:none;
+	display: none;
 }
-
-
-
-#page {    
-    width:100%;    
+#page {
+	width: 100%;
 }
-
 #centerpane {
-    width: 100%;
+	width: 100%;
 	border-width: thin;
 	border-style: inset;
-	border-color:black;
+	border-color: black;
 }
-
 #content {
 	padding: 5px;
 }
-
 #leftpane {
-	display:none;
+	display: none;
 }
-
 #footer {
-	display:none;
-	}
-
+	display: none;
+}
 #menu {
-	display:none;
+	display: none;
 }
-
 #header {
-	display:none;
+	display: none;
 }
-
 #accordion  div {
-	display:block!important;
-	visibility:visible!important;
+	display: block !important;
+	visibility: visible !important;
 }
-
 .headblock-element {
 	background-color: #def1fa;
 	border-color: #57afe6;
 	border-style: dotted;
-	border-width: thin; 
+	border-width: thin;
 	padding: 5px;
-	border-radius: 	5px;
-    box-shadow: 3px 3px 3px #888;
-	}
-.headblock-element h1{
+	border-radius: 5px;
+	box-shadow: 3px 3px 3px #888;
+}
+.headblock-element h1 {
 	margin: 0px;
 	font-size: large;
 	color: #275783;
-	}	
-	
+}
 #showaccount h2 {
 	font-size: large;
-	font-variant: small-caps; 
+	font-variant: small-caps;
 	background-color: #c5d866;
 	color: #275783;
 	padding-left: 5px;
-	border-radius: 	3px;
-    box-shadow: 3px 3px 3px #888;
-    float:none;
+	border-radius: 3px;
+	box-shadow: 3px 3px 3px #888;
+	float: none;
 }
-
 #showaccount ul {
 	padding: 0px;
 }
-
 .products_row  .cell label {
-	display:block;
+	display: block;
 }
-
 .product_row {
-	
-}
 
+}
 .product-show-label {
-	font-weight:bold;
-	font-variant:small-caps;
-	font-size:large;
-	color:#777;	
+	font-weight: bold;
+	font-variant: small-caps;
+	font-size: large;
+	color: #777;
 }
-
 .hidden {
-	display:none;
+	display: none;
 }
-
 .products_row .cell {
-	display:inline; 
-	vertical-align:top;
-	border:none;
-	margin-right:1em;
+	display: inline;
+	vertical-align: top;
+	border: none;
+	margin-right: 1em;
 }
-
-
 #showaccount li {
 	list-style: none;
-	margin:5px;
-	margin-left:0px;
-	padding:1px;
+	margin: 5px;
+	margin-left: 0px;
+	padding: 1px;
 }
-
-
 #showaccount #line1 {
 	background-color: #f5ffd6;
-}	
-
+}
 #showaccount #line2 {
 	background-color: #f2faff;
 }
-
 .loading {
-    background:url(../images/loading.gif) no-repeat top left;
-    width: 36px;
-    height: 36px;
+	background: url(../images/loading.gif) no-repeat top left;
+	width: 36px;
+	height: 36px;
 }
-
 .message {
-    color:#090;
+	color: #090;
 }
-
 .div-round-border {
 	border-color: black;
 	border-style: solid;
-	border-width: thin; 	
-	border-radius: 	5px;
-    box-shadow: 3px 3px 3px #888;
-    margin: 0 20px 20px 0;
-    height:auto;
-    padding:10px 10px 10px 10px;
-    width:auto;
-    background-color: #EEE;
+	border-width: thin;
+	border-radius: 5px;
+	box-shadow: 3px 3px 3px #888;
+	margin: 0 20px 20px 0;
+	height: auto;
+	padding: 10px 10px 10px 10px;
+	width: auto;
+	background-color: #EEE;
 }
-
 .listelements {
 	border-color: black;
 	border-style: solid;
-	border-width: thin; 	
-	width:100%;
+	border-width: thin;
+	width: 100%;
 }
-
 div .list-big-element {
 	font-size: x-large;
 	background-color: #def1fa;
 	border-color: #57afe6;
 	border-style: dotted;
-	border-width: thin; 
+	border-width: thin;
 	padding-top: 3px;
-    border-radius: 	5px;
-    box-shadow: 3px 3px 3px #888;
-
+	border-radius: 5px;
+	box-shadow: 3px 3px 3px #888;
 }
-
 .show-list {
-	text-align:justify; 
-	margin-left:1em;
+	text-align: justify;
+	margin-left: 1em;
 }
-
-
-.listelements th{
+.listelements th {
 	background-color: lightgray;
-	color:black;
+	color: black;
 	text-align: left;
 }
