@@ -1,0 +1,9 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block content %}
+	{% include 'GuepeCrmBankBundle:Contact:mobile-list.html.twig' with {'contacts' : contacts}  %}
+{% endblock %}	
+
+{% block other_pages %}
+	{% include 'GuepeCrmBankBundle:Contact:mobile-list-show.html.twig' with {'contacts' : contacts}  %}
+{% endblock %}	

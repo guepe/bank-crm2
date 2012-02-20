@@ -1,0 +1,9 @@
+	<ul data-role="listview"  data-filter="true">
+	{% for cat in accounts %}
+		<li><a href="{{ path('ShowAccount',{'id': cat.id}) }}#Account_{{ cat.id }}" data-transition="slide" data-ajax="false" >{{ cat.name }}</a></li>
+	{% else %}
+		{% block warning %}
+		<div class="warning">Aucun account n'a été trouvé.</div>
+		{% endblock %}
+	{% endfor %}
+	</ul>
