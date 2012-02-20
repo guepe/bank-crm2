@@ -24,19 +24,19 @@ class AccountForm extends AbstractType
             	 'ASS de fait' => 'ASS de fait',
             	 'Indivision' => 'Indivision',
             	 'Administration' => 'Administration'
-            	 ),'label' => "Statut"))
+            	 ),'label' => "Statut", 'required' => false))
             ->add('type','choice',array('choices' =>
             	array(
             	'Core' => 'Core',
             	'Potentiel' => 'Potentiel',
-            	'Standard' => 'Standard'),'label' => "Type"))
-            ->add('starting_date','date',array('label' => "Début de la relation", 'input'=> 'datetime', 'widget' => 'single_text','format' => 'dd/MM/yyyy'))
-            ->add('streetnum',null,array('label' => "Rue et numéro",'max_length' => 100,'attr' => array("size" =>"58")))
-            ->add('zip',null,array('label'=>"Code postal"))
-            ->add('city',null,array('label'=>"Ville"))
-            ->add('country','country',array("label" => "Pays",'preferred_choices' => array('BE')))
-            ->add('notes',null,array('label' => "Notes"))
-            ->add('otherbank',null,array('label' =>"Autre banque"))
+            	'Standard' => 'Standard'),'label' => "Type", 'required' => false))
+            ->add('starting_date','date',array('label' => "Début de la relation", 'input'=> 'datetime', 'widget' => 'single_text','format' => 'dd/MM/yyyy', 'required' => false))
+            ->add('streetnum',null,array('label' => "Rue et numéro",'max_length' => 100,'attr' => array("size" =>"58"), 'required' => false))
+            ->add('zip',null,array('label'=>"Code postal", 'required' => false))
+            ->add('city',null,array('label'=>"Ville", 'required' => false))
+            ->add('country','country',array("label" => "Pays",'preferred_choices' => array('BE'), 'required' => false))
+            ->add('notes',null,array('label' => "Notes", 'required' => false))
+            ->add('otherbank',null,array('label' =>"Autre banque", 'required' => false))
             ->add('contacts', 'collection', array('type' => new ContactForm()))
 			->add('bankproduct', 'collection', array('type' => new BankProductForm()))
 			->add('creditproduct', 'collection', array('type' => new CreditProductForm()))

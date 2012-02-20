@@ -27,7 +27,7 @@ class FiscalProductForm extends AbstractType {
 				->add('tauxinteret', null, array("label" => "Taux d'intérêt"))
 				->add('garantee', null, array("label" => "Garanties"))
 				->add('description', 'textarea', array("label" => "Description"))
-				->add('paymentdate', 'date', array("label" => "Date de paiement",'widget' => 'single_text','format' => 'dd/MM/YYYY'))
+				->add('paymentdate', 'text', array("label" => "Date de paiement"))
 				->add('paymentdeadline', null,
 						array("label" => "Echéance de paiement"))
 				->add('reserve', 'money', array("label" => "Réserve"))

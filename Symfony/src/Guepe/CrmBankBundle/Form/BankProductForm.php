@@ -15,14 +15,14 @@ class BankProductForm extends AbstractType
             	 'vue' => 'vue',
             	 'epargne' => 'epargne',
             	 'epargne+' => 'epargne+'
-            	 )))
-            ->add('references',null,array("label" => "Références"))
-            ->add('number',null,array("label" => "Numéro de compte"))
-            ->add('company',null,array("label" => "Organisme"))
-            ->add('amount','money',array("label" => "Montant"))
-            ->add('notes','textarea',array("label" => "Notes"))
-            ->add('tauxinteret',null,array("label" => "Taux d'intérêt"))
-            ->add('description','textarea',array("label" => "Description"))
+            	 ), 'required' => false))
+            ->add('references',null,array("label" => "Références", 'required' => false))
+            ->add('number',null,array("label" => "Numéro de compte", 'required' => false))
+            ->add('company',null,array("label" => "Organisme", 'required' => false))
+            ->add('amount','money',array("label" => "Montant", 'required' => false))
+            ->add('notes','textarea',array("label" => "Notes", 'required' => false))
+            ->add('tauxinteret',null,array("label" => "Taux d'intérêt", 'required' => false))
+            ->add('description','textarea',array("label" => "Description", 'required' => false))
         ;
     }
 

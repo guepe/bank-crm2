@@ -74,6 +74,6 @@ zenstruck_mobile:
     #use_listener: true
     use_helper: true
     use_twig_engine: false
-    mobile: true   
+    mobile: false   
     
 

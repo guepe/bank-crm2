@@ -35,9 +35,8 @@ class SavingsProductForm extends AbstractType {
 				->add('duration', null, array("label" => "Durée"))
 				->add('garantee', null, array("label" => "Garanties"))
 				->add('description', 'textarea', array("label" => "Description"))
-				->add('paymentdate', 'date',
-						array("label" => "Date de paiement",
-								'widget' => 'single_text','format' => 'dd/MM/yyyy'))
+				->add('paymentdate', 'text',
+						array("label" => "Date de paiement"))
 				->add('paymentdeadline', null,
 						array("label" => "Echéance de paiement"))
 				->add('reserve', 'money', array("label" => "Réserve"))
