@@ -1,9 +1,6 @@
 _welcome:
     pattern:  /
     defaults: { _controller: GuepeCrmBankBundle:Default:index }
-  
-#    defaults: { _controller: AcmeDemoBundle:Welcome:index }
-
 
 _assetic:
     resource: .
