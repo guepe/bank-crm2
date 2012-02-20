@@ -98,7 +98,7 @@ class Contact
      */
     protected $income_recurence;
     /**
-	 * @ORM\Column(type="date",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
      */
     protected $income_date;
 // TODO:   * lien avec �poux, soci�t�... si un leads ou un compte client existe d�j�
@@ -387,7 +387,7 @@ class Contact
     /**
      * Set income_date
      *
-     * @param date $incomeDate
+     * @param string $incomeDate
      */
     public function setIncomeDate($incomeDate)
     {
@@ -397,7 +397,7 @@ class Contact
     /**
      * Get income_date
      *
-     * @return date 
+     * @return string 
      */
     public function getIncomeDate()
     {

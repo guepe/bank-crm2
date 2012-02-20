@@ -16,28 +16,20 @@
 		{% endfor %}
 		
 		{% for creditproduct in form.creditproduct %}
-		
 		$('#account_creditproduct_{{loop.index-1}}_startdate').datepicker($.datepicker.regional["fr"]);
 		$('#account_creditproduct_{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);
-		$('#account_creditproduct_{{loop.index-1}}_paymentdate').datepicker($.datepicker.regional["fr"]);
-		
 		{% endfor %}
 		
 		{% for fiscalproduct in form.fiscalproduct %}
-		
 		$('#account_fiscalproduct_{{loop.index-1}}_startdate').datepicker($.datepicker.regional["fr"]);
 		$('#account_fiscalproduct_{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);
-		$('#account_fiscalproduct_{{loop.index-1}}_paymentdate').datepicker($.datepicker.regional["fr"]);
 		$('#account_fiscalproduct_{{loop.index-1}}_reservedate').datepicker($.datepicker.regional["fr"]);
-
 		{% endfor %}
+
 		{% for savingsproduct in form.savingsproduct %}
-		
 		$('#account_savingsproduct_{{loop.index-1}}_startdate').datepicker($.datepicker.regional["fr"]);
 		$('#account_savingsproduct_{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);
-		$('#account_savingsproduct_{{loop.index-1}}_paymentdate').datepicker($.datepicker.regional["fr"]);
 		$('#account_savingsproduct_{{loop.index-1}}_reservedate').datepicker($.datepicker.regional["fr"]);
-
 		{% endfor %}
 		
 	});
@@ -105,75 +97,12 @@
 				id="line2"
 			{% endif %}
 		>
-		<table>
-			<tr>
-				<td>{{ form_label(contact.firstname) }}</td>
-				<td> {{ form_errors(contact.firstname) }}
-				{{ form_widget(contact.firstname) }} </td>
-				<td>{{ form_label(contact.lastname) }}</td>
-				<td> {{ form_errors(contact.lastname) }}
-				{{ form_widget(contact.lastname) }} </td>
-				<td>{{ form_label(contact.birthdate) }}</td>
-				<td> {{ form_errors(contact.birthdate) }}
-				{{ form_widget(contact.birthdate) }} </td>
-				<td>{{ form_label(contact.birthplace) }}</td>
-				<td> {{ form_errors(contact.birthplace) }}
-				{{ form_widget(contact.birthplace) }} </td>
-			</tr>
-			<tr>
-				<td>{{ form_label(contact.email) }}</td>
-				<td> {{ form_errors(contact.email) }}
-				{{ form_widget(contact.email) }} </td>
-				<td>{{ form_label(contact.gsm) }}</td>
-				<td> {{ form_errors(contact.gsm) }}
-				{{ form_widget(contact.gsm) }} </td>
-				<td>{{ form_label(contact.phone) }}</td>
-				<td> {{ form_errors(contact.phone) }}
-				{{ form_widget(contact.phone) }} </td>
-				<td>{{ form_label(contact.niss) }}</td>
-				<td> {{ form_errors(contact.niss) }}
-				{{ form_widget(contact.niss) }} </td>
-			</tr>
-		</table>
-		<hr>
-		<table>
-			<tr>
-				<td>{{ form_label(contact.street_num) }}</td>
-				<td> {{ form_errors(contact.street_num) }}
-				{{ form_widget(contact.street_num) }} </td>
-				<td>{{ form_label(contact.city) }}</td>
-				<td> {{ form_errors(contact.city) }}
-				{{ form_widget(contact.city) }} </td>
-				<td>{{ form_label(contact.zip) }}</td>
-				<td> {{ form_errors(contact.zip) }}
-				{{ form_widget(contact.zip) }} </td>
-				<td>{{ form_label(contact.country) }}</td>
-				<td> {{ form_errors(contact.country) }}
-				{{ form_widget(contact.country) }} </td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<td>{{ form_label(contact.eid) }}</td>
-				<td> {{ form_errors(contact.eid) }}
-				{{ form_widget(contact.eid) }} </td>
-				<td>{{ form_label(contact.marital_status) }}</td>
-				<td> {{ form_errors(contact.marital_status) }}
-				{{ form_widget(contact.marital_status) }} </td>
-				</table
-				<table>
-					<td>{{ form_label(contact.income_amount) }}</td>
-					<td> {{ form_errors(contact.income_amount) }}
-					{{ form_widget(contact.income_amount) }} </td>
-					<td>{{ form_label(contact.income_recurence) }}</td>
-					<td> {{ form_errors(contact.income_recurence) }}
-					{{ form_widget(contact.income_recurence) }} </td>
-					<td>{{ form_label(contact.income_date) }}</td>
-					<td> {{ form_widget(contact.income_date) }}
-					{{ form_errors(contact.income_date) }} </td>
-			</tr>
-		</table>
+
+		{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+
+		{{ form_row(contact)}}
 		</div>
+		<hr class="list-separator">
 		{% endfor %} 
 		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
 		{% for bankproduct in form.bankproduct %}
@@ -200,6 +129,8 @@
 				id="line2"
 			{% endif %}
 		>
+			{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+
 			{{ form_row(creditproduct) }}
 
 		</div>
@@ -229,8 +160,10 @@
 			{{ form_row(savingsproduct) }}
 
 		</div>
-		{% endfor %}						
+		{% endfor %}	
+		<span class="hidden">					
 		{{ form_rest(form) }}
+		</span>
 		<input type="submit" value="Enregistrer" />
 	</form>
 

@@ -7,9 +7,6 @@
 	$(function(){
 		// Datepicker
 		$('#contact_birthdate').datepicker($.datepicker.regional["fr"]);
-		$('#contact_income_date').datepicker($.datepicker.regional["fr"]);
-
-		
 	});
 </script>
 
@@ -69,64 +66,11 @@
 			</tr>		    
 		</table>
 		</div>
-		<hr>
-		<table>
-			<tr>
-				<td>{{ form_label(form.street_num) }}</td>
-				<td>
-					{{ form_errors(form.street_num) }}
-				{{ form_widget(form.street_num) }}
-				</td>
-				<td>{{ form_label(form.city) }}</td>
-				<td>
-					{{ form_errors(form.city) }}
-				{{ form_widget(form.city) }}
-				</td>
-				<td>{{ form_label(form.zip) }}</td>
-				<td>
-					{{ form_errors(form.zip) }}
-				{{ form_widget(form.zip) }}
-				</td>
-				<td>{{ form_label(form.country) }}</td>
-				<td>
-					{{ form_errors(form.country) }}
-				{{ form_widget(form.country) }}
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<td>{{ form_label(form.eid) }}</td>
-				<td>
-					{{ form_errors(form.eid) }}
-					{{ form_widget(form.eid) }}
-				</td>
-				<td>{{ form_label(form.marital_status) }}</td>
-				<td>
-					{{ form_errors(form.marital_status) }}
-				{{ form_widget(form.marital_status) }}
-				</td>
-		</table
-		<table>		
-				<td>{{ form_label(form.income_amount) }}</td>
-				<td>
-					{{ form_errors(form.income_amount) }}
-				{{ form_widget(form.income_amount) }}
-				</td>
-				<td>{{ form_label(form.income_recurence) }}</td>
-				<td>
-					{{ form_errors(form.income_recurence) }}
-				{{ form_widget(form.income_recurence) }}
-				</td>
-				<td>{{ form_label(form.income_date) }}</td>
-				<td>
-					{{ form_widget(form.income_date) }}
-					{{ form_errors(form.income_date) }}
-				</td>
-			</tr>
-		</table>
+		<br/>
+		<div id="showcontact">
+			{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
 		    {{ form_rest(form) }}
-		<br /><br />
+		</div>
 		    <input type="submit" value="Enregistrer" />
 		</form>		
 {% endblock %}	
