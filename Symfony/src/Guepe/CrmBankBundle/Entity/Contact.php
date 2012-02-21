@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity(repositoryClass="Guepe\CrmBankBundle\Repository\ContactRepository")
+ * @ORM\Entity
  * @ORM\Table(name="contact")
  */
 class Contact
@@ -107,10 +107,6 @@ class Contact
 	 * @ORM\Column(type="integer",nullable=true)
      */
     protected $charged_people;    
-	/**
-     * @ORM\ManyToMany(targetEntity="FileLinked")
-     */    
-    protected $files;    
     
 
     //TODO:   * Enfants � charge (nombre, nom pr�nom et dates de naissance)

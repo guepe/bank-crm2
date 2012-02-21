@@ -90,7 +90,7 @@
 		</div>
 		<h2>Contacts <a href="{{ path('SelectContact',{'account_id': account.id }) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
 		{% for contact in form.contacts %}
-		<div
+		<div class="products_row"
 		{% if loop.index % 2 %} 
 				id="line1"	
 			{%else%}

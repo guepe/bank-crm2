@@ -13,9 +13,9 @@ font-family: "Trebuchet Ms", arial, verdana, sans-serif;
 }
 
 
+
 html, body {
     color: #000;
-    //font: normal 90% Tahoma, Verdana, Helvetica, Sans-Serif;
     background-color: #DDD;
     font-family: "Trebuchet Ms", arial, verdana, sans-serif;
     height: 100%;
@@ -23,6 +23,9 @@ html, body {
     
 }
 
+a img {
+	border:none;
+}
 
 
 h2 {
@@ -62,16 +65,13 @@ a:hover {
 }
 
 #page {    
-    width:100%;    
-    margin: 0 auto -10em;
     background-color: #DDD;
+    margin: 0; /* changed from 1em 5% */
 }
 
 #centerpane {
-    position:relative;
-    width: 80%;
-    margin-top:-100px;
-    margin-left: 220px;
+    padding-top: 1em;
+	margin: 1em 2em 0 200px;
     background-color: white;
 	border-width: thin;
 	border-style: inset;
@@ -100,17 +100,26 @@ a:hover {
 	bottom:0px;
     position:fixed;
     background-color: #FFF;
-	}
-
-#menu {
-	padding-top: 5px;
-    list-style: none;
-    width: 100px;
-    padding-right:30px;
-    
+    clear: both;
+}
 	
+.clearfix {
+	height:50px;
+	clear:both;
+}	
+
+div#menu {
+    list-style: none;
+    float: left;
+	width: 160px;
+	margin-left: 10px;
+	padding-top: 1em;
+	border-bottom:solid #000 thin;
 }
 
+ul#menu {
+	list-style: none;
+}
 
 .warning {
 	background-color: #FFAEAE;
@@ -186,13 +195,27 @@ a:hover {
 	padding: 0px;
 }
 
-.products_row  .cell label {
+.products_row  label {
 	display:block;
 }
 
-.product_row {
-	
+.showcontact  label {
+	display:block;
 }
+.products_row .cell {
+	display:inline; 
+	vertical-align:top;
+	border:none;
+	margin-right:1em;
+}
+
+.showcontact .cell {
+	display:inline; 
+	vertical-align:top;
+	border:none;
+	margin-right:1em;
+}
+
 
 .product-show-label {
 	font-weight:bold;
@@ -205,12 +228,7 @@ a:hover {
 	display:none;
 }
 
-.products_row .cell {
-	display:inline; 
-	vertical-align:top;
-	border:none;
-	margin-right:1em;
-}
+
 
 
 #showaccount li {

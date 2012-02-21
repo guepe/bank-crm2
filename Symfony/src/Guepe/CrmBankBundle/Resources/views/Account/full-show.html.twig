@@ -100,7 +100,7 @@
 			<span class="product-show-label">Garantie: </span> {{creditproduct.garantee }}
 			<span class="product-show-label">But: </span> {{creditproduct.purpose }}
 			<span class="product-show-label">Description:  </span> {{creditproduct.description }}
-			<span class="product-show-label">Date de paiement: </span> {{creditproduct.paymentdate|date('d/m/Y') }}
+			<span class="product-show-label">Date de paiement: </span> {{creditproduct.paymentdate }}
 			</li>
 		{% else %}
 			<p>Aucune creditproduct n'a été trouvée.</p>
@@ -129,7 +129,7 @@
 			<span class="product-show-label">Taux d'intérêt: </span> {{fiscalproduct.tauxinteret }}
 			<span class="product-show-label">Garantie: </span> {{fiscalproduct.garantee }}
 			<span class="product-show-label">Description:  </span> {{fiscalproduct.description }}
-			<span class="product-show-label">Date de paiement: </span> {{fiscalproduct.paymentdate|date('d/m/Y') }}
+			<span class="product-show-label">Date de paiement: </span> {{fiscalproduct.paymentdate}}
 			<span class="product-show-label">Reserve:  </span> {{fiscalproduct.reserve }}
 			<span class="product-show-label">Date de réserve: </span> {{fiscalproduct.reservedate|date('d/m/Y') }}
 			</li>
@@ -162,8 +162,7 @@
 			<span class="product-show-label">Durée: </span> {{savingsproduct.duration }}
 			<span class="product-show-label">Garantie: </span> {{savingsproduct.garantee }}
 			<span class="product-show-label">Description:  </span> {{savingsproduct.description }}
-			<span class="product-show-label">Date de paiement: </span> {{savingsproduct.paymentdate|date('d/m/Y') }}
-			<span class="product-show-label">Echéance de paiement: </span> {{savingsproduct.paymentdate }}
+			<span class="product-show-label">Date de paiement: </span> {{savingsproduct.paymentdate }}
 			<span class="product-show-label">Reserve:  </span> {{savingsproduct.reserve }}
 			<span class="product-show-label">Date de réserve: </span> {{savingsproduct.reservedate|date('d/m/Y') }}
 			</li>

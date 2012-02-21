@@ -3,11 +3,10 @@
 
 namespace Guepe\CrmBankBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Guepe\CrmBankBundle\DBAL;
 
 
 /**
- * @ORM\Entity(repositoryClass="Guepe\CrmBankBundle\Repository\AccountRepository")
+ * @ORM\Entity
  * @ORM\Table(name="account")
  */
 class Account
