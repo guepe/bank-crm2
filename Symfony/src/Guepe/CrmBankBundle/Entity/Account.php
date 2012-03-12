@@ -87,7 +87,6 @@ class Account
     public function __construct()
     {
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->metaproduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->bankproduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->creditproduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->fiscalproduct = new \Doctrine\Common\Collections\ArrayCollection();
