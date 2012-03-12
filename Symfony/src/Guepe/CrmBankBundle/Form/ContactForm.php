@@ -25,6 +25,7 @@ class ContactForm extends AbstractType
             ->add('birthdate','birthday',array("label" => "Date de naissance", 'required' => false, 'widget' => 'single_text','format' => 'dd/MM/yyyy'))
             ->add('eid','text',array("label" => "Numéro de carte d'identité", 'required' => false))
             ->add('niss','text',array("label" => "Numéro nationnal", 'required' => false))
+            ->add('profession','text',array("label" => "Profession", 'required' => false))
             ->add('marital_status','choice',array("label" => "Statut marital", 'required' => false, 'choices' =>
             	 array(
             	 'single' => 'célibataire',

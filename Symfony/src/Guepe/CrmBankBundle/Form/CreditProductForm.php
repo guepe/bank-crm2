@@ -13,7 +13,7 @@ class CreditProductForm extends AbstractType {
 										'PAT' => 'PAT', 'PATP' => 'PATP',
 										'CI' => 'CI', 'VAI' => 'VAI',
 										'Caisse' => 'Caisse', 'SL' => 'SL',
-								)))
+								), 'required' => false))
 				->add('references', null, array("label" => "Références", 'required' => false))
 				->add('number', null, array("label" => "Numéro de compte", 'required' => false))
 				->add('company', null, array("label" => "Organisme", 'required' => false))

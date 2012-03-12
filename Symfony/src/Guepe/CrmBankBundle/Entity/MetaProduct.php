@@ -19,7 +19,7 @@ class MetaProduct {
 	 */
 	protected $id;
 	/**
-	 * @ORM\Column(name="number",type="string", length=100)
+	 * @ORM\Column(name="number",type="string", length=100,nullable=true)
 	 */
 	protected $Number;
 	/**
@@ -27,11 +27,11 @@ class MetaProduct {
 	 */ 
 	protected $Category;
 	/**
-	 * @ORM\ManyToMany(targetEntity="Account", mappedBy="metaproduct")
+	 * @ORM\ManyToMany(targetEntity="Account")
 	 */
 	protected $account;
 	/**
-	 * @ORM\Column(name="type",type="string", length=100)
+	 * @ORM\Column(name="type",type="string", length=100,nullable=true)
 	 */
 	protected $Type;
 
