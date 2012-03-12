@@ -1,6 +1,6 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
-{% block title %}Edit/add des account{% endblock %}
+{% block title %}Gestion des comptes{% endblock %}
 		
 {% block warning %}
 	{% if message %}
@@ -9,17 +9,6 @@
 {% 	endblock %}
 
 {% block content %}
-
-<script>
-	jQuery(document).ready(function(){
-	$('#accordion h2').click(function() {
-		$(this).next().toggle('fast');
-		return false;
-	}).next().hide();
-	});
-	
-</script>
-
 
 {% if account|length > 0 %}		
 		<div id="showaccount"> 
@@ -32,145 +21,208 @@
 		<br/>
 		<div id="accordion">
 
-		<h2>Contacts </h2>
-		<div>
-		<ul> 
+		<h2>Contacts <a href="{{ path('SelectContact',{'account_id': account.id }) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
 		{% for contact in account.contacts %}
-			<li
+			<div
 			{% if loop.index % 2 %} 
 				id="line1"	
 			{%else%}
 				id="line2"
 			{% endif %}
 			>{{contact.firstname}} {{contact.lastname}} <a href=" {{path('ShowContact',{'id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>
-			<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></li>
+			<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a>
+			</div>
 		{% else %}
 			<p>Aucune contacts n'a été trouvé.</p>
 		{% endfor %}
-		</ul>
-		</div>
-		<h2>Produits Banquaires</h2>
-		<div>
-		<ul>
+		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<table class="product-show-table">
+			<tr class="product-show-label">
+				<th>Type:</th>
+				<th>Références:</th>
+				<th>Numéro de compte:</th>
+				<th>Organisme: </th>
+				<th>Montant: </th>
+				<th>Notes: </th>
+				<th>Taux d'intérêt: </th>
+				<th>Description: </th>
+				<th></th>
+			</tr>
 		{% for bankproduct in account.bankproduct %}
-			<li
+			<tr 
 			{% if loop.index % 2 %} 
 				id="line1"				
 			{%else%}
 				id="line2"
 			{% endif %}
 			>
-			<span class="product-show-label">Type:</span> {{bankproduct.type }}
-			<span class="product-show-label">Références:</span> {{bankproduct.references }}
-			<span class="product-show-label">Numéro de compte:</span> {{bankproduct.number }}
-			<span class="product-show-label">Organisme: </span> {{bankproduct.company }}
-			<span class="product-show-label">Montant: </span> {{bankproduct.amount }}
-			<span class="product-show-label">Notes: </span> {{bankproduct.notes }}
-			<span class="product-show-label">Taux d'intérêt: </span> {{bankproduct.tauxinteret }}
-			<span class="product-show-label">Description:  </span> {{bankproduct.description }}
-			</li>
+				<td>{{bankproduct.type }}</td>
+				<td>{{bankproduct.references }}</td>
+				<td>{{bankproduct.number }}</td>
+				<td>{{bankproduct.company }}</td>
+				<td>{{bankproduct.amount }}</td>
+				<td>{{bankproduct.notes }}</td>
+				<td>{{bankproduct.tauxinteret }}</td>
+				<td> {{bankproduct.description }}</td>
+				<td><a href="{{path('DeleteProduct',{'id':account.id,'product_id': bankproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+			</tr>
 		{% else %}
-			<p>Aucune bankproduct n'a été trouvée.</p>
+			<tr><td colspan="9" class="no_data">Aucun Produits Bancaires n'a été trouvé.</td></tr>
 		{% endfor %}
-		</ul>
-		</div>
-		<h2>Produits Crédit</h2>
-		<div>
-		<ul>
+		</table>
+		<h2>Produits Crédit <a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<table class="product-show-table">
+			<tr class="product-show-label">
+				<th>Type:</th> 
+				<th>Références:</th> 
+				<th>Numéro de compte:</th>
+				<th>Organisme: </th> 
+				<th>Montant: </th> 
+				<th>Date de début: </th>
+				<th>Date de fin: </th>
+				<th>Notes: </th> 
+				<th>Montant mensualité: </th> 
+				<th>Taux d'intérêt: </th> 
+				<th>Durée: </th> 
+				<th>Variabilité: </th> 
+				<th>Garantie: </th> 
+				<th>But: </th> 
+				<th>Description:  </th> 
+				<th>Date de paiement: </th>
+				<th></th>
+			</tr>
 		{% for creditproduct in account.creditproduct %}
-			<li
+			<tr
 			{% if loop.index % 2 %} 
 				id="line1"				
 			{%else%}
 				id="line2"
 			{% endif %}
 			>
-			<span class="product-show-label">Type:</span> {{creditproduct.type }}
-			<span class="product-show-label">Références:</span> {{creditproduct.references }}
-			<span class="product-show-label">Numéro de compte:</span> {{creditproduct.number }}
-			<span class="product-show-label">Organisme: </span> {{creditproduct.company }}
-			<span class="product-show-label">Montant: </span> {{creditproduct.amount }}
-			<span class="product-show-label">Date de début: </span> {{creditproduct.startdate|date('d/m/Y') }}
-			<span class="product-show-label">Date de fin: </span> {{creditproduct.enddate|date('d/m/Y') }}
-			<span class="product-show-label">Notes: </span> {{creditproduct.notes }}
-			<span class="product-show-label">Montant mensualité: </span> {{creditproduct.recurrentprimeamount }}
-			<span class="product-show-label">Taux d'intérêt: </span> {{creditproduct.tauxinteret }}
-			<span class="product-show-label">Durée: </span> {{creditproduct.duration }}
-			<span class="product-show-label">Variabilité: </span> {{creditproduct.variability }}
-			<span class="product-show-label">Garantie: </span> {{creditproduct.garantee }}
-			<span class="product-show-label">But: </span> {{creditproduct.purpose }}
-			<span class="product-show-label">Description:  </span> {{creditproduct.description }}
-			<span class="product-show-label">Date de paiement: </span> {{creditproduct.paymentdate }}
-			</li>
+				<td> {{creditproduct.type }}</td>
+				<td> {{creditproduct.references }}</td>
+				<td> {{creditproduct.number }}</td>
+				<td>{{creditproduct.company }}</td>
+				<td>{{creditproduct.amount }}</td>
+				<td>{{creditproduct.startdate|date('d/m/Y') }}</td>
+				<td>{{creditproduct.enddate|date('d/m/Y') }}</td>
+				<td>{{creditproduct.notes }}</td>
+				<td>{{creditproduct.recurrentprimeamount }}</td>
+				<td>{{creditproduct.tauxinteret }}</td>
+				<td> {{creditproduct.duration }}</td>
+				<td>{{creditproduct.variability }}</td>
+				<td>{{creditproduct.garantee }}</td>
+				<td>{{creditproduct.purpose }}</td>
+				<td>{{creditproduct.description }}</td>
+				<td>{{creditproduct.paymentdate }}</td>
+				<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': creditproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+
+			</tr>
 		{% else %}
-			<p>Aucune creditproduct n'a été trouvée.</p>
+			<tr><td colspan="17" class="no_data">Aucune Produits Crédits n'a été trouvé.</td></tr>
 		{% endfor %}
-		</ul>
-		</div>
-		<h2>Produits Fiscal</h2>
-		<div>
-		<ul>
+		</table>
+		<h2>Produits Fiscal <a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<table class="product-show-table">
+			<tr class="product-show-label">
+				<th>Type:</th> 
+				<th>Références:</th> 
+				<th>Numéro de compte:</th> 
+				<th>Organisme: </th> 
+				<th>Date de début: </th> 
+				<th>Date de fin: </th> 
+				<th>Notes: </th> 
+				<th>Montant prime annuelle: </th> 
+				<th>Taux d'intérêt: </th>
+				<th>Garantie: </th> 
+				<th>Description:  </th> 
+				<th>Date de paiement: </th> 
+				<th>Reserve:  </th>
+				<th>Date de réserve: </th> 
+				<th></th>
+			</tr>
 		{% for fiscalproduct in account.fiscalproduct %}
-			<li
+			<tr
 			{% if loop.index % 2 %} 
 				id="line1"				
 			{%else%}
 				id="line2"
 			{% endif %}
 			>
-			<span class="product-show-label">Type:</span> {{fiscalproduct.type }}
-			<span class="product-show-label">Références:</span> {{fiscalproduct.references }}
-			<span class="product-show-label">Numéro de compte:</span> {{fiscalproduct.number }}
-			<span class="product-show-label">Organisme: </span> {{fiscalproduct.company }}
-			<span class="product-show-label">Date de début: </span> {{fiscalproduct.startdate|date('d/m/Y') }}
-			<span class="product-show-label">Date de fin: </span> {{fiscalproduct.enddate|date('d/m/Y') }}
-			<span class="product-show-label">Notes: </span> {{fiscalproduct.notes }}
-			<span class="product-show-label">Montant prime annuelle: </span> {{fiscalproduct.recurrentprimeamount }}
-			<span class="product-show-label">Taux d'intérêt: </span> {{fiscalproduct.tauxinteret }}
-			<span class="product-show-label">Garantie: </span> {{fiscalproduct.garantee }}
-			<span class="product-show-label">Description:  </span> {{fiscalproduct.description }}
-			<span class="product-show-label">Date de paiement: </span> {{fiscalproduct.paymentdate}}
-			<span class="product-show-label">Reserve:  </span> {{fiscalproduct.reserve }}
-			<span class="product-show-label">Date de réserve: </span> {{fiscalproduct.reservedate|date('d/m/Y') }}
-			</li>
+				 <td>{{fiscalproduct.type }}</td>
+				 <td>{{fiscalproduct.references }}</td>
+				 <td>{{fiscalproduct.number }}</td>
+				 <td>{{fiscalproduct.company }}</td>
+				 <td>{{fiscalproduct.startdate|date('d/m/Y') }}</td>
+				 <td>{{fiscalproduct.enddate|date('d/m/Y') }}</td>
+				 <td>{{fiscalproduct.notes }}</td>
+				 <td>{{fiscalproduct.recurrentprimeamount }}</td>
+				 <td>{{fiscalproduct.tauxinteret }}</td>
+				 <td>{{fiscalproduct.garantee }}</td>
+				 <td>{{fiscalproduct.description }}</td>
+				 <td>{{fiscalproduct.paymentdate}}</td>
+				 <td>{{fiscalproduct.reserve }}</td>
+				 <td>{{fiscalproduct.reservedate|date('d/m/Y') }}</td>
+				 <td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': fiscalproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+			</tr>
 		{% else %}
-			<p>Aucune fiscalproduct n'a été trouvée.</p>
+			<tr><td colspan="15" class="no_data">Aucune Produits Fiscal n'a été trouvé.</td></tr>
 		{% endfor %}
-		</ul>
-		</div>
-		<h2>Produits Epargnes</h2>
-		<div>
-		<ul>
+		</table>
+		<h2>Produits Epargnes <a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<table class="product-show-table">
+			<tr class="product-show-label">
+				<th>Type:</th>
+				<th>Prime:</th> 
+				<th>Références:</th> 
+				<th>Numéro de compte:</th> 
+				<th>Organisme: </th> 
+				<th>Montant: </th> 
+				<th>Date de début: </th>
+				<th>Date de fin: </th>
+				<th>Notes: </th>
+				<th>Capital à terme: </th>
+				<th>Taux d'intérêt: </th> 
+				<th>Durée: </th> 
+				<th>Garantie: </th>
+				<th>Description:  </th> 
+				<th>Date de paiement: </th> 
+				<th>Reserve:  </th>
+				<th>Date de réserve: </th> 
+				<th></th>
+			</tr>
 		{% for savingsproduct in account.savingsproduct %}
-			<li
+			<tr
 			{% if loop.index % 2 %} 
 				id="line1"				
 			{%else%}
 				id="line2"
 			{% endif %}
 			>
-			<span class="product-show-label">Type:</span> {{savingsproduct.type }}
-			<span class="product-show-label">Références:</span> {{savingsproduct.references }}
-			<span class="product-show-label">Numéro de compte:</span> {{savingsproduct.number }}
-			<span class="product-show-label">Organisme: </span> {{savingsproduct.company }}
-			<span class="product-show-label">Montant: </span> {{savingsproduct.amount }}
-			<span class="product-show-label">Date de début: </span> {{savingsproduct.startdate|date('d/m/Y') }}
-			<span class="product-show-label">Date de fin: </span> {{savingsproduct.enddate|date('d/m/Y') }}
-			<span class="product-show-label">Notes: </span> {{savingsproduct.notes }}
-			<span class="product-show-label">Capital à terme: </span> {{savingsproduct.capitalterme }}
-			<span class="product-show-label">Taux d'intérêt: </span> {{savingsproduct.tauxinteret }}
-			<span class="product-show-label">Durée: </span> {{savingsproduct.duration }}
-			<span class="product-show-label">Garantie: </span> {{savingsproduct.garantee }}
-			<span class="product-show-label">Description:  </span> {{savingsproduct.description }}
-			<span class="product-show-label">Date de paiement: </span> {{savingsproduct.paymentdate }}
-			<span class="product-show-label">Reserve:  </span> {{savingsproduct.reserve }}
-			<span class="product-show-label">Date de réserve: </span> {{savingsproduct.reservedate|date('d/m/Y') }}
-			</li>
+			 <td>{{savingsproduct.type }}</td>
+ 			 <td>{{savingsproduct.primerecurence }}</td>
+			 <td>{{savingsproduct.references }}</td>
+			 <td>{{savingsproduct.number }}</td>
+			 <td>{{savingsproduct.company }}</td>
+			 <td>{{savingsproduct.amount }}</td>
+			 <td>{{savingsproduct.startdate|date('d/m/Y') }}</td>
+			 <td>{{savingsproduct.enddate|date('d/m/Y') }}</td>
+			 <td>{{savingsproduct.notes }}</td>
+			 <td>{{savingsproduct.capitalterme }}</td>
+			 <td>{{savingsproduct.tauxinteret }}</td>
+			 <td>{{savingsproduct.duration }}</td>
+			 <td>{{savingsproduct.garantee }}</td>
+			 <td>{{savingsproduct.description }}</td>
+			 <td>{{savingsproduct.paymentdate }}</td>
+			 <td>{{savingsproduct.reserve }}</td>
+			 <td>{{savingsproduct.reservedate|date('d/m/Y') }}</td>
+			<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': savingsproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+
+			</tr>
 		{% else %}
-			<p>Aucune savingsproduct n'a été trouvée.</p>
+			<tr><td colspan="17" class="no_data">Aucune Produits de Placement n'a été trouvé.</td></tr>
 		{% endfor %}
-		</ul>
-		</div>
+		</table>
 		</div>
 
 		</div>
