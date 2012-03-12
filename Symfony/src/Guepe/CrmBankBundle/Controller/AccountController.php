@@ -64,7 +64,6 @@ class AccountController extends Controller
 	 /**
 	* @Route("/addcontact/{id}/{contact_id}", name="AddContactToAccount")
 	*/
-	//TODO: Change the template
 	
 	public function addcontactAction($id=null,$contact_id=null) {
 		$message = "";
@@ -87,6 +86,10 @@ class AccountController extends Controller
 				$account->addContact($contact);
 				$em->persist($contact);
 				$em->flush();
+				
+				return $this->redirect($this->generateUrl('ShowAccount', array('id' => $account->getId())));
+				
+				
 			}
 		}
 		return $this->container->get('templating')->renderResponse(
@@ -98,9 +101,8 @@ class AccountController extends Controller
 	}
 
 	/**
-	* @Route("delete/{contact_id}", name="DeleteContact")
+	* @Route("/deletecontact/{id}/{contact_id}", name="DeleteContact")
 	*/
-	//TODO: Change the template or redirect
 	
 	public function deletecontactAction($id=null,$contact_id=null) {
 		$message = "";
@@ -122,8 +124,49 @@ class AccountController extends Controller
 			} else {
 				$em->remove($contact);
 				$em->flush();
+				
+				return $this->redirect($this->generateUrl('ShowAccount', array('id' => $account->getId())));
 			}
 		}
+		return $this->container->get('templating')->renderResponse(
+			'GuepeCrmBankBundle:Account:show.html.twig',
+		array(
+		  'account' => $account,
+		  'message' => $message,
+		));
+	}
+	
+	
+/**
+	* @Route("/deleteproduct/{id}/{product_id}", name="DeleteProduct")
+	*/
+	
+	public function deleteProductAction($id=null,$product_id=null) {
+		$message = "";
+      	$em = $this->container->get('doctrine')->getEntityManager();
+		if (isset($id)) 
+		{
+			$account = $em->find('GuepeCrmBankBundle:Account', $id);
+			if (!$account)
+			{
+				$message='Aucun account trouvé';
+			}
+		}
+		if (isset($product_id)) 
+		{
+			$Product = $em->find('GuepeCrmBankBundle:MetaProduct', $product_id);
+			if (!$Product)
+			{
+				$message='Aucun Produit trouvé';
+			} else {
+				$em->remove($Product);
+				$em->flush();
+
+				return $this->redirect($this->generateUrl('ShowAccount', array('id' => $account->getId())));
+				
+			}
+		}
+				
 		return $this->container->get('templating')->renderResponse(
 			'GuepeCrmBankBundle:Account:show.html.twig',
 		array(
