@@ -85,6 +85,10 @@ class Contact
 	 * @ORM\Column(type="string", length=100,nullable=true)
      */
     protected $niss;
+     /**
+	 * @ORM\Column(type="string", length=100,nullable=true)
+     */
+    protected $profession;
     /**
 	 * @ORM\Column(type="integer",nullable=true)
      */
@@ -564,5 +568,25 @@ class Contact
     public function getPhone2()
     {
         return $this->phone2;
+    }
+
+    /**
+     * Set profession
+     *
+     * @param string $profession
+     */
+    public function setProfession($profession)
+    {
+        $this->profession = $profession;
+    }
+
+    /**
+     * Get profession
+     *
+     * @return string 
+     */
+    public function getProfession()
+    {
+        return $this->profession;
     }
 }
