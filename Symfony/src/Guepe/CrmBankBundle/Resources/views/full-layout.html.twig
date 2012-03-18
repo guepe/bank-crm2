@@ -32,38 +32,42 @@
 			});
 			
 			
-				function mainmenu(){
-				$(" #nav ul ").css({display: "none"}); // Opera Fix
-				$(" #nav li").hover(function(){
-						$(this).find('ul:first').css({visibility: "visible",display: "none"}).show(400);
-						},function(){
-						$(this).find('ul:first').css({visibility: "hidden"});
-						});
-				}
-				
-				 $(document).ready(function(){
-					mainmenu();
-				});
-				
+
+		sfHover = function() {
+        var sfEls = document.getElementById("menu").getElementsByTagName("li");
+        for (var i=0; i<sfEls.length; i++) {
+                sfEls[i].onmouseover=function() {
+                        this.className+=" sfhover";
+                }
+                sfEls[i].onmouseout=function() {
+                        this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+                }
+        }
+		}
+		if (window.attachEvent) window.attachEvent("onload", sfHover);
 		</script>
     
     </head>
     <body>
         <div id="page">
             <div id="header">
-				<ul id="Nav">
+				<ul id="menu">
 				    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
-					<li><a href="{{ path('AllAccounts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts</a>
+					<li>
+						<a href="{{ path('AllAccounts') }}">
+							<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts
+						</a>
 						<ul>
 							<li><a href="{{ path('AddAccount') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Accounts</a> </li>
-					    	
 						</ul>
 					</li>
 					<li>
-						<a href="{{ path('AllContacts') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts</a>
-					<ul>
-						<li><a href="{{ path('AddContact') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Contact</a></li>
-					</ul>
+						<a href="{{ path('AllContacts') }}">
+							<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts
+							</a>
+						<ul>
+							<li><a href="{{ path('AddContact') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Contact</a></li>
+						</ul>
 					</li>
 		        </ul>
 	        </div>
