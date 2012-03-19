@@ -129,16 +129,7 @@ a:hover {
 
 
 
-#header {
-    margin-top: 0px;
-    width:100%;
-    background-color: #234098;
-    height: 30px;
-    padding-left:5px;
-    border-bottom: medium solid #57afe6;
-    font-size: large;	
-    vertical-align: middle;    
-}
+
 
 #header a {
 	color:white;
@@ -298,13 +289,31 @@ div .list-big-element {
 }
 
 
+#header {
+    margin: 0;
+    width:100%;
+    background-color: #234098;
+    height: 30px;
+    padding-left:0 0 0 5px  ;
+    border-bottom: medium solid #57afe6;
+    font-weight : bold; /* on met le texte en gras */
+    font-family : Arial; /* on utilise Arial, c'est plus beau ^^ */
+    font-size : 12px; /* hauteur du texte : 12 pixels */
+}
+
+#menu img {
+	border:none;
+	padding:0;
+	margin:0;
+	vertical-align:middle;	
+}
 
 #menu, #menu ul /* Liste */     
 {
         padding : 0; /* pas de marge intérieure */
         margin : 0; /* ni extérieure */
         list-style : none; /* on supprime le style par défaut de la liste */
-        line-height : 21px; /* on définit une hauteur pour chaque élément */
+        line-height : 30px; /* on définit une hauteur pour chaque élément */
         text-align : center; /* on centre le texte qui se trouve dans la liste */
 }
 
