@@ -52,7 +52,7 @@ class MetaProduct {
 	 */
 	protected $Company;
 	/**
-	 * @ORM\Column(name="taux_interet",type="smallint",nullable=true)
+	 * @ORM\Column(name="taux_interet",type="decimal",precision="10",scale="2",nullable=true)
 	 */
 	protected $TauxInteret;
 

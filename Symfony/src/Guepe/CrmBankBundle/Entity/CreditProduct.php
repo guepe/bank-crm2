@@ -32,11 +32,11 @@ class CreditProduct extends MetaProduct {
 	 */
 	protected $Duration;
 	/**
-	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",nullable="true")
+	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $RecurrentPrimeAmount;
 	/**
-	 * @ORM\Column(name="amount",type="decimal",nullable=true)
+	 * @ORM\Column(name="amount",type="decimal",precision="10",scale="4",nullable=true)
 	 */
 	protected $Amount;
 

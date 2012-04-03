@@ -12,11 +12,11 @@ class FiscalProduct extends MetaProduct {
 	 */
 	protected $id;
 	/**
-	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",nullable="true")
+	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $RecurrentPrimeAmount;
 	/**
-	 * @ORM\Column(name="capital_terme",type="decimal",nullable="true")
+	 * @ORM\Column(name="capital_terme",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $CapitalTerme;
 	/**
@@ -32,7 +32,7 @@ class FiscalProduct extends MetaProduct {
 	 */
 	protected $PaymentDeadline;
 	/**
-	 * @ORM\Column(name="reserve",type="decimal",nullable="true")
+	 * @ORM\Column(name="reserve",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $Reserve;
 	/**

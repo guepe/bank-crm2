@@ -12,7 +12,7 @@ class BankProduct extends MetaProduct {
 	 */
 	protected $id;
 	/**
-	 * @ORM\Column(name="amount",type="decimal",nullable=true)
+	 * @ORM\Column(name="amount",type="decimal",precision="10",scale="4",nullable=true)
 	 */
 	protected $Amount;
 

@@ -16,11 +16,11 @@ class SavingsProduct extends MetaProduct {
 	 */
 	protected $PrimeRecurence;
 	/**
-	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",nullable="true")
+	 * @ORM\Column(name="recurrent_prime_amount",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $RecurrentPrimeAmount;
 	/**
-	 * @ORM\Column(name="amount",type="decimal",nullable=true)
+	 * @ORM\Column(name="amount",type="decimal",precision="10",scale="4",nullable=true)
 	 */
 	protected $Amount;
 
@@ -29,11 +29,11 @@ class SavingsProduct extends MetaProduct {
 	 */
 	protected $Duration;
 	/**
-	 * @ORM\Column(name="capital_terme",type="decimal",nullable="true")
+	 * @ORM\Column(name="capital_terme",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $CapitalTerme;
 	/**
-	 * @ORM\Column(name="garantee",type="text",nullable=true)
+	 * @ORM\Column(name="garantee",type="text",precision="10",scale="'",nullable=true)
 	 */
 	protected $Garantee;
 	/**
@@ -45,7 +45,7 @@ class SavingsProduct extends MetaProduct {
 	 */
 	protected $PaymentDeadline;
 	/**
-	 * @ORM\Column(name="reserve",type="decimal",nullable="true")
+	 * @ORM\Column(name="reserve",type="decimal",precision="10",scale="4",nullable="true")
 	 */
 	protected $Reserve;
 	/**
