@@ -308,6 +308,8 @@ div .list-big-element {
 	vertical-align:middle;	
 }
 
+
+
 #menu, #menu ul /* Liste */     
 {
         padding : 0; /* pas de marge intérieure */
@@ -341,6 +343,8 @@ div .list-big-element {
         /* pour IE qui ne reconnaît pas "transparent" */
         border-right : 1px solid #234098; /* on met une bordure blanche à droite de chaque élément */
 }
+
+
 
 /* IE ne reconnaissant pas le sélecteur ">" */
 html>body #menu li
@@ -399,7 +403,10 @@ html>body #menu li ul ul
         min-height: 0; /* Corrige un bug sous IE */
 }
 
-
+.login {
+	position: absolute;
+	right:10px;	
+}
 
 
 
