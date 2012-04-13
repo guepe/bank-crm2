@@ -57,7 +57,7 @@
 					{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 					<li>
 						<a href="{{ path('AllAccounts') }}">
-							<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts
+							<img valign="middle" alt="New Accounts" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts
 						</a>
 						<ul>
 							<li><a href="{{ path('AddAccount') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Accounts</a> </li>
@@ -77,11 +77,16 @@
 				 	<li>
 				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 				    {{ 'layout.logged_in_as' |trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+				  
 				   </li>
 				   <li>
 				    <a href="{{ path('fos_user_security_logout') }}">
 				        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
 				    </a>
+				      <ul>
+				    	<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
+				    	<li><a href="{{ path('fos_user_change_password') }}">Mot de passe</a></li>
+				     </ul>
 				{% else %}
 				    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
 				{% endif %}

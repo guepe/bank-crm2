@@ -22,19 +22,46 @@
 		<div id="accordion">
 
 		<h2>Contacts <a href="{{ path('SelectContact',{'account_id': account.id }) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
+		<table class="product-show-table">
+			<tr class="product-show-label">
+				<th>Prénom:</th>
+				<th>Nom:</th>
+				<th>Adresse:</th>
+				<th>Ville: </th>
+				<th>Code Postal: </th>
+				<th>Pays: </th>
+				<th>Email: </th>
+				<th>Tél: </th>
+				<th>GSM:</th>
+				<th></th>
+			</tr>
 		{% for contact in account.contacts %}
-			<div
+			<tr
 			{% if loop.index % 2 %} 
-				id="line1"	
+				id="line1"		
 			{%else%}
 				id="line2"
 			{% endif %}
-			>{{contact.firstname}} {{contact.lastname}} <a href=" {{path('ShowContact',{'id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>
-			<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a>
-			</div>
+			>
+			<td>{{contact.firstname}}</td>
+			<td>{{contact.lastname}}</td>
+			<td>{{contact.streetnum}}</td>
+			<td>{{contact.city}}</td>
+			<td>{{contact.zip}}</td>
+			<td>{{contact.country}}</td>
+			<td>{{contact.email}}</td>
+			<td>{{contact.phone}}</td>
+			<td>{{contact.gsm}}</td>
+
+			<td>
+				<a href=" {{path('ShowContact',{'id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>
+				<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a>
+			</td>
+			</tr>
 		{% else %}
-			<p>Aucune contacts n'a été trouvé.</p>
+			<tr><td colspan="9" class="no_data">Aucun  Contacts n'a été trouvé.</td></tr>		
 		{% endfor %}
+		</table>
 		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
 		<table class="product-show-table">
 			<tr class="product-show-label">
