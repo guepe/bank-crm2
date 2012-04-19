@@ -1,16 +1,40 @@
 {% for cat in accounts %}
-	<div class="list-big-element">&nbsp;<img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/account-list.png') }}" > {{ cat.name }}    <a href="{{ path('ShowAccount',{'id': cat.id}) }}"><img src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>  <a href="{{ path('EditAccount',{'id': cat.id}) }}"><img src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a>
-	</div>
-	<p class="show-list">
-	<strong>Statut:</strong> {{ cat.companystatut }}
-	<strong>Type: </strong>{{ cat.type }}
-	<strong>Début de la relation: </strong>{{ cat.startingdate|date('d/m/Y') }}
-	<strong>Autre Banque: </strong> {{ cat.otherbank }}
-	<br/>
-	<strong>Addresse: </strong> {{ cat.streetnum }} {{ cat.zip }} {{ cat.city }} {{ cat.country }}
-	<br/><br/>
-	<strong>Notes: </strong>{{ cat.notes }}
-	</p>
+
+	<table class="table table-striped table-bordered table-condensed">
+	<thead>
+		<tr>
+			<th colspan="5" class="block_head">
+				<img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/account-list.png') }}" > 
+				<a href="{{ path('ShowAccount',{'id': cat.id}) }}">{{ cat.name }}</a>
+	
+			<div class="btn-group pull-right">
+		 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+		 	   Action
+		 	   <span class="caret"></span>
+		 	 </a>
+			  <ul class="dropdown-menu">
+				<li><a href="{{ path('ShowAccount',{'id': cat.id}) }}"><i class="icon-eye-open"></i> Afficher</a></li>
+				<li><a href="{{ path('EditAccount',{'id': cat.id}) }}"><i class="icon-pencil"></i> Modifier</a></li>	  </ul>
+			</div>
+			</th>
+		</tr>
+		<tr>
+			<th>Status</th>
+			<th>Type</th>
+			<th>Début de la relation</th>
+			<th>Autres Banques</th>
+			<th>Adresse</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ cat.companystatut }}</td>
+			<td>{{ cat.type }}</td>
+			<td>{{ cat.startingdate|date('d/m/Y') }}</td>
+			<td>{{ cat.otherbank }}</td>
+			<td>{{ cat.streetnum }} {{ cat.zip }} {{ cat.city }} {{ cat.country }}</td>
+		</tr>
+	</tbody>
+	</table>
 	
 {% else %}
 	{% block warning %}

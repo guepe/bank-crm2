@@ -4,28 +4,17 @@
 
 {% block content %}
 
-<div id="home">
+<div class="hero-unit">
+		<h1><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/bank-crm.png') }}" ></h1>
 	
-	<center>
-	<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/bank-crm.png') }}" >
-	</center>
-	<br/>
-	<div class="div-round-border">
+<div class="alert alert-block alert-info fade in">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>	
 		<h2>A venir</h2>
+	<p>	
 		<ul>
-			<li>DONE: Finalisation des produits (détail des champs)</li>
-			<li>DONE: Impression de fiches complète</li>
-			<li>DONE: Gestion avancée des utilisateurs</li>
-			<li>DONE: Suppression des produits, contacts</li>
 			<li>Intégration de documents</li>
-	</div>
-	<br/>
-	<div style="height:100px; background-image:url('{{ asset('bundles/guepecrmbank/images/peoples.jpg') }}')">
-		&nbsp;
-	</div>
-
-
-	
+		</ul>
+	</p>
 </div>
-
+</div>
 {% endblock %}

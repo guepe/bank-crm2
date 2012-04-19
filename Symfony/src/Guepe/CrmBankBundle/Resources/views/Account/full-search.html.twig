@@ -4,11 +4,11 @@
 
 {% block content %}
 		
-<form id="form_recherche" action="{{ path('SearchAccount') }}" method="post">
+<form id="form_recherche" action="{{ path('SearchAccount') }}" method="post" class="well form-search">
 	<table><tr>
 	<td>{{ form_label(form.motcle) }}</td>
 				<td> {{ form_errors(form.motcle) }}
-				{{ form_widget(form.motcle) }} </td>
+				{{ form_widget(form.motcle,{'attr': {'class': 'input-medium search-query'}}) }} </td>
 		{{ form_rest(form) }}
 	<td><input type="submit" value="Rechercher" /></td>
 	</tr></table>
