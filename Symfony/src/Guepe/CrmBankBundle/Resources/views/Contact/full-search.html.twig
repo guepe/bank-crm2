@@ -4,11 +4,11 @@
 
 {% block content %}
 		
-<form id="form_recherche" action="{{ path('SearchContact') }}" method="post">
+<form id="form_recherche" action="{{ path('SearchContact') }}" method="post" class="well form-search">
 	<table><tr>
 		<td>{{ form_label(form.lastname) }}</td>
 		<td> {{ form_errors(form.lastname) }}
-		{{ form_widget(form.lastname) }} </td>
+		{{ form_widget(form.lastname,{'attr': {'class': 'input-medium search-query'}}) }} </td>
 		<input type="hidden" name="contactsearch_account_id" id="contactsearch_account_id" value="{{ account_id }}">
 		
 		{{ form_rest(form) }}

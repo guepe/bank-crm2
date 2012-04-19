@@ -2,8 +2,123 @@
 <html lang="fr">
 	    <head>
         <title>{% block title %}Bank CRM{% endblock %}</title>
-        <meta charset=utf-8" />
-        <link rel="stylesheet" href="{{ asset('bundles/guepecrmbank/css/main.css') }}" type="text/css" media="screen" />
+        <meta charset="utf-8">
+       <script type="text/javascript">
+		  var uvOptions = {};
+		  (function() {
+		    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+		    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/JTCk1bj0bGfhVZvDZ099qg.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+		  })();
+		</script>
+        <link rel="stylesheet" href="{{ asset('bundles/guepecrmbank/bootstrap/css/bootstrap.css') }}" type="text/css" media="screen" />
+        <link rel="stylesheet" href="{{ asset('bundles/guepecrmbank/bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="screen" />
+
+		<style type="text/css">
+	      body {
+	        padding-top: 60px;
+	        padding-bottom: 40px;
+	      }
+	      
+	   .red {
+	   	background-color: #FFAEAE;
+	   } 
+	      
+	      /*tests*/
+	      
+	    .block_head {
+			background-image: url(https://secure.fleetio.com/assets/adminus/bhead-af583633b37aeff953afe42e9450cbf6.gif);
+			background-repeat-x: repeat;
+			background-repeat-y: no-repeat;
+			background-attachment: initial;
+			background-position-x: 0px;
+			background-position-y: 0px;
+			background-origin: initial;
+			background-clip: initial;
+			background-color: initial;
+		}
+
+		.account-product {
+			padding-top:10px;
+			font-size: x-large;
+			font-size: 18px;
+			text-transform: uppercase;
+			color: #555;
+			text-shadow: 1px 1px 0 white;
+		}	
+
+/* tests */  
+	      
+		div .list-big-element {
+			font-size: x-large;
+			background-color: #def1fa;
+			border-color: #57afe6;
+			border-style: dotted;
+			border-width: thin; 
+			padding-top: 3px;
+		    border-radius: 	5px;
+		    box-shadow: 3px 3px 3px #888;
+		}
+		
+		.show-list {
+			text-align:justify; 
+			margin-left:1em;
+		}
+		
+		.headblock-element {
+			background-color: #def1fa;
+			border-color: #57afe6;
+			border-style: dotted;
+			border-width: thin; 
+			padding: 5px;
+			border-radius: 	5px;
+		    box-shadow: 3px 3px 3px #888;
+			}
+		.headblock-element h1{
+			margin: 0px;
+			font-size: large;
+			color: #275783;
+			}	
+			
+		.headblock-element .cell {
+			display:inline; 
+			vertical-align:top;
+			border:none;
+			margin-right:1em;
+		}
+			
+		.showaccount {
+			font-size: large;
+			font-variant: small-caps; 
+			background-color: #c5d866;
+			color: #275783;
+			padding-left: 5px;
+			border-radius: 	3px;
+		    box-shadow: 3px 3px 3px #888;
+		    float:none;
+		}
+
+		.products_row .cell {
+			display:inline; 
+			vertical-align:top;
+			border:none;
+			margin-right:1em;
+		}
+		
+		.showcontact .cell {
+			display:inline; 
+			vertical-align:top;
+			border:none;
+			margin-right:1em;
+		} 
+	      
+	    </style>
+
+		 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+
 		<link rel="stylesheet" href="{{ asset('bundles/guepecrmbank/css/print.css') }}" type="text/css" media="print" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script> 
     	<link type="text/css" href="{{ asset('bundles/guepecrmbank/js')}}/jquery-ui/css/cupertino/jquery-ui-1.8.17.custom.css" rel="stylesheet" />	
@@ -31,8 +146,6 @@
 					yearSuffix: ''};
 				$.datepicker.setDefaults($.datepicker.regional['fr']);
 			});
-			
-			
 
 		sfHover = function() {
         var sfEls = document.getElementById("menu").getElementsByTagName("li");
@@ -47,71 +160,102 @@
 		}
 		if (window.attachEvent) window.attachEvent("onload", sfHover);
 		</script>
-    
     </head>
     <body>
-        <div id="page">
-            <div id="header">
-				<ul id="menu">
-				    <li><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
+        	
+        	 <div class="navbar navbar-fixed-top">
+		      <div class="navbar-inner">
+		        <div class="container">
+		          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </a>
+		          <a class="brand" href="/"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/bank-crm-navbar.png') }}" ></a>
+		          <div class="nav-collapse">
 					{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-					<li>
-						<a href="{{ path('AllAccounts') }}">
+		            <ul class="nav">
+		              <li class="active"><a href="{{ path('GuepeCrmBankBundle_homepage') }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/home.png') }}" > Accueil</a></li>
+		              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
 							<img valign="middle" alt="New Accounts" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts
-						</a>
-						<ul>
+						<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="{{ path('AllAccounts') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" >Tous Accounts</a> </li>
 							<li><a href="{{ path('AddAccount') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Accounts</a> </li>
 						</ul>
-					</li>
-					<li>
-						<a href="{{ path('AllContacts') }}">
+						
+					  </li>
+		              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
 							<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts
-							</a>
-						<ul>
+						  <b class="caret"></b></a>
+					  	 <ul class="dropdown-menu">
+							<li><a href="{{ path('AllContacts') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Tous Contact</a></li>
 							<li><a href="{{ path('AddContact') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > New Contact</a></li>
-						</ul>
-					</li>
+						</ul> 
+					  </li>
+		            </ul>
 					{% endif %}
-		      </ul>
-		      	<ul id="menu" class="login">
-				 	<li>
-				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-				    {{ 'layout.logged_in_as' |trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-				  
-				   </li>
-				   <li>
-				    <a href="{{ path('fos_user_security_logout') }}">
-				        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-				    </a>
-				      <ul>
-				    	<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
-				    	<li><a href="{{ path('fos_user_change_password') }}">Mot de passe</a></li>
-				     </ul>
-				{% else %}
-				    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-				{% endif %}
-					</li>
-				</ul>		
-				{% for key, message in app.session.getFlashes() %}
+		            <ul class="nav pull-right">
+					    <li class="dropdown">
+				    	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" alt="{{ path('fos_user_security_logout') }}">
+							{{ 'layout.logged_in_as' |trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+					    <b class="caret"></b></a>
+					  	 <ul class="dropdown-menu">
+					  	 	<li><a href="{{ path('fos_user_security_logout') }}">
+					        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+					    	<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
+					    	<li><a href="{{ path('fos_user_change_password') }}">Mot de passe</a></li>
+					     </ul>
+						{% else %}
+						    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+						{% endif %}
+						</li>
+					</ul>	
+		          </div><!--/.nav-collapse -->
+		        </div>
+		      </div>
+		    </div>
+        	
+           <div class="container-fluid">
+	    	    {% for key, message in app.session.getFlashes() %}
 				<div class="{{ key }}">
 				    {{ message|trans({}, 'FOSUserBundle') }}
 				</div>
 				{% endfor %}
-	        </div>
-			<div id="centerpane">
+			 
 					{% block warning %}
 					{% 	endblock %}
 	
-	            <div id="content">
 	                {% block content %}	
 	                {% endblock %}
-	            </div>
-	 		</div>
-	 	</div>
-        <div id="main" class="clearfix">
-        <div id="footer">
+	 		<hr>
+        <footer>
+        	<p>
  	    	     <img src="{{ asset('bundles/guepecrmbank/images/logo-transparent.gif') }}" alt="belspace"  height="30" valign="middle" />
                 Tous droits réservés (c) 2012
-        </div>
+            </p>
+        </footer> 
+ 	</div>
+
+        
+        <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-transition.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-alert.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-modal.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-dropdown.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-scrollspy.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-tab.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-tooltip.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-popover.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-button.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-collapse.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-carousel.js') }}"></script>
+    <script src="{{ asset('bundles/guepecrmbank/bootstrap/js/bootstrap-typeahead.js') }}"></script>
+        
+        
     </body>
 </html>

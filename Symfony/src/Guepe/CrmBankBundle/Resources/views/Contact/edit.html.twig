@@ -17,55 +17,16 @@
 		<form action="" method="post" {{ form_enctype(form) }}>
 		<div class="headblock-element">
 
-		<table>
-			<tr>
-				<td>{{ form_label(form.firstname) }}</td>
-				<td>
-					{{ form_errors(form.firstname) }}
-				{{ form_widget(form.firstname) }}
-				</td>
-				<td>{{ form_label(form.lastname) }}</td>
-				<td>
-				
-				{{ form_widget(form.lastname) }}
-				{{ form_errors(form.lastname) }}
-				</td>
-		
-				<td>{{ form_label(form.birthdate) }}</td>
-				<td>
-					{{ form_errors(form.birthdate) }}
-				{{ form_widget(form.birthdate) }}
-				</td>
-				<td>{{ form_label(form.birthplace) }}</td>
-				<td>
-					{{ form_errors(form.birthplace) }}
-				{{ form_widget(form.birthplace) }}
-				</td>
-			</tr>
-			<tr>
-				<td>{{ form_label(form.email) }}</td>
-				<td>
-					{{ form_errors(form.email) }}
-				{{ form_widget(form.email) }}
-				</td>
-				<td>{{ form_label(form.gsm) }}</td>
-				<td>
-					{{ form_errors(form.gsm) }}
-				{{ form_widget(form.gsm) }}
-				</td>
-				<td>{{ form_label(form.phone) }}</td>
-				<td>
-					{{ form_errors(form.phone) }}
-				{{ form_widget(form.phone) }}
-				</td>
-				<td>{{ form_label(form.niss) }}</td>
-				<td>
-					{{ form_errors(form.niss) }}
-				{{ form_widget(form.niss) }}
-				</td>
-				
-			</tr>		    
-		</table>
+			{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+
+			{{ form_row(form.firstname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.birthdate) }}
+			{{ form_row(form.birthplace) }}
+			{{ form_row(form.email) }}
+			{{ form_row(form.gsm) }}
+			{{ form_row(form.phone) }}
+			{{ form_row(form.niss) }}
 		</div>
 		<br/>
 		<div class="showcontact">

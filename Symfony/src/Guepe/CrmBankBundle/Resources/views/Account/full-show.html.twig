@@ -13,16 +13,42 @@
 {% if account|length > 0 %}		
 		<div id="showaccount"> 
 		<div class="headblock-element">
-		<h1>{{account.name}}<a href="{{ path('EditAccount',{'id': account.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a></h1>
+		{{account.companyStatut}}
+			<div class="btn-group pull-right ">
+			 	 <a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#">
+		 	   Action
+		 	   <span class="caret"></span>
+		 	 </a> 
+			<ul class="dropdown-menu">
+				<li><a href="{{ path('EditAccount',{'id': account.id }) }}"><i class="icon-eye-open"></i> Modifier</a></li>
+			</ul>
+			</div>	
+		<span class="account-product">{{account.name}}</span>
 
-		<br/> {{account.type}} {{account.companyStatut}} {{ account.startingdate|date('d/m/Y') }}
+		<br/>  {{account.type}} {{ account.startingdate|date('d/m/Y') }}
 		<br/> {{account.notes}}
 		</div>
 		<br/>
 		<div id="accordion">
 
-		<h2>Contacts <a href="{{ path('SelectContact',{'account_id': account.id }) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		<table class="product-show-table">
+      	<table class="table table-striped table-bordered table-condensed">
+	        <thead>
+	        <tr>
+	        	<th colspan=10 class="block_head">
+    				<span class="account-product">Contacts </span>
+		   				<div class="btn-group pull-right">
+					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+					 	   Action
+					 	   <span class="caret"></span>
+					 	 </a> 
+    					<ul class="dropdown-menu">
+    						<li><a href="{{ path('SelectContact',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
+    					</ul>
+	        			</div>	
+	        		
+
+	        	</th>
+	        </tr>
 			<tr class="product-show-label">
 				<th>Prénom:</th>
 				<th>Nom:</th>
@@ -33,8 +59,10 @@
 				<th>Email: </th>
 				<th>Tél: </th>
 				<th>GSM:</th>
-				<th></th>
+				<th width="118em"></th>
 			</tr>
+	        </thead>
+			<tbody>
 		{% for contact in account.contacts %}
 			<tr
 			{% if loop.index % 2 %} 
@@ -54,16 +82,32 @@
 			<td>{{contact.gsm}}</td>
 
 			<td>
-				<a href=" {{path('ShowContact',{'id': contact.id}) }}"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/show.png') }}" ></a>
-				<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a>
+				<a href=" {{path('ShowContact',{'id': contact.id}) }}">Afficher</a> |
+				<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a>
 			</td>
 			</tr>
 		{% else %}
 			<tr><td colspan="9" class="no_data">Aucun  Contacts n'a été trouvé.</td></tr>		
 		{% endfor %}
+			</tbody>
 		</table>
-		<h2>Produits Banquaires <a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		<table class="product-show-table">
+      	<table class="table table-striped table-bordered table-condensed">
+	        <thead>
+	        <tr>
+	        	<th colspan=9 class="block_head">
+					
+						<span class="account-product">Produits Banquaires </span>
+		   				<div class="btn-group pull-right">
+					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+					 	   Action
+					 	   <span class="caret"></span>
+					 	 </a> 
+    					<ul class="dropdown-menu">
+    						<li><a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
+    					</ul>
+	        			</div>	
+	        	</th>
+	        </tr>	
 			<tr class="product-show-label">
 				<th>Type:</th>
 				<th>Références:</th>
@@ -73,8 +117,10 @@
 				<th>Notes: </th>
 				<th>Taux d'intérêt: </th>
 				<th>Description: </th>
-				<th></th>
+				<th width="118em"></th>
 			</tr>
+			</thead>
+			<tbody>
 		{% for bankproduct in account.bankproduct %}
 			<tr 
 			{% if loop.index % 2 %} 
@@ -91,14 +137,29 @@
 				<td>{{bankproduct.notes }}</td>
 				<td>{{bankproduct.tauxinteret }}</td>
 				<td> {{bankproduct.description }}</td>
-				<td><a href="{{path('DeleteProduct',{'id':account.id,'product_id': bankproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+				<td><a href="{{path('DeleteProduct',{'id':account.id,'product_id': bankproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
 			</tr>
 		{% else %}
 			<tr><td colspan="9" class="no_data">Aucun Produits Bancaires n'a été trouvé.</td></tr>
 		{% endfor %}
+			</tbody>
 		</table>
-		<h2>Produits Crédit <a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		<table class="product-show-table">
+		<table class="table table-striped table-bordered table-condensed">
+	        <thead>
+	         <tr>
+	        	<th colspan=17 class="block_head">
+	        	<span class="account-product">Produits Crédit </span>
+		   				<div class="btn-group pull-right">
+					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+					 	   Action
+					 	   <span class="caret"></span>
+					 	 </a> 
+    					<ul class="dropdown-menu">
+    						<li><a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
+    					</ul>
+	        			</div>	
+	        	</th>
+	        </tr>	
 			<tr class="product-show-label">
 				<th>Type:</th> 
 				<th>Références:</th> 
@@ -116,8 +177,10 @@
 				<th>But: </th> 
 				<th>Description:  </th> 
 				<th>Date de paiement: </th>
-				<th></th>
+				<th width="118em"></th>
 			</tr>
+			</thead>
+			<tbody>
 		{% for creditproduct in account.creditproduct %}
 			<tr
 			{% if loop.index % 2 %} 
@@ -142,15 +205,30 @@
 				<td>{{creditproduct.purpose }}</td>
 				<td>{{creditproduct.description }}</td>
 				<td>{{creditproduct.paymentdate }}</td>
-				<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': creditproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+				<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': creditproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
 
 			</tr>
 		{% else %}
 			<tr><td colspan="17" class="no_data">Aucune Produits Crédits n'a été trouvé.</td></tr>
 		{% endfor %}
+			</tbody>
 		</table>
-		<h2>Produits Fiscal <a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		<table class="product-show-table">
+		<table class="table table-striped table-bordered table-condensed">
+	        <thead>
+	         <tr>
+	        	<th colspan=15 class="block_head">
+	        	<span class="account-product">Produits Fiscal </span>
+		   				<div class="btn-group pull-right">
+					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+					 	   Action
+					 	   <span class="caret"></span>
+					 	 </a> 
+    					<ul class="dropdown-menu">
+    						<li><a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
+    					</ul>
+	        			</div>	
+	        	
+	        	</th>
 			<tr class="product-show-label">
 				<th>Type:</th> 
 				<th>Références:</th> 
@@ -166,8 +244,10 @@
 				<th>Date de paiement: </th> 
 				<th>Reserve:  </th>
 				<th>Date de réserve: </th> 
-				<th></th>
+				<th width="118em"></th>
 			</tr>
+			</thead>
+			<tbody>
 		{% for fiscalproduct in account.fiscalproduct %}
 			<tr
 			{% if loop.index % 2 %} 
@@ -190,14 +270,29 @@
 				 <td>{{fiscalproduct.paymentdate}}</td>
 				 <td>{{fiscalproduct.reserve }}</td>
 				 <td>{{fiscalproduct.reservedate|date('d/m/Y') }}</td>
-				 <td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': fiscalproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+				 <td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': fiscalproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
 			</tr>
 		{% else %}
 			<tr><td colspan="15" class="no_data">Aucune Produits Fiscal n'a été trouvé.</td></tr>
 		{% endfor %}
+			</tbody>
 		</table>
-		<h2>Produits Epargnes <a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" ></a></h2>
-		<table class="product-show-table">
+		<table class="table table-striped table-bordered table-condensed">
+	        <thead>
+	         <tr>
+	        	<th colspan=18 class="block_head">
+	        	<span class="account-product">Produits Epargnes </span>
+		   				<div class="btn-group pull-right">
+					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+					 	   Action
+					 	   <span class="caret"></span>
+					 	 </a> 
+    					<ul class="dropdown-menu">
+    						<li><a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
+    					</ul>
+	        			</div>	
+	        	
+	        	</th>
 			<tr class="product-show-label">
 				<th>Type:</th>
 				<th>Prime:</th> 
@@ -216,8 +311,10 @@
 				<th>Date de paiement: </th> 
 				<th>Reserve:  </th>
 				<th>Date de réserve: </th> 
-				<th></th>
+				<th width="118em"></th>
 			</tr>
+			</thead>
+			<tbody>
 		{% for savingsproduct in account.savingsproduct %}
 			<tr
 			{% if loop.index % 2 %} 
@@ -243,13 +340,14 @@
 			 <td>{{savingsproduct.paymentdate }}</td>
 			 <td>{{savingsproduct.reserve }}</td>
 			 <td>{{savingsproduct.reservedate|date('d/m/Y') }}</td>
-			<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': savingsproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');"><img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/delete.png') }}" ></a></td>
+			<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': savingsproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
 
 			</tr>
 		{% else %}
-			<tr><td colspan="17" class="no_data">Aucune Produits de Placement n'a été trouvé.</td></tr>
+			<tr><td colspan="18" class="no_data">Aucune Produits de Placement n'a été trouvé.</td></tr>
 		{% endfor %}
 		</table>
+			</tbody>
 		</div>
 
 		</div>
