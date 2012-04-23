@@ -13,7 +13,7 @@
 		<mkdir dir="${output}/phpdox"/>
 	</target>
 
-	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend,phpcb,phpcs">
+	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend,phpcb,phpcs-ci">
 	</target>
 
 	<target name="test">
@@ -24,12 +24,19 @@
 
 	<target name="phpcs">
 		<exec executable="phpcs">
-			<arg line="--report=checkstyle
-              			--report-file=${output}/logs/checkstyle.xml
-              			--standard=Zend
-              			${basedir}/Symfony/src/" />
-		</exec>
+		   <arg value="--standard=${basedir}/build/phpcs.xml" />
+		   <arg path="${basedir}/Symfony/src/" />
+		  </exec>
 	</target>
+	
+	 <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+	  <exec executable="phpcs" output="/dev/null">
+	   <arg value="--report=checkstyle" />
+	   <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+	   <arg value="--standard=${basedir}/build/phpcs.xml" />
+	   <arg path="${basedir}/Symfony/src" />
+	  </exec>
+	 </target>	
 	
 	<target name="phpdox" description="Generate API documentation using phpDox">
 	  <exec executable="phpdox"/>
