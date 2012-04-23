@@ -1,10 +1,16 @@
 <project name="Test" default="build" basedir=".">
-	<property name="output" location="${basedir}/buildOutput/"/>
+	<property name="output" location="${basedir}/build/"/>
 
 	<target name="init">
 		<mkdir dir="${output}"/>
 		<mkdir dir="${output}/phpcs/"/>
 		<mkdir dir="${output}/pdepend/"/>
+		<mkdir dir="${output}/api"/>
+		<mkdir dir="${output}/code-browser"/>
+		<mkdir dir="${output}/coverage"/>
+		<mkdir dir="${output}/logs"/>
+		<mkdir dir="${output}/pdepend"/>
+		<mkdir dir="${output}/phpdox"/>
 	</target>
 
 	<target name="build" depends="init, test, phpmd, phpcpd, pdepend">
@@ -12,16 +18,14 @@
 
 	<target name="test">
 		<exec executable="phpunit" failonerror="true">
-			<arg line="--coverage-clover ${output}/CodeCoverage/clover.xml
-				--coverage-html ${output}/CodeCoverage/
-				-c ${basedir}/Symfony/app/"/>
+			<arg line=" -c ${basedir}/Symfony/app/"/>
 		</exec>
 	</target>
 
 	<target name="phpcs">
 		<exec executable="phpcs">
 			<arg line="--report=checkstyle
-              			--report-file=${output}/phpcs/checkstyle.xml
+              			--report-file=${output}/logs/checkstyle.xml
               			--standard=Zend
               			${basedir}/Symfony/src/" />
 		</exec>
@@ -30,7 +34,7 @@
 	<target name="phpmd">
 		<exec executable="phpmd">
 			<arg line="
-				${basedir}/Symfony/src/ xml codesize,unusedcode,naming,design --reportfile ${output}/messdetector.xml --exclude Tests/
+				${basedir}/Symfony/src/ xml codesize,unusedcode,naming,design --reportfile ${output}/phpmd.xml --exclude Tests/
 			" />
 		</exec>
 	</target>
@@ -38,7 +42,7 @@
 	<target name="phpcpd">
 		<exec executable="phpcpd">
 			<arg line="
-				 --log-pmd ${output}/phpcpd.xml ${basedir}/Symfony/src/
+				 --log-pmd ${output}/logs/pmd-cpd.xml ${basedir}/Symfony/src/
 			" />
 		</exec>
 	</target>
@@ -46,7 +50,7 @@
 	<target name="pdepend">
 		<exec executable="pdepend">
 			<arg line="
-				--jdepend-xml=${output}/pdepend/jdepend.xml
+				--jdepend-xml=${output}/logs/jdepend.xml
 				--jdepend-chart=${output}/pdepend/dependencies.svg
 				--overview-pyramid=${output}/pdepend/overview-pyramid.svg
 				--ignore=Tests/
