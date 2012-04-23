@@ -13,7 +13,7 @@
 		<mkdir dir="${output}/phpdox"/>
 	</target>
 
-	<target name="build" depends="init, test, phpmd, phpcpd, pdepend">
+	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend">
 	</target>
 
 	<target name="test">
@@ -30,6 +30,10 @@
               			${basedir}/Symfony/src/" />
 		</exec>
 	</target>
+	
+	<target name="phpdox" description="Generate API documentation using phpDox">
+	  <exec executable="phpdox"/>
+	 </target>
 
 	<target name="phpmd">
 		<exec executable="phpmd">
