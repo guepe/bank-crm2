@@ -14,7 +14,7 @@
 		<exec executable="phpunit" failonerror="true">
 			<arg line="--coverage-clover ${output}/CodeCoverage/clover.xml
 				--coverage-html ${output}/CodeCoverage/
-				-c ${basedir}/app/"/>
+				-c ${basedir}/Symfony/app/"/>
 		</exec>
 	</target>
 
