@@ -13,7 +13,7 @@
 		<mkdir dir="${output}/phpdox"/>
 	</target>
 
-	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend">
+	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend,phpcb">
 	</target>
 
 	<target name="test">
@@ -62,4 +62,17 @@
 			" />
 		</exec>
 	</target>
+	
+	 <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+	  <exec executable="phpcb">
+	   <arg value="--log" />
+	   <arg path="${basedir}/build/logs" />
+	   <arg value="--source" />
+	   <arg path="${basedir}/Symfony/src" />
+	   <arg value="--output" />
+	   <arg path="${basedir}/build/code-browser" />
+	  </exec>
+	 </target>
+	
+	
 </project>
