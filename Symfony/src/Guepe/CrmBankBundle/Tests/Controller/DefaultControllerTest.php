@@ -1,17 +1,17 @@
 <?php
 
 namespace Guepe\CrmBankBundle\Tests\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
-{
-    public function testIndex()
-    {
-        $client = static::createClient();
+class DefaultControllerTest extends WebTestCase {
+	public function testIndex() {
+		$client = static::createClient();
 
-        $crawler = $client->request('GET', '/');
+		$crawler = $client->request('GET', '/');
 
-        $this->assertTrue($crawler->filter('html:contains("A venir")')->count() > 0);
-    }
+		$this
+				->assertTrue(
+						$crawler->filter('html:contains("A venir")')->count()
+								> 0);
+	}
 }
