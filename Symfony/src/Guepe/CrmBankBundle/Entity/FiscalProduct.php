@@ -67,8 +67,6 @@ class FiscalProduct extends MetaProduct {
 	 */
 	protected $account;
 
-
-
 	/**
 	 * @var text $Notes
 	 */
@@ -98,185 +96,165 @@ class FiscalProduct extends MetaProduct {
 	 */
 	protected $Description;
 
+	/**
+	 * Set RecurrentPrimeAmount
+	 *
+	 * @param decimal $recurrentPrimeAmount
+	 */
+	public function setRecurrentPrimeAmount($recurrentPrimeAmount) {
+		$this->RecurrentPrimeAmount = $recurrentPrimeAmount;
+	}
 
+	/**
+	 * Get RecurrentPrimeAmount
+	 *
+	 * @return decimal 
+	 */
+	public function getRecurrentPrimeAmount() {
+		return $this->RecurrentPrimeAmount;
+	}
 
-    /**
-     * Set RecurrentPrimeAmount
-     *
-     * @param decimal $recurrentPrimeAmount
-     */
-    public function setRecurrentPrimeAmount($recurrentPrimeAmount)
-    {
-        $this->RecurrentPrimeAmount = $recurrentPrimeAmount;
-    }
+	/**
+	 * Set CapitalTerme
+	 *
+	 * @param decimal $capitalTerme
+	 */
+	public function setCapitalTerme($capitalTerme) {
+		$this->CapitalTerme = $capitalTerme;
+	}
 
-    /**
-     * Get RecurrentPrimeAmount
-     *
-     * @return decimal 
-     */
-    public function getRecurrentPrimeAmount()
-    {
-        return $this->RecurrentPrimeAmount;
-    }
+	/**
+	 * Get CapitalTerme
+	 *
+	 * @return decimal 
+	 */
+	public function getCapitalTerme() {
+		return $this->CapitalTerme;
+	}
 
-    /**
-     * Set CapitalTerme
-     *
-     * @param decimal $capitalTerme
-     */
-    public function setCapitalTerme($capitalTerme)
-    {
-        $this->CapitalTerme = $capitalTerme;
-    }
+	/**
+	 * Set Garantee
+	 *
+	 * @param string $garantee
+	 */
+	public function setGarantee($garantee) {
+		$this->Garantee = $garantee;
+	}
 
-    /**
-     * Get CapitalTerme
-     *
-     * @return decimal 
-     */
-    public function getCapitalTerme()
-    {
-        return $this->CapitalTerme;
-    }
+	/**
+	 * Get Garantee
+	 *
+	 * @return string 
+	 */
+	public function getGarantee() {
+		return $this->Garantee;
+	}
 
-    /**
-     * Set Garantee
-     *
-     * @param string $garantee
-     */
-    public function setGarantee($garantee)
-    {
-        $this->Garantee = $garantee;
-    }
+	/**
+	 * Set PaymentDate
+	 *
+	 * @param string $paymentDate
+	 */
+	public function setPaymentDate($paymentDate) {
+		$this->PaymentDate = $paymentDate;
+	}
 
-    /**
-     * Get Garantee
-     *
-     * @return string 
-     */
-    public function getGarantee()
-    {
-        return $this->Garantee;
-    }
+	/**
+	 * Get PaymentDate
+	 *
+	 * @return string 
+	 */
+	public function getPaymentDate() {
+		return $this->PaymentDate;
+	}
 
-    /**
-     * Set PaymentDate
-     *
-     * @param string $paymentDate
-     */
-    public function setPaymentDate($paymentDate)
-    {
-        $this->PaymentDate = $paymentDate;
-    }
+	/**
+	 * Set PaymentDeadline
+	 *
+	 * @param string $paymentDeadline
+	 */
+	public function setPaymentDeadline($paymentDeadline) {
+		$this->PaymentDeadline = $paymentDeadline;
+	}
 
-    /**
-     * Get PaymentDate
-     *
-     * @return string 
-     */
-    public function getPaymentDate()
-    {
-        return $this->PaymentDate;
-    }
+	/**
+	 * Get PaymentDeadline
+	 *
+	 * @return string 
+	 */
+	public function getPaymentDeadline() {
+		return $this->PaymentDeadline;
+	}
 
-    /**
-     * Set PaymentDeadline
-     *
-     * @param string $paymentDeadline
-     */
-    public function setPaymentDeadline($paymentDeadline)
-    {
-        $this->PaymentDeadline = $paymentDeadline;
-    }
+	/**
+	 * Set Reserve
+	 *
+	 * @param decimal $reserve
+	 */
+	public function setReserve($reserve) {
+		$this->Reserve = $reserve;
+	}
 
-    /**
-     * Get PaymentDeadline
-     *
-     * @return string 
-     */
-    public function getPaymentDeadline()
-    {
-        return $this->PaymentDeadline;
-    }
+	/**
+	 * Get Reserve
+	 *
+	 * @return decimal 
+	 */
+	public function getReserve() {
+		return $this->Reserve;
+	}
 
-    /**
-     * Set Reserve
-     *
-     * @param decimal $reserve
-     */
-    public function setReserve($reserve)
-    {
-        $this->Reserve = $reserve;
-    }
+	/**
+	 * Set ReserveDate
+	 *
+	 * @param date $reserveDate
+	 */
+	public function setReserveDate($reserveDate) {
+		$this->ReserveDate = $reserveDate;
+	}
 
-    /**
-     * Get Reserve
-     *
-     * @return decimal 
-     */
-    public function getReserve()
-    {
-        return $this->Reserve;
-    }
+	/**
+	 * Get ReserveDate
+	 *
+	 * @return date 
+	 */
+	public function getReserveDate() {
+		return $this->ReserveDate;
+	}
 
-    /**
-     * Set ReserveDate
-     *
-     * @param date $reserveDate
-     */
-    public function setReserveDate($reserveDate)
-    {
-        $this->ReserveDate = $reserveDate;
-    }
+	/**
+	 * Set StartDate
+	 *
+	 * @param date $startDate
+	 */
+	public function setStartDate($startDate) {
+		$this->StartDate = $startDate;
+	}
 
-    /**
-     * Get ReserveDate
-     *
-     * @return date 
-     */
-    public function getReserveDate()
-    {
-        return $this->ReserveDate;
-    }
+	/**
+	 * Get StartDate
+	 *
+	 * @return date 
+	 */
+	public function getStartDate() {
+		return $this->StartDate;
+	}
 
-    /**
-     * Set StartDate
-     *
-     * @param date $startDate
-     */
-    public function setStartDate($startDate)
-    {
-        $this->StartDate = $startDate;
-    }
+	/**
+	 * Set EndDate
+	 *
+	 * @param date $endDate
+	 */
+	public function setEndDate($endDate) {
+		$this->EndDate = $endDate;
+	}
 
-    /**
-     * Get StartDate
-     *
-     * @return date 
-     */
-    public function getStartDate()
-    {
-        return $this->StartDate;
-    }
-
-    /**
-     * Set EndDate
-     *
-     * @param date $endDate
-     */
-    public function setEndDate($endDate)
-    {
-        $this->EndDate = $endDate;
-    }
-
-    /**
-     * Get EndDate
-     *
-     * @return date 
-     */
-    public function getEndDate()
-    {
-        return $this->EndDate;
-    }
+	/**
+	 * Get EndDate
+	 *
+	 * @return date 
+	 */
+	public function getEndDate() {
+		return $this->EndDate;
+	}
 }

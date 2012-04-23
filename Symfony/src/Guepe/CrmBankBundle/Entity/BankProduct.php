@@ -36,8 +36,6 @@ class BankProduct extends MetaProduct {
 	 */
 	protected $account;
 
-	
-
 	/**
 	 * @var date $StartDate
 	 */
@@ -78,25 +76,21 @@ class BankProduct extends MetaProduct {
 	 */
 	protected $Description;
 
+	/**
+	 * Set Amount
+	 *
+	 * @param decimal $amount
+	 */
+	public function setAmount($amount) {
+		$this->Amount = $amount;
+	}
 
-
-    /**
-     * Set Amount
-     *
-     * @param decimal $amount
-     */
-    public function setAmount($amount)
-    {
-        $this->Amount = $amount;
-    }
-
-    /**
-     * Get Amount
-     *
-     * @return decimal 
-     */
-    public function getAmount()
-    {
-        return $this->Amount;
-    }
+	/**
+	 * Get Amount
+	 *
+	 * @return decimal 
+	 */
+	public function getAmount() {
+		return $this->Amount;
+	}
 }

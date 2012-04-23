@@ -69,7 +69,6 @@ class CreditProduct extends MetaProduct {
 		$this->account = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
-
 	/**
 	 * @var text $Notes
 	 */
@@ -93,212 +92,189 @@ class CreditProduct extends MetaProduct {
 	 * @var text $Description
 	 */
 	protected $Description;
-   /**
-     * @var string $Number
-     */
-    protected $Number;
+	/**
+	 * @var string $Number
+	 */
+	protected $Number;
 
+	/**
+	 * Set Garantee
+	 *
+	 * @param text $garantee
+	 */
+	public function setGarantee($garantee) {
+		$this->Garantee = $garantee;
+	}
 
-    /**
-     * Set Garantee
-     *
-     * @param text $garantee
-     */
-    public function setGarantee($garantee)
-    {
-        $this->Garantee = $garantee;
-    }
+	/**
+	 * Get Garantee
+	 *
+	 * @return text 
+	 */
+	public function getGarantee() {
+		return $this->Garantee;
+	}
 
-    /**
-     * Get Garantee
-     *
-     * @return text 
-     */
-    public function getGarantee()
-    {
-        return $this->Garantee;
-    }
+	/**
+	 * Set Number
+	 *
+	 * @param string $number
+	 */
+	public function setNumber($number) {
+		$this->Number = $number;
+	}
 
-    /**
-     * Set Number
-     *
-     * @param string $number
-     */
-    public function setNumber($number)
-    {
-        $this->Number = $number;
-    }
+	/**
+	 * Get Number
+	 *
+	 * @return string 
+	 */
+	public function getNumber() {
+		return $this->Number;
+	}
 
-    /**
-     * Get Number
-     *
-     * @return string 
-     */
-    public function getNumber()
-    {
-        return $this->Number;
-    }
+	/**
+	 * Set Purpose
+	 *
+	 * @param text $purpose
+	 */
+	public function setPurpose($purpose) {
+		$this->Purpose = $purpose;
+	}
 
-    /**
-     * Set Purpose
-     *
-     * @param text $purpose
-     */
-    public function setPurpose($purpose)
-    {
-        $this->Purpose = $purpose;
-    }
+	/**
+	 * Get Purpose
+	 *
+	 * @return text 
+	 */
+	public function getPurpose() {
+		return $this->Purpose;
+	}
 
-    /**
-     * Get Purpose
-     *
-     * @return text 
-     */
-    public function getPurpose()
-    {
-        return $this->Purpose;
-    }
+	/**
+	 * Set Variability
+	 *
+	 * @param string $variability
+	 */
+	public function setVariability($variability) {
+		$this->Variability = $variability;
+	}
 
-    /**
-     * Set Variability
-     *
-     * @param string $variability
-     */
-    public function setVariability($variability)
-    {
-        $this->Variability = $variability;
-    }
+	/**
+	 * Get Variability
+	 *
+	 * @return string 
+	 */
+	public function getVariability() {
+		return $this->Variability;
+	}
 
-    /**
-     * Get Variability
-     *
-     * @return string 
-     */
-    public function getVariability()
-    {
-        return $this->Variability;
-    }
+	/**
+	 * Set StartDate
+	 *
+	 * @param date $startDate
+	 */
+	public function setStartDate($startDate) {
+		$this->StartDate = $startDate;
+	}
 
-    /**
-     * Set StartDate
-     *
-     * @param date $startDate
-     */
-    public function setStartDate($startDate)
-    {
-        $this->StartDate = $startDate;
-    }
+	/**
+	 * Get StartDate
+	 *
+	 * @return date 
+	 */
+	public function getStartDate() {
+		return $this->StartDate;
+	}
 
-    /**
-     * Get StartDate
-     *
-     * @return date 
-     */
-    public function getStartDate()
-    {
-        return $this->StartDate;
-    }
+	/**
+	 * Set EndDate
+	 *
+	 * @param date $endDate
+	 */
+	public function setEndDate($endDate) {
+		$this->EndDate = $endDate;
+	}
 
-    /**
-     * Set EndDate
-     *
-     * @param date $endDate
-     */
-    public function setEndDate($endDate)
-    {
-        $this->EndDate = $endDate;
-    }
+	/**
+	 * Get EndDate
+	 *
+	 * @return date 
+	 */
+	public function getEndDate() {
+		return $this->EndDate;
+	}
 
-    /**
-     * Get EndDate
-     *
-     * @return date 
-     */
-    public function getEndDate()
-    {
-        return $this->EndDate;
-    }
+	/**
+	 * Set Duration
+	 *
+	 * @param decimal $duration
+	 */
+	public function setDuration($duration) {
+		$this->Duration = $duration;
+	}
 
-    /**
-     * Set Duration
-     *
-     * @param decimal $duration
-     */
-    public function setDuration($duration)
-    {
-        $this->Duration = $duration;
-    }
+	/**
+	 * Get Duration
+	 *
+	 * @return decimal 
+	 */
+	public function getDuration() {
+		return $this->Duration;
+	}
 
-    /**
-     * Get Duration
-     *
-     * @return decimal 
-     */
-    public function getDuration()
-    {
-        return $this->Duration;
-    }
+	/**
+	 * Set RecurrentPrimeAmount
+	 *
+	 * @param decimal $recurrentPrimeAmount
+	 */
+	public function setRecurrentPrimeAmount($recurrentPrimeAmount) {
+		$this->RecurrentPrimeAmount = $recurrentPrimeAmount;
+	}
 
-    /**
-     * Set RecurrentPrimeAmount
-     *
-     * @param decimal $recurrentPrimeAmount
-     */
-    public function setRecurrentPrimeAmount($recurrentPrimeAmount)
-    {
-        $this->RecurrentPrimeAmount = $recurrentPrimeAmount;
-    }
+	/**
+	 * Get RecurrentPrimeAmount
+	 *
+	 * @return decimal 
+	 */
+	public function getRecurrentPrimeAmount() {
+		return $this->RecurrentPrimeAmount;
+	}
 
-    /**
-     * Get RecurrentPrimeAmount
-     *
-     * @return decimal 
-     */
-    public function getRecurrentPrimeAmount()
-    {
-        return $this->RecurrentPrimeAmount;
-    }
+	/**
+	 * Set Amount
+	 *
+	 * @param decimal $amount
+	 */
+	public function setAmount($amount) {
+		$this->Amount = $amount;
+	}
 
-    /**
-     * Set Amount
-     *
-     * @param decimal $amount
-     */
-    public function setAmount($amount)
-    {
-        $this->Amount = $amount;
-    }
+	/**
+	 * Get Amount
+	 *
+	 * @return decimal 
+	 */
+	public function getAmount() {
+		return $this->Amount;
+	}
 
-    /**
-     * Get Amount
-     *
-     * @return decimal 
-     */
-    public function getAmount()
-    {
-        return $this->Amount;
-    }
+	/**
+	 * Set PaymentDate
+	 *
+	 * @param string $paymentDate
+	 */
+	public function setPaymentDate($paymentDate) {
+		$this->PaymentDate = $paymentDate;
+	}
 
-    /**
-     * Set PaymentDate
-     *
-     * @param string $paymentDate
-     */
-    public function setPaymentDate($paymentDate)
-    {
-        $this->PaymentDate = $paymentDate;
-    }
-
-    /**
-     * Get PaymentDate
-     *
-     * @return string 
-     */
-    public function getPaymentDate()
-    {
-        return $this->PaymentDate;
-    }
- 
-
+	/**
+	 * Get PaymentDate
+	 *
+	 * @return string 
+	 */
+	public function getPaymentDate() {
+		return $this->PaymentDate;
+	}
 
 }
