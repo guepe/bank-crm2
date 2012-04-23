@@ -27,5 +27,5 @@ security:
         ROLE_SUPERADMIN: ROLE_ADMIN
 
     access_control:
-          - { path: ^/account/, role: ROLE_USER }
-          - { path: ^/contact/, role: ROLE_USER   }
+#          - { path: ^/account/, role: ROLE_USER }
+#          - { path: ^/contact/, role: ROLE_USER   }

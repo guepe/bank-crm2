@@ -27,7 +27,6 @@ class ContactController extends Controller
    public function indexAction($account_id=null)
     {
 
-    	$em = $this->container->get('doctrine')->getEntityManager();
     	$contacts =$this->getDoctrine()->getRepository('GuepeCrmBankBundle:Contact')->findBy(array(),
     		array('lastname'=>'asc'));
     	        
