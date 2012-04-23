@@ -30,11 +30,11 @@
 	</target>
 	
 	 <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-	  <exec executable="phpcs" output="/dev/null">
+	  <exec executable="phpcs">
 	   <arg value="--report=checkstyle" />
 	   <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
 	   <arg value="--standard=${basedir}/build/phpcs.xml" />
-	   <arg path="${basedir}/Symfony/src" />
+	   <arg path="${basedir}/Symfony/src/" />
 	  </exec>
 	 </target>	
 	
