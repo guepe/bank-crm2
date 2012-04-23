@@ -13,7 +13,7 @@
 		<mkdir dir="${output}/phpdox"/>
 	</target>
 
-	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend,phpcb">
+	<target name="build" depends="init, test, phpmd, phpcpd, phpdox, pdepend,phpcb,phpcs">
 	</target>
 
 	<target name="test">
