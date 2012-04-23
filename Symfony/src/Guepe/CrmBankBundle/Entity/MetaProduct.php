@@ -56,200 +56,179 @@ class MetaProduct {
 	 */
 	protected $TauxInteret;
 
+	public function __construct() {
+		$this->Category = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->account = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
-    public function __construct()
-    {
-        $this->Category = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->account = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
-    /**
-     * Set Number
-     *
-     * @param string $number
-     */
-    public function setNumber($number)
-    {
-        $this->Number = $number;
-    }
+	/**
+	 * Set Number
+	 *
+	 * @param string $number
+	 */
+	public function setNumber($number) {
+		$this->Number = $number;
+	}
 
-    /**
-     * Get Number
-     *
-     * @return string 
-     */
-    public function getNumber()
-    {
-        return $this->Number;
-    }
+	/**
+	 * Get Number
+	 *
+	 * @return string 
+	 */
+	public function getNumber() {
+		return $this->Number;
+	}
 
-    /**
-     * Set Type
-     *
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->Type = $type;
-    }
+	/**
+	 * Set Type
+	 *
+	 * @param string $type
+	 */
+	public function setType($type) {
+		$this->Type = $type;
+	}
 
-    /**
-     * Get Type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->Type;
-    }
+	/**
+	 * Get Type
+	 *
+	 * @return string 
+	 */
+	public function getType() {
+		return $this->Type;
+	}
 
-    /**
-     * Set Notes
-     *
-     * @param text $notes
-     */
-    public function setNotes($notes)
-    {
-        $this->Notes = $notes;
-    }
+	/**
+	 * Set Notes
+	 *
+	 * @param text $notes
+	 */
+	public function setNotes($notes) {
+		$this->Notes = $notes;
+	}
 
-    /**
-     * Get Notes
-     *
-     * @return text 
-     */
-    public function getNotes()
-    {
-        return $this->Notes;
-    }
+	/**
+	 * Get Notes
+	 *
+	 * @return text 
+	 */
+	public function getNotes() {
+		return $this->Notes;
+	}
 
-    /**
-     * Set Description
-     *
-     * @param text $description
-     */
-    public function setDescription($description)
-    {
-        $this->Description = $description;
-    }
+	/**
+	 * Set Description
+	 *
+	 * @param text $description
+	 */
+	public function setDescription($description) {
+		$this->Description = $description;
+	}
 
-    /**
-     * Get Description
-     *
-     * @return text 
-     */
-    public function getDescription()
-    {
-        return $this->Description;
-    }
+	/**
+	 * Get Description
+	 *
+	 * @return text 
+	 */
+	public function getDescription() {
+		return $this->Description;
+	}
 
-    /**
-     * Set References
-     *
-     * @param string $references
-     */
-    public function setReferences($references)
-    {
-        $this->References = $references;
-    }
+	/**
+	 * Set References
+	 *
+	 * @param string $references
+	 */
+	public function setReferences($references) {
+		$this->References = $references;
+	}
 
-    /**
-     * Get References
-     *
-     * @return string 
-     */
-    public function getReferences()
-    {
-        return $this->References;
-    }
+	/**
+	 * Get References
+	 *
+	 * @return string 
+	 */
+	public function getReferences() {
+		return $this->References;
+	}
 
-    /**
-     * Set Company
-     *
-     * @param text $company
-     */
-    public function setCompany($company)
-    {
-        $this->Company = $company;
-    }
+	/**
+	 * Set Company
+	 *
+	 * @param text $company
+	 */
+	public function setCompany($company) {
+		$this->Company = $company;
+	}
 
-    /**
-     * Get Company
-     *
-     * @return text 
-     */
-    public function getCompany()
-    {
-        return $this->Company;
-    }
+	/**
+	 * Get Company
+	 *
+	 * @return text 
+	 */
+	public function getCompany() {
+		return $this->Company;
+	}
 
-    /**
-     * Set TauxInteret
-     *
-     * @param smallint $tauxInteret
-     */
-    public function setTauxInteret($tauxInteret)
-    {
-        $this->TauxInteret = $tauxInteret;
-    }
+	/**
+	 * Set TauxInteret
+	 *
+	 * @param smallint $tauxInteret
+	 */
+	public function setTauxInteret($tauxInteret) {
+		$this->TauxInteret = $tauxInteret;
+	}
 
-    /**
-     * Get TauxInteret
-     *
-     * @return smallint 
-     */
-    public function getTauxInteret()
-    {
-        return $this->TauxInteret;
-    }
+	/**
+	 * Get TauxInteret
+	 *
+	 * @return smallint 
+	 */
+	public function getTauxInteret() {
+		return $this->TauxInteret;
+	}
 
-    /**
-     * Add Category
-     *
-     * @param Guepe\CrmBankBundle\Entity\Category $category
-     */
-    public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category)
-    {
-        $this->Category[] = $category;
-    }
+	/**
+	 * Add Category
+	 *
+	 * @param Guepe\CrmBankBundle\Entity\Category $category
+	 */
+	public function addCategory(\Guepe\CrmBankBundle\Entity\Category $category) {
+		$this->Category[] = $category;
+	}
 
-    /**
-     * Get Category
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getCategory()
-    {
-        return $this->Category;
-    }
+	/**
+	 * Get Category
+	 *
+	 * @return Doctrine\Common\Collections\Collection 
+	 */
+	public function getCategory() {
+		return $this->Category;
+	}
 
-    /**
-     * Add account
-     *
-     * @param Guepe\CrmBankBundle\Entity\Account $account
-     */
-    public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account)
-    {
-        $this->account[] = $account;
-    }
+	/**
+	 * Add account
+	 *
+	 * @param Guepe\CrmBankBundle\Entity\Account $account
+	 */
+	public function addAccount(\Guepe\CrmBankBundle\Entity\Account $account) {
+		$this->account[] = $account;
+	}
 
-    /**
-     * Get account
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
+	/**
+	 * Get account
+	 *
+	 * @return Doctrine\Common\Collections\Collection 
+	 */
+	public function getAccount() {
+		return $this->account;
+	}
 }

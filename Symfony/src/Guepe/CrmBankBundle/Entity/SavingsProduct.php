@@ -307,43 +307,39 @@ class SavingsProduct extends MetaProduct {
 		return $this->EndDate;
 	}
 
-    /**
-     * Set PrimeReccurence
-     *
-     * @param boolean $primeReccurence
-     */
-    public function setPrimeReccurence($primeReccurence)
-    {
-        $this->PrimeReccurence = $primeReccurence;
-    }
+	/**
+	 * Set PrimeReccurence
+	 *
+	 * @param boolean $primeReccurence
+	 */
+	public function setPrimeReccurence($primeReccurence) {
+		$this->PrimeReccurence = $primeReccurence;
+	}
 
-    /**
-     * Get PrimeReccurence
-     *
-     * @return boolean 
-     */
-    public function getPrimeReccurence()
-    {
-        return $this->PrimeReccurence;
-    }
+	/**
+	 * Get PrimeReccurence
+	 *
+	 * @return boolean 
+	 */
+	public function getPrimeReccurence() {
+		return $this->PrimeReccurence;
+	}
 
-    /**
-     * Set PrimeRecurence
-     *
-     * @param string $primeRecurence
-     */
-    public function setPrimeRecurence($primeRecurence)
-    {
-        $this->PrimeRecurence = $primeRecurence;
-    }
+	/**
+	 * Set PrimeRecurence
+	 *
+	 * @param string $primeRecurence
+	 */
+	public function setPrimeRecurence($primeRecurence) {
+		$this->PrimeRecurence = $primeRecurence;
+	}
 
-    /**
-     * Get PrimeRecurence
-     *
-     * @return string 
-     */
-    public function getPrimeRecurence()
-    {
-        return $this->PrimeRecurence;
-    }
+	/**
+	 * Get PrimeRecurence
+	 *
+	 * @return string 
+	 */
+	public function getPrimeRecurence() {
+		return $this->PrimeRecurence;
+	}
 }

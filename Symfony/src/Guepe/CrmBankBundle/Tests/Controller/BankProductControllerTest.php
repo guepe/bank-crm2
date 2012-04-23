@@ -77,17 +77,16 @@ class BankProductControllerTest extends WebTestCase {
 		// Fill in the form and submit it
 		$form = $crawler->selectButton('Enregistrer')
 				->form(
-						array('contact[lastname]' => 'Test'
-						/*'account[company_statut]' => 'Personne physique',
-						'account[type]' => 'Core',
-						'account[starting_date]' => '20/12/2012',
-						'account[otherbank]' => 'Dexia',
-						'account[streetnum]' => 'Rue de romsée, 48',
-						'account[zip]' => '4565',
-						'account[city]' => 'Liege',
-						'account[country]' => 'BE',
-						'account[notes]' => 'bla bla'*/
-
+						array('contact[lastname]' => 'Test',
+								'contact[firstname]' => 'test tes',
+								'contact[marital_status]' => 'single',
+								'contact[street_num]' => 'Rue de romsée, 48',
+								'contact[zip]' => '4565',
+								'contact[city]' => 'Liege',
+								'contact[country]' => 'BE',
+								'contact[email]' => 'nospam@hoe.be',
+								'contact[phone]' => '989898',
+								'contact[gsm]' => '9898989'
 						// ... other fields to fill
 						));
 
