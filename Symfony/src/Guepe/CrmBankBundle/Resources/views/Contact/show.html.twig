@@ -1,39 +1,62 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
 {% block title %}Edit/add des contact{% endblock %}
-		
+
 {% block warning %}
-	{% if message %}
-		<div class="warning">{{ message }}</div>
-	{% endif %}
+{% if message %}
+<div class="warning">
+	{{ message }}
+</div>
+{% endif %}
 {% 	endblock %}
 
 {% block content %}
-{% if contact|length > 0 %}		
-		<div id="showcontact"> 
-		<div class="headblock-element">
-		<h1>{{contact.firstname}} {{contact.lastname}}<a href="{{ path('EditContact',{'id': contact.id}) }}"><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/edit.png') }}" ></a></h1>
-		<br/><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/mail.png') }}" > <a href="mailto:{{contact.email}}">{{contact.email}}</a>
-		<br/> {{contact.streetnum}}<br/> {{contact.zip}} {{contact.city}} {{contact.country}}
-		</div>
-		<br/><strong>Tél:</strong> {{contact.phone}}
-		<br/><strong>Gsm:</strong> {{contact.gsm}}
-		<br/><strong>Date et lieu de naissance:</strong> {{contact.birthplace}} {{contact.birthdate|date('d/m/Y')}}
-		<br/><strong>Numéro de carte d'identité:</strong> {{contact.eid}}
-		<br/><strong>Numéro national:</strong> {{contact.niss}}
-		<br/><strong>Profession:</strong> {{contact.profession}}
+{% if contact|length > 0 %}
+<div id="showcontact">
+	<div class="headblock-element">
+		<h1>{{contact.firstname}} {{contact.lastname}}</h1>
+			<div class="btn-group pull-right ">
+				<a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#"> Action <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="{{ path('EditContact',{'id': contact.id}) }}"><i class="icon-eye-open"></i> Modifier</a>
+					</li>
+				</ul>
+			</div>
+		<br/>
+		<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/mail.png') }}" ><a href="mailto:{{contact.email}}">{{contact.email}}</a>
+		<br/>
+		{{contact.streetnum}}
+		<br/>
+		{{contact.zip}} {{contact.city}} {{contact.country}}
+	</div>
+	<br/>
+	<strong>Tél:</strong> {{contact.phone}}
+	<br/>
+	<strong>Gsm:</strong> {{contact.gsm}}
+	<br/>
+	<strong>Date et lieu de naissance:</strong> {{contact.birthplace}} {{contact.birthdate|date('d/m/Y')}}
+	<br/>
+	<strong>Numéro de carte d'identité:</strong> {{contact.eid}}
+	<br/>
+	<strong>Numéro national:</strong> {{contact.niss}}
+	<br/>
+	<strong>Profession:</strong> {{contact.profession}}
 
-		<br/><strong>Statut matital:</strong> {{contact.maritalstatus}}
-		<div>
-			<br/><strong><u>Rentrées:</u></strong>
-			<ul>
+	<br/>
+	<strong>Statut matital:</strong> {{contact.maritalstatus}}
+	<div>
+		<br/>
+		<strong><u>Rentrées:</u></strong>
+		<ul>
 			<strong>Montant:</strong> {{contact.incomeamount}}
-			<br/><strong>Récurrence:</strong> {{contact.incomerecurence}}
-			<br/><strong>Date des rentrées:</strong> {{contact.incomedate}}
-			</ul>
-		</div>
-		</div>
-{% endif %}	
+			<br/>
+			<strong>Récurrence:</strong> {{contact.incomerecurence}}
+			<br/>
+			<strong>Date des rentrées:</strong> {{contact.incomedate}}
+		</ul>
+	</div>
+</div>
+{% endif %}
 {% endblock %}
-
 

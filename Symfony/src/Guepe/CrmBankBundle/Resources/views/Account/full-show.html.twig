@@ -1,357 +1,346 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
 {% block title %}Gestion des comptes{% endblock %}
-		
+
 {% block warning %}
-	{% if message %}
-		<div class="warning">{{ message }}</div>
-	{% endif %}
+{% if message %}
+<div class="warning">
+	{{ message }}
+</div>
+{% endif %}
 {% 	endblock %}
 
 {% block content %}
 
-{% if account|length > 0 %}		
-		<div id="showaccount"> 
-		<div class="headblock-element">
+{% if account|length > 0 %}
+<div id="showaccount">
+	<div class="headblock-element">
 		{{account.companyStatut}}
-			<div class="btn-group pull-right ">
-			 	 <a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#">
-		 	   Action
-		 	   <span class="caret"></span>
-		 	 </a> 
+		<div class="btn-group pull-right ">
+			<a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
 			<ul class="dropdown-menu">
-				<li><a href="{{ path('EditAccount',{'id': account.id }) }}"><i class="icon-eye-open"></i> Modifier</a></li>
+				<li>
+					<a href="{{ path('EditAccount',{'id': account.id }) }}"><i class="icon-eye-open"></i> Modifier</a>
+				</li>
 			</ul>
-			</div>	
+		</div>
 		<span class="account-product">{{account.name}}</span>
 
-		<br/>  {{account.type}} {{ account.startingdate|date('d/m/Y') }}
-		<br/> {{account.notes}}
-		</div>
 		<br/>
-		<div id="accordion">
+		{{account.type}} {{ account.startingdate|date('d/m/Y') }}
+		<br/>
+		{{account.notes}}
+	</div>
+	<br/>
+	<div id="accordion">
 
-      	<table class="table table-striped table-bordered table-condensed">
-	        <thead>
-	        <tr>
-	        	<th colspan=10 class="block_head">
-    				<span class="account-product">Contacts </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('SelectContact',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-	        		
-
-	        	</th>
-	        </tr>
-			<tr class="product-show-label">
-				<th>Prénom:</th>
-				<th>Nom:</th>
-				<th>Adresse:</th>
-				<th>Ville: </th>
-				<th>Code Postal: </th>
-				<th>Pays: </th>
-				<th>Email: </th>
-				<th>Tél: </th>
-				<th>GSM:</th>
-				<th width="118em"></th>
-			</tr>
-	        </thead>
-			<tbody>
-		{% for contact in account.contacts %}
-			<tr
-			{% if loop.index % 2 %} 
-				id="line1"		
-			{%else%}
-				id="line2"
-			{% endif %}
-			>
-			<td>{{contact.firstname}}</td>
-			<td>{{contact.lastname}}</td>
-			<td>{{contact.streetnum}}</td>
-			<td>{{contact.city}}</td>
-			<td>{{contact.zip}}</td>
-			<td>{{contact.country}}</td>
-			<td>{{contact.email}}</td>
-			<td>{{contact.phone}}</td>
-			<td>{{contact.gsm}}</td>
-
-			<td>
-				<a href=" {{path('ShowContact',{'id': contact.id}) }}">Afficher</a> |
-				<a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a>
-			</td>
-			</tr>
-		{% else %}
-			<tr><td colspan="9" class="no_data">Aucun  Contacts n'a été trouvé.</td></tr>		
-		{% endfor %}
-			</tbody>
-		</table>
-      	<table class="table table-striped table-bordered table-condensed">
-	        <thead>
-	        <tr>
-	        	<th colspan=9 class="block_head">
-					
-						<span class="account-product">Produits Banquaires </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-	        	</th>
-	        </tr>	
-			<tr class="product-show-label">
-				<th>Type:</th>
-				<th>Références:</th>
-				<th>Numéro de compte:</th>
-				<th>Organisme: </th>
-				<th>Montant: </th>
-				<th>Notes: </th>
-				<th>Taux d'intérêt: </th>
-				<th>Description: </th>
-				<th width="118em"></th>
-			</tr>
+		<table class="table table-striped table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th colspan=10 class="block_head"><span class="account-product">Contacts </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('SelectContact',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
+				</tr>
+				<tr class="product-show-label">
+					<th>Prénom:</th>
+					<th>Nom:</th>
+					<th>Adresse:</th>
+					<th>Ville: </th>
+					<th>Code Postal: </th>
+					<th>Pays: </th>
+					<th>Email: </th>
+					<th>Tél: </th>
+					<th>GSM:</th>
+					<th width="118em"></th>
+				</tr>
 			</thead>
 			<tbody>
-		{% for bankproduct in account.bankproduct %}
-			<tr 
-			{% if loop.index % 2 %} 
-				id="line1"				
-			{%else%}
+				{% for contact in account.contacts %}
+				<tr
+				{% if loop.index % 2 %}
+				id="line1"
+				{%else%}
 				id="line2"
-			{% endif %}
-			>
-				<td>{{bankproduct.type }}</td>
-				<td>{{bankproduct.references }}</td>
-				<td>{{bankproduct.number }}</td>
-				<td>{{bankproduct.company }}</td>
-				<td>{{bankproduct.amount }}</td>
-				<td>{{bankproduct.notes }}</td>
-				<td>{{bankproduct.tauxinteret }}</td>
-				<td> {{bankproduct.description }}</td>
-				<td><a href="{{path('DeleteProduct',{'id':account.id,'product_id': bankproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
-			</tr>
-		{% else %}
-			<tr><td colspan="9" class="no_data">Aucun Produits Bancaires n'a été trouvé.</td></tr>
-		{% endfor %}
+				{% endif %}
+				>
+					<td>{{contact.firstname}}</td>
+					<td>{{contact.lastname}}</td>
+					<td>{{contact.streetnum}}</td>
+					<td>{{contact.city}}</td>
+					<td>{{contact.zip}}</td>
+					<td>{{contact.country}}</td>
+					<td>{{contact.email}}</td>
+					<td>{{contact.phone}}</td>
+					<td>{{contact.gsm}}</td>
+
+					<td><a href=" {{path('ShowContact',{'id': contact.id}) }}">Afficher</a> | <a href=" {{path('DeleteContact',{'id':account.id,'contact_id': contact.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="9" class="no_data">Aucun  Contacts n'a été trouvé.</td>
+				</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 		<table class="table table-striped table-bordered table-condensed">
-	        <thead>
-	         <tr>
-	        	<th colspan=17 class="block_head">
-	        	<span class="account-product">Produits Crédit </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-	        	</th>
-	        </tr>	
-			<tr class="product-show-label">
-				<th>Type:</th> 
-				<th>Références:</th> 
-				<th>Numéro de compte:</th>
-				<th>Organisme: </th> 
-				<th>Montant: </th> 
-				<th>Date de début: </th>
-				<th>Date de fin: </th>
-				<th>Notes: </th> 
-				<th>Montant mensualité: </th> 
-				<th>Taux d'intérêt: </th> 
-				<th>Durée: </th> 
-				<th>Variabilité: </th> 
-				<th>Garantie: </th> 
-				<th>But: </th> 
-				<th>Description:  </th> 
-				<th>Date de paiement: </th>
-				<th width="118em"></th>
-			</tr>
+			<thead>
+				<tr>
+					<th colspan=9 class="block_head"><span class="account-product">Produits Banquaires </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('bankproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
+				</tr>
+				<tr class="product-show-label">
+					<th>Type:</th>
+					<th>Références:</th>
+					<th>Numéro de compte:</th>
+					<th>Organisme: </th>
+					<th>Montant: </th>
+					<th>Notes: </th>
+					<th>Taux d'intérêt: </th>
+					<th>Description: </th>
+					<th width="118em"></th>
+				</tr>
 			</thead>
 			<tbody>
-		{% for creditproduct in account.creditproduct %}
-			<tr
-			{% if loop.index % 2 %} 
-				id="line1"				
-			{%else%}
+				{% for bankproduct in account.bankproduct %}
+				<tr
+				{% if loop.index % 2 %}
+				id="line1"
+				{%else%}
 				id="line2"
-			{% endif %}
-			>
-				<td> {{creditproduct.type }}</td>
-				<td> {{creditproduct.references }}</td>
-				<td> {{creditproduct.number }}</td>
-				<td>{{creditproduct.company }}</td>
-				<td>{{creditproduct.amount }}</td>
-				<td>{{creditproduct.startdate|date('d/m/Y') }}</td>
-				<td>{{creditproduct.enddate|date('d/m/Y') }}</td>
-				<td>{{creditproduct.notes }}</td>
-				<td>{{creditproduct.recurrentprimeamount }}</td>
-				<td>{{creditproduct.tauxinteret }}</td>
-				<td> {{creditproduct.duration }}</td>
-				<td>{{creditproduct.variability }}</td>
-				<td>{{creditproduct.garantee }}</td>
-				<td>{{creditproduct.purpose }}</td>
-				<td>{{creditproduct.description }}</td>
-				<td>{{creditproduct.paymentdate }}</td>
-				<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': creditproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
-
-			</tr>
-		{% else %}
-			<tr><td colspan="17" class="no_data">Aucune Produits Crédits n'a été trouvé.</td></tr>
-		{% endfor %}
+				{% endif %}
+				>
+					<td>{{bankproduct.type }}</td>
+					<td>{{bankproduct.references }}</td>
+					<td>{{bankproduct.number }}</td>
+					<td>{{bankproduct.company }}</td>
+					<td>{{bankproduct.amount }}</td>
+					<td>{{bankproduct.notes }}</td>
+					<td>{{bankproduct.tauxinteret }}</td>
+					<td> {{bankproduct.description }}</td>
+					<td><a href="{{path('DeleteProduct',{'id':account.id,'product_id': bankproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="9" class="no_data">Aucun Produits Bancaires n'a été trouvé.</td>
+				</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 		<table class="table table-striped table-bordered table-condensed">
-	        <thead>
-	         <tr>
-	        	<th colspan=15 class="block_head">
-	        	<span class="account-product">Produits Fiscal </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-	        	
-	        	</th>
-			<tr class="product-show-label">
-				<th>Type:</th> 
-				<th>Références:</th> 
-				<th>Numéro de compte:</th> 
-				<th>Organisme: </th> 
-				<th>Date de début: </th> 
-				<th>Date de fin: </th> 
-				<th>Notes: </th> 
-				<th>Montant prime annuelle: </th> 
-				<th>Taux d'intérêt: </th>
-				<th>Garantie: </th> 
-				<th>Description:  </th> 
-				<th>Date de paiement: </th> 
-				<th>Reserve:  </th>
-				<th>Date de réserve: </th> 
-				<th width="118em"></th>
-			</tr>
+			<thead>
+				<tr>
+					<th colspan=17 class="block_head"><span class="account-product">Produits Crédit </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('creditproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
+				</tr>
+				<tr class="product-show-label">
+					<th>Type:</th>
+					<th>Références:</th>
+					<th>Numéro de compte:</th>
+					<th>Organisme: </th>
+					<th>Montant: </th>
+					<th>Date de début: </th>
+					<th>Date de fin: </th>
+					<th>Notes: </th>
+					<th>Montant mensualité: </th>
+					<th>Taux d'intérêt: </th>
+					<th>Durée: </th>
+					<th>Variabilité: </th>
+					<th>Garantie: </th>
+					<th>But: </th>
+					<th>Description: </th>
+					<th>Date de paiement: </th>
+					<th width="118em"></th>
+				</tr>
 			</thead>
 			<tbody>
-		{% for fiscalproduct in account.fiscalproduct %}
-			<tr
-			{% if loop.index % 2 %} 
-				id="line1"				
-			{%else%}
+				{% for creditproduct in account.creditproduct %}
+				<tr
+				{% if loop.index % 2 %}
+				id="line1"
+				{%else%}
 				id="line2"
-			{% endif %}
-			>
-				 <td>{{fiscalproduct.type }}</td>
-				 <td>{{fiscalproduct.references }}</td>
-				 <td>{{fiscalproduct.number }}</td>
-				 <td>{{fiscalproduct.company }}</td>
-				 <td>{{fiscalproduct.startdate|date('d/m/Y') }}</td>
-				 <td>{{fiscalproduct.enddate|date('d/m/Y') }}</td>
-				 <td>{{fiscalproduct.notes }}</td>
-				 <td>{{fiscalproduct.recurrentprimeamount }}</td>
-				 <td>{{fiscalproduct.tauxinteret }}</td>
-				 <td>{{fiscalproduct.garantee }}</td>
-				 <td>{{fiscalproduct.description }}</td>
-				 <td>{{fiscalproduct.paymentdate}}</td>
-				 <td>{{fiscalproduct.reserve }}</td>
-				 <td>{{fiscalproduct.reservedate|date('d/m/Y') }}</td>
-				 <td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': fiscalproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
-			</tr>
-		{% else %}
-			<tr><td colspan="15" class="no_data">Aucune Produits Fiscal n'a été trouvé.</td></tr>
-		{% endfor %}
+				{% endif %}
+				>
+					<td> {{creditproduct.type }}</td>
+					<td> {{creditproduct.references }}</td>
+					<td> {{creditproduct.number }}</td>
+					<td>{{creditproduct.company }}</td>
+					<td>{{creditproduct.amount }}</td>
+					<td>{{creditproduct.startdate|date('d/m/Y') }}</td>
+					<td>{{creditproduct.enddate|date('d/m/Y') }}</td>
+					<td>{{creditproduct.notes }}</td>
+					<td>{{creditproduct.recurrentprimeamount }}</td>
+					<td>{{creditproduct.tauxinteret }}</td>
+					<td> {{creditproduct.duration }}</td>
+					<td>{{creditproduct.variability }}</td>
+					<td>{{creditproduct.garantee }}</td>
+					<td>{{creditproduct.purpose }}</td>
+					<td>{{creditproduct.description }}</td>
+					<td>{{creditproduct.paymentdate }}</td>
+					<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': creditproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
+
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="17" class="no_data">Aucune Produits Crédits n'a été trouvé.</td>
+				</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 		<table class="table table-striped table-bordered table-condensed">
-	        <thead>
-	         <tr>
-	        	<th colspan=18 class="block_head">
-	        	<span class="account-product">Produits Epargnes </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-	        	
-	        	</th>
-			<tr class="product-show-label">
-				<th>Type:</th>
-				<th>Prime:</th> 
-				<th>Références:</th> 
-				<th>Numéro de compte:</th> 
-				<th>Organisme: </th> 
-				<th>Montant: </th> 
-				<th>Date de début: </th>
-				<th>Date de fin: </th>
-				<th>Notes: </th>
-				<th>Capital à terme: </th>
-				<th>Taux d'intérêt: </th> 
-				<th>Durée: </th> 
-				<th>Garantie: </th>
-				<th>Description:  </th> 
-				<th>Date de paiement: </th> 
-				<th>Reserve:  </th>
-				<th>Date de réserve: </th> 
-				<th width="118em"></th>
-			</tr>
+			<thead>
+				<tr>
+					<th colspan=15 class="block_head"><span class="account-product">Produits Fiscal </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('fiscalproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
+				<tr class="product-show-label">
+					<th>Type:</th>
+					<th>Références:</th>
+					<th>Numéro de compte:</th>
+					<th>Organisme: </th>
+					<th>Date de début: </th>
+					<th>Date de fin: </th>
+					<th>Notes: </th>
+					<th>Montant prime annuelle: </th>
+					<th>Taux d'intérêt: </th>
+					<th>Garantie: </th>
+					<th>Description: </th>
+					<th>Date de paiement: </th>
+					<th>Reserve: </th>
+					<th>Date de réserve: </th>
+					<th width="118em"></th>
+				</tr>
 			</thead>
 			<tbody>
-		{% for savingsproduct in account.savingsproduct %}
-			<tr
-			{% if loop.index % 2 %} 
-				id="line1"				
-			{%else%}
+				{% for fiscalproduct in account.fiscalproduct %}
+				<tr
+				{% if loop.index % 2 %}
+				id="line1"
+				{%else%}
 				id="line2"
-			{% endif %}
-			>
-			 <td>{{savingsproduct.type }}</td>
- 			 <td>{{savingsproduct.primerecurence }}</td>
-			 <td>{{savingsproduct.references }}</td>
-			 <td>{{savingsproduct.number }}</td>
-			 <td>{{savingsproduct.company }}</td>
-			 <td>{{savingsproduct.amount }}</td>
-			 <td>{{savingsproduct.startdate|date('d/m/Y') }}</td>
-			 <td>{{savingsproduct.enddate|date('d/m/Y') }}</td>
-			 <td>{{savingsproduct.notes }}</td>
-			 <td>{{savingsproduct.capitalterme }}</td>
-			 <td>{{savingsproduct.tauxinteret }}</td>
-			 <td>{{savingsproduct.duration }}</td>
-			 <td>{{savingsproduct.garantee }}</td>
-			 <td>{{savingsproduct.description }}</td>
-			 <td>{{savingsproduct.paymentdate }}</td>
-			 <td>{{savingsproduct.reserve }}</td>
-			 <td>{{savingsproduct.reservedate|date('d/m/Y') }}</td>
-			<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': savingsproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
-
-			</tr>
-		{% else %}
-			<tr><td colspan="18" class="no_data">Aucune Produits de Placement n'a été trouvé.</td></tr>
-		{% endfor %}
-		</table>
+				{% endif %}
+				>
+					<td>{{fiscalproduct.type }}</td>
+					<td>{{fiscalproduct.references }}</td>
+					<td>{{fiscalproduct.number }}</td>
+					<td>{{fiscalproduct.company }}</td>
+					<td>{{fiscalproduct.startdate|date('d/m/Y') }}</td>
+					<td>{{fiscalproduct.enddate|date('d/m/Y') }}</td>
+					<td>{{fiscalproduct.notes }}</td>
+					<td>{{fiscalproduct.recurrentprimeamount }}</td>
+					<td>{{fiscalproduct.tauxinteret }}</td>
+					<td>{{fiscalproduct.garantee }}</td>
+					<td>{{fiscalproduct.description }}</td>
+					<td>{{fiscalproduct.paymentdate}}</td>
+					<td>{{fiscalproduct.reserve }}</td>
+					<td>{{fiscalproduct.reservedate|date('d/m/Y') }}</td>
+					<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': fiscalproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="15" class="no_data">Aucune Produits Fiscal n'a été trouvé.</td>
+				</tr>
+				{% endfor %}
 			</tbody>
-		</div>
+		</table>
+		<table class="table table-striped table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th colspan=18 class="block_head"><span class="account-product">Produits Epargnes </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('savingsproduct_create',{'account_id': account.id}) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
+				<tr class="product-show-label">
+					<th>Type:</th>
+					<th>Prime:</th>
+					<th>Références:</th>
+					<th>Numéro de compte:</th>
+					<th>Organisme: </th>
+					<th>Montant: </th>
+					<th>Date de début: </th>
+					<th>Date de fin: </th>
+					<th>Notes: </th>
+					<th>Capital à terme: </th>
+					<th>Taux d'intérêt: </th>
+					<th>Durée: </th>
+					<th>Garantie: </th>
+					<th>Description: </th>
+					<th>Date de paiement: </th>
+					<th>Reserve: </th>
+					<th>Date de réserve: </th>
+					<th width="118em"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for savingsproduct in account.savingsproduct %}
+				<tr
+				{% if loop.index % 2 %}
+				id="line1"
+				{%else%}
+				id="line2"
+				{% endif %}
+				>
+					<td>{{savingsproduct.type }}</td>
+					<td>{{savingsproduct.primerecurence }}</td>
+					<td>{{savingsproduct.references }}</td>
+					<td>{{savingsproduct.number }}</td>
+					<td>{{savingsproduct.company }}</td>
+					<td>{{savingsproduct.amount }}</td>
+					<td>{{savingsproduct.startdate|date('d/m/Y') }}</td>
+					<td>{{savingsproduct.enddate|date('d/m/Y') }}</td>
+					<td>{{savingsproduct.notes }}</td>
+					<td>{{savingsproduct.capitalterme }}</td>
+					<td>{{savingsproduct.tauxinteret }}</td>
+					<td>{{savingsproduct.duration }}</td>
+					<td>{{savingsproduct.garantee }}</td>
+					<td>{{savingsproduct.description }}</td>
+					<td>{{savingsproduct.paymentdate }}</td>
+					<td>{{savingsproduct.reserve }}</td>
+					<td>{{savingsproduct.reservedate|date('d/m/Y') }}</td>
+					<td><a href=" {{path('DeleteProduct',{'id':account.id,'product_id': savingsproduct.id}) }}" onclick="return confirm('Etes vous sur ? ');">Supprimer</a></td>
 
-		</div>
-{% endif %}	
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="18" class="no_data">Aucune Produits de Placement n'a été trouvé.</td>
+				</tr>
+				{% endfor %}
+		</table>
+		</tbody>
+	</div>
+
+</div>
+{% endif %}
 {% endblock %}
-
 
