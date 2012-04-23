@@ -23,14 +23,14 @@
 			<arg line="--report=checkstyle
               			--report-file=${output}/phpcs/checkstyle.xml
               			--standard=Zend
-              			${basedir}" />
+              			${basedir}/Symfony/app/src/" />
 		</exec>
 	</target>
 
 	<target name="phpmd">
 		<exec executable="phpmd">
 			<arg line="
-				 . xml codesize,unusedcode,naming,design --reportfile ${output}/messdetector.xml --exclude Tests/
+				${basedir}/Symfony/app/src/ xml codesize,unusedcode,naming,design --reportfile ${output}/messdetector.xml --exclude Tests/
 			" />
 		</exec>
 	</target>
@@ -38,7 +38,7 @@
 	<target name="phpcpd">
 		<exec executable="phpcpd">
 			<arg line="
-				 --log-pmd ${output}/phpcpd.xml .
+				 --log-pmd ${output}/phpcpd.xml ${basedir}/Symfony/app/src/
 			" />
 		</exec>
 	</target>
@@ -50,7 +50,7 @@
 				--jdepend-chart=${output}/pdepend/dependencies.svg
 				--overview-pyramid=${output}/pdepend/overview-pyramid.svg
 				--ignore=Tests/
-				.
+				${basedir}/Symfony/app/src/
 			" />
 		</exec>
 	</target>
