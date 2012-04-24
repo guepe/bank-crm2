@@ -25,6 +25,8 @@ class ContactForm extends AbstractType {
 						array("label" => "Email", 'required' => false))
 				->add('phone', 'text',
 						array("label" => "Téléphone", 'required' => false))
+				->add('phone2', 'text',
+						array("label" => "Autre téléphone", 'required' => false))
 				->add('gsm', 'text',
 						array("label" => "GSM", 'required' => false))
 				->add('birthplace', 'text',
