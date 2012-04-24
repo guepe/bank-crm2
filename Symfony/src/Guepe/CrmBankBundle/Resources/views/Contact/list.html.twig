@@ -13,7 +13,11 @@
 		 	 </a>
 			  <ul class="dropdown-menu">
 				<li><a href="{{path('ShowContact',{'id': cat.id}) }}"><i class="icon-eye-open"></i> Afficher</a></li>
-				<li><a href="{{ path('EditContact',{'id': cat.id}) }}"><i class="icon-pencil"></i> Modifier</a></li>	  </ul>
+				<li><a href="{{ path('EditContact',{'id': cat.id}) }}"><i class="icon-pencil"></i> Modifier</a></li>	  
+				{% if account_id %}
+					<li><a href="{{ path('AddContactToAccount',{'id': account_id ,'contact_id' : cat.id}) }}">Selectionner</a></li>
+				{% endif %}
+			</ul>
 			</div>
 			</th>
 		</tr>
