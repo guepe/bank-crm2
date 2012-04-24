@@ -1,6 +1,6 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
-{% block title %}Edit/add des contact{% endblock %}
+{% block title %}Contact: {{contact.firstname}} {{contact.lastname}}{% endblock %}
 
 {% block warning %}
 {% if message %}
@@ -12,9 +12,9 @@
 
 {% block content %}
 {% if contact|length > 0 %}
-<div id="showcontact">
+<div id="showbaseelement">
 	<div class="headblock-element">
-		<h1>{{contact.firstname}} {{contact.lastname}}</h1>
+		<span class="element_title">{{contact.firstname}} {{contact.lastname}}</span>
 			<div class="btn-group pull-right ">
 				<a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#"> Action <span class="caret"></span></a>
 				<ul class="dropdown-menu">
