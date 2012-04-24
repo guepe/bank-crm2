@@ -1,41 +1,37 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
-
 {% block title %}Edit/add des account{% endblock %}
 
 {% block content %}
 
 <script type="text/javascript">
 	$(function(){
-		// Datepicker
-		$('#account_starting_date').datepicker($.datepicker.regional["fr"]);
-		
-		{% for contact in form.contacts %}
-		$('#account_contacts_{{loop.index-1}}_birthdate').datepicker($.datepicker.regional["fr"]);
-		$('#account_contacts_{{loop.index-1}}_income_date').datepicker($.datepicker.regional["fr"]);
-		{% endfor %}
-		
-		{% for creditproduct in form.creditproduct %}
-		$('#account_creditproduct_{{loop.index-1}}_startdate').datepicker($.datepicker.regional["fr"]);
-		$('#account_creditproduct_{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);
-		{% endfor %}
-		
-		{% for fiscalproduct in form.fiscalproduct %}
-		$('#account_fiscalproduct_{{loop.index-1}}_startdate').datepicker($.datepicker.regional["fr"]);
-		$('#account_fiscalproduct_{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);
-		$('#account_fiscalproduct_{{loop.index-1}}_reservedate').datepicker($.datepicker.regional["fr"]);
-		{% endfor %}
+// Datepicker
+$('#account_starting_date').datepicker($.datepicker.regional["fr"]);
 
-		{% for savingsproduct in form.savingsproduct %}
-		$('#account_savingsproduct_{{loop.index-1}}_startdate').datepicker($.datepicker.regional["fr"]);
-		$('#account_savingsproduct_{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);
-		$('#account_savingsproduct_{{loop.index-1}}_reservedate').datepicker($.datepicker.regional["fr"]);
-		{% endfor %}
-		
-	});
-	
-</script>
-
+{% for contact in form.contacts %}
+$('#account_contacts_{{loop.index-1}}
+	_birthdate').datepicker($.datepicker.regional["fr"]);
+	$('#account_contacts_
+{{loop.index-1}}_income_date').datepicker($.datepicker.regional["fr"]);{% endfor %}{% for creditproduct in form.creditproduct %}
+$('#account_creditproduct_{{loop.index-1}}
+	_startdate').datepicker($.datepicker.regional["fr"]);
+	$('#account_creditproduct_
+{{loop.index-1}}_enddate').datepicker($.datepicker.regional["fr"]);{% endfor %}{% for fiscalproduct in form.fiscalproduct %}
+$('#account_fiscalproduct_{{loop.index-1}}
+	_startdate').datepicker($.datepicker.regional["fr"]);
+	$('#account_fiscalproduct_
+{{loop.index-1}}
+	_enddate').datepicker($.datepicker.regional["fr"]);
+	$('#account_fiscalproduct_
+{{loop.index-1}}_reservedate').datepicker($.datepicker.regional["fr"]);{% endfor %}{% for savingsproduct in form.savingsproduct %}
+$('#account_savingsproduct_{{loop.index-1}}
+	_startdate').datepicker($.datepicker.regional["fr"]);
+	$('#account_savingsproduct_
+{{loop.index-1}}
+	_enddate').datepicker($.datepicker.regional["fr"]);
+	$('#account_savingsproduct_
+{{loop.index-1}}_reservedate').datepicker($.datepicker.regional["fr"]);{% endfor %}});</script>
 
 {% if message %}
 <p>
@@ -46,206 +42,154 @@
 	<form action="" method="post" {{ form_enctype(form) }}>
 		<div class="headblock-element">
 
-		{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+			{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
 
-		{{ form_row(form.name) }}
-		{{ form_row(form.company_statut) }}				
-		{{ form_row(form.type) }}				
-		{{ form_row(form.starting_date) }}				
-		{{ form_row(form.otherbank) }}				
-		{{ form_row(form.streetnum) }}				
-		{{ form_row(form.zip) }}				
-		{{ form_row(form.city) }}				
-		{{ form_row(form.country) }}				
-		{{ form_row(form.notes) }}				
+			{{ form_row(form.name) }}
+			{{ form_row(form.company_statut) }}
+			{{ form_row(form.type) }}
+			{{ form_row(form.starting_date) }}
+			{{ form_row(form.otherbank) }}
+			{{ form_row(form.streetnum) }}
+			{{ form_row(form.zip) }}
+			{{ form_row(form.city) }}
+			{{ form_row(form.country) }}
+			{{ form_row(form.notes) }}
 
 		</div>
-	<br/>
+		<br/>
 		<table class="table table-striped table-bordered table-condensed ">
 			<thead>
 				<tr>
-					<th class="block_head">
-    				<span class="account-product ">Contacts </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('SelectContact',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-		        	</th>
+					<th class="block_head"><span class="account-product ">Contacts </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('SelectContact',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
 				</tr>
 			</thead>
 			<tbody>
-		{% for contact in form.contacts %}
-			<tr>
-				<td class="products_row">
-					{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
-					{{ form_row(contact)}}
-				</td>
-			</tr>
-			{% endfor %} 
+				{% for contact in form.contacts %}
+				<tr>
+					<td class="products_row"> {% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+					{{ form_row(contact)}} </td>
+				</tr>
+				{% endfor %}
 			</tbody>
 		</table>
-		
-		
-		
-		<div class="row tabbable tabs-left">
-		
-		<ul class="nav nav-tabs span2">
-			 <li class="active"><a href="#bank" data-toggle="tab">Produits bancaires</a></li>
-			 <li><a href="#credit" data-toggle="tab">Produits crédit</a></li>
-			 <li><a href="#fiscal" data-toggle="tab">Produits fiscaux</a></li>
-			 <li><a href="#saving" data-toggle="tab">Produits epargne</a></li>
-		</ul>
-		
-		<div class="tab-content span10">
-		<div class="tab-pane active" id="bank">
+
 		<table class="table table-striped table-bordered table-condensed ">
 			<thead>
 				<tr>
-					<th class="block_head">
-    				<span class="account-product">Produits Banquaires </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('bankproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-		        	</th>
+					<th class="block_head"><span class="account-product">Produits Banquaires </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('bankproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
 				</tr>
 			</thead>
-			<tbody>	
-			
-			
-		{% for bankproduct in form.bankproduct %}
-		<tr>
-				<td class="products_row">
-					{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
-					{{ form_row(bankproduct)}}
-				</td>
-			</tr>
-	
-		{% endfor %}
-					</tbody>
+			<tbody>
+
+				{% for bankproduct in form.bankproduct %}
+				<tr>
+					<td class="products_row"> {% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+					{{ form_row(bankproduct)}} </td>
+				</tr>
+
+				{% endfor %}
+			</tbody>
 		</table>
 
-		</div>
-		<div class="tab-pane" id="credit">
 		<table class="table table-striped table-bordered table-condensed ">
 			<thead>
 				<tr>
-					<th class="block_head">
-    				<span class="account-product ">Produits Crédit </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('creditproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-		        	</th>
+					<th class="block_head"><span class="account-product ">Produits Crédit </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('creditproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
 				</tr>
 			</thead>
-			<tbody>	
-		{% for creditproduct in form.creditproduct %}
-		<tr>
-				<td class="products_row">
-					{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
-					{{ form_row(creditproduct)}}
-				</td>
-			</tr>
-		{% endfor %}	
-					</tbody>
+			<tbody>
+				{% for creditproduct in form.creditproduct %}
+				<tr>
+					<td class="products_row"> {% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+					{{ form_row(creditproduct)}} </td>
+				</tr>
+				{% endfor %}
+			</tbody>
 		</table>
 
-		</div>
-
-		<div class="tab-pane" id="fiscal">
 		<table class="table table-striped table-bordered table-condensed ">
 			<thead>
 				<tr>
-					<th class="block_head">
-    				<span class="account-product ">Produits Fiscaux </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('fiscalproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-		        	</th>
+					<th class="block_head"><span class="account-product ">Produits Fiscaux </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('fiscalproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
 				</tr>
 			</thead>
-			<tbody>	
-			
-		{% for fiscalproduct in form.fiscalproduct %}
-		<tr>
-				<td class="products_row">
-					{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
-					{{ form_row(fiscalproduct)}}
-				</td>
-			</tr>
-		{% endfor %}
-					</tbody>
+			<tbody>
+
+				{% for fiscalproduct in form.fiscalproduct %}
+				<tr>
+					<td class="products_row"> {% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+					{{ form_row(fiscalproduct)}} </td>
+				</tr>
+				{% endfor %}
+			</tbody>
 		</table>
-		</div>
-		<div class="tab-pane" id="saving">	
-			<table class="table table-striped table-bordered table-condensed ">
+
+		<table class="table table-striped table-bordered table-condensed ">
 			<thead>
 				<tr>
-					<th class="block_head">
-    				<span class="account-product ">Produits Epargne </span>
-		   				<div class="btn-group pull-right">
-					 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-					 	   Action
-					 	   <span class="caret"></span>
-					 	 </a> 
-    					<ul class="dropdown-menu">
-    						<li><a href="{{ path('savingsproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a></li>
-    					</ul>
-	        			</div>	
-		        	</th>
+					<th class="block_head"><span class="account-product ">Produits Epargne </span>
+					<div class="btn-group pull-right">
+						<a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="{{ path('savingsproduct_create',{'account_id': account.id }) }}"><i class="icon-plus"></i> Ajouter</a>
+							</li>
+						</ul>
+					</div></th>
 				</tr>
 			</thead>
-			<tbody>	
-		{% for savingsproduct in form.savingsproduct %}
-		<tr>
-				<td class="products_row">
-					{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
-					{{ form_row(savingsproduct)}}
-				</td>
-			</tr>
-			{% endfor %}
+			<tbody>
+				{% for savingsproduct in form.savingsproduct %}
+				<tr>
+					<td class="products_row"> {% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+					{{ form_row(savingsproduct)}} </td>
+				</tr>
+				{% endfor %}
 
 			</tbody>
 		</table>
 
-			</div>
-		</div>
-		</div>
-		
-		
-		<span class="hidden">					
-		{{ form_rest(form) }}
-		</span>
+		<span class="hidden"> {{ form_rest(form) }} </span>
 		<input type="submit" value="Enregistrer" />
 	</form>
 
-<script>
-  $(function () {
-    $('.tabs a:last').tab('show')
-  })
-</script>
+	<script>
+		$(function() {
+			$('.tabs a:last').tab('show')
+		})
+	</script>
 
 </div>
 {% endblock %} 
