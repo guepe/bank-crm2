@@ -1,6 +1,6 @@
 {% extends 'GuepeCrmBankBundle::layout.html.twig' %}
 
-{% block title %}Gestion des comptes{% endblock %}
+{% block title %}Compte: {{account.name}}{% endblock %}
 
 {% block warning %}
 {% if message %}
@@ -13,7 +13,7 @@
 {% block content %}
 
 {% if account|length > 0 %}
-<div id="showaccount">
+<div id="showbaseelement">
 	<div class="headblock-element">
 		{{account.companyStatut}}
 		<div class="btn-group pull-right ">
@@ -24,7 +24,7 @@
 				</li>
 			</ul>
 		</div>
-		<span class="account-product">{{account.name}}</span>
+		<span class="element_title">{{account.name}}</span>
 
 		<br/>
 		{{account.type}} {{ account.startingdate|date('d/m/Y') }}
