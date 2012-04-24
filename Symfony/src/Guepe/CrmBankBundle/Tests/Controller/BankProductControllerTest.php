@@ -40,7 +40,7 @@ class BankProductControllerTest extends WebTestCase {
 				->assertTrue(
 						$crawler
 								->filter(
-										'span.account-product:contains("Test")')
+										'span:contains("Test")')
 								->count() > 0);
 
 		/*
@@ -99,7 +99,7 @@ class BankProductControllerTest extends WebTestCase {
 		// Check data in the show view
 		//		<span class="account-product">Test2</span>
 
-		$this->assertTrue($crawler->filter('h1:contains("Test")')->count() > 0);
+		$this->assertTrue($crawler->filter('span:contains("Test")')->count() > 0);
 
 	}
 
