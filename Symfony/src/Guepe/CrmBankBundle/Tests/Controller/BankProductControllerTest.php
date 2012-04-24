@@ -86,6 +86,8 @@ class BankProductControllerTest extends WebTestCase {
 								'contact[country]' => 'BE',
 								'contact[email]' => 'nospam@hoe.be',
 								'contact[phone]' => '989898',
+								'contact[phone2]' => '989898',
+								'contact[birthplace]' => 'chenee',
 								'contact[gsm]' => '9898989'
 						// ... other fields to fill
 						));
