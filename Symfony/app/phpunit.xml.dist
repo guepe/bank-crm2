@@ -26,7 +26,6 @@
     </php>
     -->
     
-    
     <logging>
 	 <log type="coverage-html" target="../../build/coverage" title="Name of Project"
 	      charset="UTF-8" yui="true" highlight="true"
@@ -46,6 +45,10 @@
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
             </exclude>
         </whitelist>
+ 		 <blacklist>
+                <directory>../src/*/*Bundle/Tests/Utils</directory>
+                <directory>../src/*/*Bundle/Tests/Common</directory>
+        </blacklist>       
     </filter>
 
 </phpunit>
