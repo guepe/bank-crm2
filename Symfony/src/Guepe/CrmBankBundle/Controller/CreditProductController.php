@@ -21,7 +21,7 @@ class CreditProductController extends Controller {
 	 * Lists all BankProduct entities.
 	 * @Template()
 	 *
-	 */
+	 *
 	public function indexAction() {
 		$em = $this->getDoctrine()->getEntityManager();
 

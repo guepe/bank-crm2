@@ -21,7 +21,7 @@ class FiscalProductController extends Controller {
 	 * Lists all FiscalProduct entities.
 	 * @Template()
 	 *
-	 */
+	 *
 	public function indexAction() {
 		$em = $this->getDoctrine()->getEntityManager();
 
@@ -31,7 +31,7 @@ class FiscalProductController extends Controller {
 		return array('entities' => $entities);
 	}
 
-	/**
+	**
 	 * Creates a new FiscalProduct entity.
 	 * 
 	 */

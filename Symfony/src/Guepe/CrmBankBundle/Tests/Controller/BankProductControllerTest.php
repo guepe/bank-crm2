@@ -2,6 +2,8 @@
 
 namespace Guepe\CrmBankBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Guepe\CrmBankBundle\Tests\Utils\Utils;
+use Guepe\CrmBankBundle\Tests\Common\Common;
 
 class BankProductControllerTest extends WebTestCase {
 
@@ -9,8 +11,7 @@ class BankProductControllerTest extends WebTestCase {
 		// Create a new client to browse the application
 		$client = static::createClient();
 
-		$crawler = $client->request('GET', '/CleanDB');
-		$this->assertTrue(200 === $client->getResponse()->getStatusCode());
+		$this->assertTrue(200 == Utils::CleanDB($client));
 
 		// Create a new entry in the database
 		$crawler = $client->request('GET', '/account/add');
@@ -40,8 +41,7 @@ class BankProductControllerTest extends WebTestCase {
 				->assertTrue(
 						$crawler->filter('span:contains("Test")')->count() > 0);
 
-		$crawler = $client->request('GET', '/CleanDB');
-		$this->assertTrue(200 === $client->getResponse()->getStatusCode());
+		$this->assertTrue(200 == Utils::CleanDB($client));
 
 	}
 
@@ -49,8 +49,7 @@ class BankProductControllerTest extends WebTestCase {
 		// Create a new client to browse the application
 		$client = static::createClient();
 
-		$crawler = $client->request('GET', '/CleanDB');
-		$this->assertTrue(200 === $client->getResponse()->getStatusCode());
+		$this->assertTrue(200 == Utils::CleanDB($client));
 
 		// Create a new entry in the database
 		$crawler = $client->request('GET', '/contact/add');
@@ -122,19 +121,19 @@ class BankProductControllerTest extends WebTestCase {
 		$this
 				->assertTrue(
 						$crawler->filter('a:contains("Test")')->count() > 0);
-		
+
 		$link = $crawler->filter('a:contains("Selectionner")')->link();
 
 		$crawler = $client->click($link);
-		
+
 		$crawler = $client->followRedirect();
-		
+
 		$this
 				->assertTrue(
-						$crawler->filter('td:contains("test tes")')->count() > 0);						
+						$crawler->filter('td:contains("test tes")')->count()
+								> 0);
 
-		$crawler = $client->request('GET', '/CleanDB');
-		$this->assertTrue(200 === $client->getResponse()->getStatusCode());
+		$this->assertTrue(200 == Utils::CleanDB($client));
 
 	}
 
@@ -142,8 +141,7 @@ class BankProductControllerTest extends WebTestCase {
 		// Create a new client to browse the application
 		$client = static::createClient();
 
-		$crawler = $client->request('GET', '/CleanDB');
-		$this->assertTrue(200 === $client->getResponse()->getStatusCode());
+		$this->assertTrue(200 == Utils::CleanDB($client));
 
 		// Create a new entry in the database
 		$crawler = $client->request('GET', '/contact/add');
@@ -174,8 +172,33 @@ class BankProductControllerTest extends WebTestCase {
 				->assertTrue(
 						$crawler->filter('span:contains("Test")')->count() > 0);
 
-		$crawler = $client->request('GET', '/CleanDB');
-		$this->assertTrue(200 === $client->getResponse()->getStatusCode());
+		$this->assertTrue(200 == Utils::CleanDB($client));
+
+	}
+
+	public function testAddAccountAddProduct() {
+		// Create a new client to browse the application
+		$client = static::createClient();
+
+		$this->assertTrue(200 == Utils::CleanDB($client));
+
+		$crawler = Common::addAccount($client);
+
+		$this
+				->assertTrue(
+						$crawler->filter('span:contains("Test")')->count() > 0);
+
+		// Optionnal assert
+		//	$this
+		//		->assertEquals(" Ajouter",
+		//				$crawler->filter('a#addcreditproduct')->text());
+
+		$this->assertTrue(Common::testAddProduct($client, "credit", $crawler));
+		$this->assertTrue(Common::testAddProduct($client, "bank", $crawler));
+		$this->assertTrue(Common::testAddProduct($client, "savings", $crawler));
+		$this->assertTrue(Common::testAddProduct($client, "fiscal", $crawler));
+
+		$this->assertTrue(200 == Utils::CleanDB($client));
 
 	}
 

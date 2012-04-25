@@ -21,7 +21,7 @@ class SavingsProductController extends Controller {
 	 * Lists all SavingsProduct entities.
 	 * @Template()
 	 *
-	 */
+	 *
 	public function indexAction() {
 		$em = $this->getDoctrine()->getEntityManager();
 
@@ -30,7 +30,7 @@ class SavingsProductController extends Controller {
 
 		return array('entities' => $entities);
 	}
-
+*/
 	/**
 	 * Creates a new SavingsProduct entity.
 	 * 
