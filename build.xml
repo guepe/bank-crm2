@@ -21,6 +21,13 @@
 			<arg line=" -c ${basedir}/Symfony/app/"/>
 		</exec>
 	</target>
+	
+	
+	<target name="behat" description="Run Scenario with Behat">
+	  <exec executable="behat" failonerror="off">
+	    <arg line=" --format='junit' --out='${basedir}/build/logs/phpunit.xml' ${basedir}/features" />
+	  </exec>
+	</target>
 
 	<target name="phpcs">
 		<exec executable="phpcs">
