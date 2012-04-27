@@ -12,6 +12,8 @@ group:
         deleted: Skupina je bila uspešno izbrisana
 
 # Security
+"Bad credentials": Napačno uporabniško ime ali geslo
+
 security:
     login:
         username: "Uporabniško ime:"
@@ -43,14 +45,15 @@ registration:
     submit: Registracija
     flash:
         user_created: Uporabnik je bil uspešno ustvarjen
-    email: |
-        Aktivacija računa
-        Pozdravljeni %username%!
+    email:
+        subject: Aktivacija računa
+        message: |
+            Pozdravljeni %username%!
 
-        Za aktivacijo računa prosimo, obiščite %confirmationUrl%
+            Za aktivacijo računa prosimo, obiščite %confirmationUrl%
 
-        lp,
-        ekipa.
+            lp,
+            ekipa.
 
 # Password resetting
 resetting:
@@ -64,14 +67,15 @@ resetting:
         submit: Spremeni geslo
     flash:
         success: Geslo je bilo uspešno spremenjeno
-    email: |
-        Sprememba gesla
-        Pozdravljeni %username%!
+    email:
+        subject: Sprememba gesla
+        message: |
+            Pozdravljeni %username%!
 
-        Za spremembo gesla prosimo, obiščite %confirmationUrl%
+            Za spremembo gesla prosimo, obiščite %confirmationUrl%
 
-        lp,
-        ekipa.
+            Lep pozdrav,
+            ekipa.
 
 # Global strings
 layout:
@@ -90,7 +94,7 @@ fos_user_profile_form_current: "Trenutno geslo:"
 fos_user_registration_form_username: "Uporabniško ime:"
 fos_user_registration_form_email: "Email:"
 fos_user_registration_form_plainPassword_first:  "Geslo:"
-fos_user_registration_form_plainPassword_second: "Trenutno geslo:"
+fos_user_registration_form_plainPassword_second: "Preverjanje gesla:"
 
 fos_user_resetting_form_new_first: "Novo geslo:"
 fos_user_resetting_form_new_second: "Preverjanje gesla:"

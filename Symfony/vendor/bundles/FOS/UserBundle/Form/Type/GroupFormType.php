@@ -31,9 +31,12 @@ class GroupFormType extends AbstractType
         $builder->add('name');
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
-        return array('data_class' => $this->class);
+        return array(
+            'data_class' => $this->class,
+            'intention'  => 'group',
+        );
     }
 
     public function getName()
