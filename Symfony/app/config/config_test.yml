@@ -12,3 +12,11 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+
+mink:
+    base_url:   http://localhost:10085/app_test.php
+    
+behat:
+  context:
+    class: LoginFeatureContext

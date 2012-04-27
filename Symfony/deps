@@ -1,3 +1,11 @@
+[MinkBundle]
+    git=https://github.com/Behat/MinkBundle.git
+    target=/bundles/Behat/MinkBundle
+
+[BehatBundle]
+    git=https://github.com/Behat/BehatBundle.git
+    target=/bundles/Behat/BehatBundle
+
 [symfony]
     git=http://github.com/symfony/symfony.git
     version=v2.0.7
