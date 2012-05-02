@@ -35,7 +35,6 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
 	 */
 	public function iAmNotLoggedIn() {
 		$this->assertPageContainsText("Connexion");
-		//throw new PendingException();
 	}
 
 	/**
@@ -44,6 +43,11 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
 	public function iSouldBeRedirectedToLoginForm() {
 		$this->assertPageContainsText("Nom d'utilisateur");
 	}
-
+	/**
+	 * @Given /^I am logged in$/
+	 */
+	public function iAmLoggedIn() {
+		$this->assertPageContainsText("Connecté");
+	}
 }
 
