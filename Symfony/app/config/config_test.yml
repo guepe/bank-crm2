@@ -13,10 +13,12 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
-
 mink:
-    base_url:   http://localhost:10085/app_test.php
-    
-behat:
-  context:
-    class: LoginFeatureContext
+    base_url:   http://localhost:10085/app_dev.php
+#    default_session: goutte
+    browser_name:  firefox
+#    show_cmd: google-chrome %%s
+    sahi:       
+      host: localhost
+    goutte:  ~   
+
