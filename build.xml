@@ -24,8 +24,8 @@
 	
 	
 	<target name="behat" description="Run Scenario with Behat">
-	  <exec executable="php app/console -e=test behat" failonerror="off">
-	    <arg line=" --format='junit' --out='${basedir}/build/logs/phpunit.xml'" />
+	  <exec executable="php" failonerror="off">
+	    <arg line="app/console -e=test behat --format='junit' --out='${basedir}/build/logs/phpunit.xml'" />
 	  </exec>
 	</target>
 
