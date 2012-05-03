@@ -29,3 +29,4 @@ security:
     access_control:
           - { path: ^/account/, role: ROLE_USER }
           - { path: ^/contact/, role: ROLE_USER   }
+          - { path: ^/lead/, role: ROLE_USER   }

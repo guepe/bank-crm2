@@ -1,0 +1,35 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block title %}Lead: {{lead.name}} {% endblock %}
+
+{% block warning %}
+{% if message %}
+<div class="warning">
+	{{ message }}
+</div>
+{% endif %}
+{% 	endblock %}
+
+{% block content %}
+{% if lead|length > 0 %}
+<div id="showbaseelement">
+	<div class="headblock-element">
+		<span class="element_title">{{lead.name}} </span>
+			<div class="btn-group pull-right ">
+				<a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#"> Action <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="{{ path('EditLead',{'id': lead.id}) }}"><i class="icon-eye-open"></i> Modifier</a>
+					</li>
+				</ul>
+			</div>
+		<br/>
+		{{lead.streetnum}}
+		<br/>
+		{{lead.zip}} {{lead.city}} {{lead.country}}
+	</div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+

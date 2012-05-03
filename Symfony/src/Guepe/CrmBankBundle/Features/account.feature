@@ -10,7 +10,7 @@ Background:
 
 Scenario:  logged in
 	Given I am not logged in
-	Then I sould be redirected to login form
+	Then I should be redirected to login form
 	And I fill in "username" with "guepe"
 	And I fill in "password" with "essai1"
 	And press "_submit"
@@ -18,3 +18,7 @@ Scenario:  logged in
 	When I go to "/account/add"
 	Then I should be on "/account/add"
 	Then I should see "Code postal"
+	And fill in the following:
+		|account[name]|TestName|
+	And press "Enregistrer"
+	Then I should see "TestName"

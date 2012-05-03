@@ -38,9 +38,9 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
 	}
 
 	/**
-	 * @Then /^I sould be redirected to login form$/
+	 * @Then /^I should be redirected to login form$/
 	 */
-	public function iSouldBeRedirectedToLoginForm() {
+	public function iShouldBeRedirectedToLoginForm() {
 		$this->assertPageContainsText("Nom d'utilisateur");
 	}
 	/**

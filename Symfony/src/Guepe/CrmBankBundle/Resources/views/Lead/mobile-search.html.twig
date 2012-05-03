@@ -1,0 +1,9 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block content %}
+	{% include 'GuepeCrmBankBundle:Lead:mobile-list.html.twig' with {'leads' : leads}  %}
+{% endblock %}	
+
+{% block other_pages %}
+	{% include 'GuepeCrmBankBundle:Lead:mobile-list-show.html.twig' with {'leads' : leads}  %}
+{% endblock %}	

@@ -1,0 +1,17 @@
+{% for lead in leads %}
+	<div data-role="page" id="Account_{{ lead.id }}">
+		<div data-role="header" >
+			<a href="#home" id="back">Retour</a>
+			<h1>{{ lead.lastname }} {{ lead.firstname }}</h1>
+		</div><!-- /header -->
+		<div data-role="content">		
+		<br/><img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/mail.png') }}" > <a href="mailto:{{lead.email}}">{{lead.email}}</a>
+		<br/> {{lead.streetnum}}<br/> {{lead.zip}} {{lead.city}} {{lead.country}}
+
+		</div>
+		</div>
+		</div><!-- /content -->
+	</div><!-- /page {{ lead.id }} -->	
+{% endfor %}
+
+	

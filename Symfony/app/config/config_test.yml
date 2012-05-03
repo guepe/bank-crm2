@@ -15,7 +15,6 @@ swiftmailer:
 
 mink:
     base_url:   http://localhost:10085/app_dev.php
-#    default_session: goutte
     browser_name:  firefox
 #    show_cmd: google-chrome %%s
     sahi:       
