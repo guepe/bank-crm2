@@ -1,0 +1,32 @@
+{% extends 'GuepeCrmBankBundle::layout.html.twig' %}
+
+{% block title %}Edition des prospects{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+	$(function(){
+		// Datepicker
+		$('#contact_birthdate').datepicker($.datepicker.regional["fr"]);
+	});
+</script>
+
+		{% if message %}
+		<p>{{ message }}</p>
+		{% endif %}
+		
+		<form action="" method="post" {{ form_enctype(form) }}>
+		<div class="headblock-element">
+
+			{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+
+			{{ form_row(form.name) }}
+
+		</div>
+		<br/>
+		<div class="showcontact">
+			{% form_theme form 'GuepeCrmBankBundle:Form:fields-in-row.html.twig' %}
+		    {{ form_rest(form) }}
+		</div>
+		    <input type="submit" value="Enregistrer" />
+		</form>		
+{% endblock %}	

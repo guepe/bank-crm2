@@ -1,0 +1,9 @@
+	<ul data-role="listview"  data-filter="true">
+	{% for cat in leads %}
+		<li><a href="#Lead_{{ cat.id }}" data-transition="slide" >{{ cat.lastname }} {{ cat.firstname }}  </a></li>
+	{% else %}
+		{% block warning %}
+		<div class="warning">Aucun lead n'a été trouvé.</div>
+		{% endblock %}
+	{% endfor %}
+	</ul>

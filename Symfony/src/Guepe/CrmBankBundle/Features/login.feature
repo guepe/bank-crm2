@@ -11,7 +11,7 @@ Background:
 
 Scenario: Not logged
 	Given I am not logged in
-	Then I sould be redirected to login form
+	Then I should be redirected to login form
 	
 Scenario: Try to logged in
 	Given I am on "/account"

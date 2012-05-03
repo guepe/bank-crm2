@@ -1,0 +1,39 @@
+	{% for cat in leads %}
+	<table class="table table-striped table-bordered table-condensed">
+	<thead>
+		<tr>
+			<th colspan="5" class="block_head">
+				<img valign="middle"  src="{{ asset('bundles/guepecrmbank/images/icons/lead.png') }}" > 
+				<a href="{{path('ShowLead',{'id': cat.id}) }}">{{ cat.name }} </a>
+	
+			<div class="btn-group pull-right">
+		 	 <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+		 	   Action
+		 	   <span class="caret"></span>
+		 	 </a>
+			  <ul class="dropdown-menu">
+				<li><a href="{{path('ShowLead',{'id': cat.id}) }}"><i class="icon-eye-open"></i> Afficher</a></li>
+				<li><a href="{{ path('EditLead',{'id': cat.id}) }}"><i class="icon-pencil"></i> Modifier</a></li>	  
+			</ul>
+			</div>
+			</th>
+		</tr>
+		<tr>
+			<th>Rue</th>
+			<th width="300px">Ville</th>
+			
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ cat.streetnum }}</td>
+			<td>{{ cat.city }}</td>
+			
+		</tr>
+	</tbody>
+	</table>
+		
+	{% else %}
+		{% block warning %}
+		<div class="warning">Aucune lead n'a été trouvée.</div>
+		{% endblock %}
+	{% endfor %}
