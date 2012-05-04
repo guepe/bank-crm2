@@ -118,38 +118,35 @@ class LeadController extends Controller {
 
 	public function searchAction() {
 		$request = $this->container->get('request');
-
 		$message = '';
-
 		if ($request->isXmlHttpRequest()) {
 			$motcle = '';
 			$motcle = $request->request->get('motcle');
 			$message = $motcle;
 
 			$em = $this->container->get('doctrine')->getEntityManager();
-
 			if ($motcle != '') {
 				$qb = $em->createQueryBuilder();
+
 				$qb->select('a')->from('GuepeCrmBankBundle:Lead', 'a')
 						->where("a.name LIKE :motcle")
 						->orderBy('a.name', 'ASC')
 						->setParameter('motcle', '%' . $motcle . '%');
 
 				$query = $qb->getQuery();
-				$lead = $query->getResult();
+				$leads = $query->getResult();
 			} else {
-				$lead = $em->getRepository('GuepeCrmBankBundle:Lead')
+				$leads = $em->getRepository('GuepeCrmBankBundle:Lead')
 						->findBy(array(), array('name' => 'asc'));
 			}
 
 			return $this->container->get('templating')
 					->renderResponse(
 							'GuepeCrmBankBundle:Lead:list.html.twig',
-							array('lead' => $lead,
+							array('leads' => $leads,
 									'message' => $message));
 		} else {
-			return $this->listAction();
+					return $this->listAction();
 		}
 	}
-
 }
