@@ -9,7 +9,6 @@
 		<td>{{ form_label(form.name) }}</td>
 		<td> {{ form_errors(form.name) }}
 		{{ form_widget(form.name,{'attr': {'class': 'input-medium search-query'}}) }} </td>
-		
 		{{ form_rest(form) }}
 	<td><input type="submit" value="Rechercher" /></td>
 	</tr></table>
@@ -23,9 +22,9 @@
 $(".loading").hide();
 $("#form_recherche").submit(function(){ 
     $(".loading").show();
-    var lastname = $("#leadsearch_name").val();
+    var motcle = $("#leadsearch_name").val();
     
-    var DATA = 'lastname=' + lastname ;
+    var DATA = 'motcle=' + motcle ;
     $.ajax({
         type: "POST",
         url: "{{ path('SearchLead')}}",
