@@ -15,7 +15,7 @@ Scenario:  Create a contact
 	And I fill in "password" with "essai1"
 	And press "_submit"
 	Then I should be on "/contact/"
-	When I go to "/contact/add"
+	When I follow "Nouveau Contact"
 	Then I should be on "/contact/add"
 	Then I should see "Code postal"
 	And fill in the following:
@@ -23,6 +23,7 @@ Scenario:  Create a contact
 	And press "Enregistrer"
 	Then I should see "TestName"
 	
+@javascript
 Scenario: Search a contact
 	Given I am not logged in
 	Then I should be redirected to login form
@@ -36,4 +37,5 @@ Scenario: Search a contact
 	When I fill in "contactsearch[lastname]" with "NoTest"
 	And press "Rechercher"
 	Then I should not see "TestName"
+	Then I follow "Déconnexion"
 
