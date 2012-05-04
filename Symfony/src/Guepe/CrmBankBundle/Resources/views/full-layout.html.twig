@@ -174,10 +174,10 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <img valign="middle" alt="New Accounts" src="{{ asset('bundles/guepecrmbank/images/icons/lead.png') }}" > Prospects <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="{{ path('AllLead') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/lead.png') }}" >Tous Prospects</a>
+										<a href="{{ path('AllLead') }}" alt="Tous les Prospects"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/lead.png') }}" >Tous les Prospects</a>
 									</li>
 									<li>
-										<a href="{{ path('AddLead') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > Nouveau Prospects</a>
+										<a href="{{ path('AddLead') }}" alt="Nouveau Prospects"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > Nouveau Prospects</a>
 									</li>
 								</ul>
 							</li>
@@ -185,10 +185,10 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <img valign="middle" alt="New Accounts" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" > Accounts <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="{{ path('AllAccounts') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" >Tous Compte</a>
+										<a href="{{ path('AllAccounts') }}" alt="Tous les Compte"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/account.png') }}" >Tous les Compte</a>
 									</li>
 									<li>
-										<a href="{{ path('AddAccount') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > Nouveau Compte</a>
+										<a href="{{ path('AddAccount') }}" alt="Nouveau Compte" > <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > Nouveau Compte</a>
 									</li>
 								</ul>
 							</li>
@@ -197,10 +197,10 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Contacts <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="{{ path('AllContacts') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Tous Contact</a>
+										<a href="{{ path('AllContacts') }}" alt="Tous les Contact"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/man-woman.png') }}" > Tous les Contact</a>
 									</li>
 									<li>
-										<a href="{{ path('AddContact') }}"> <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > Nouveau Contact</a>
+										<a href="{{ path('AddContact') }}" alt="Nouveau Contact"  > <img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/add.png') }}" > Nouveau Contact</a>
 									</li>
 								</ul>
 							</li>
@@ -212,17 +212,17 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#" alt="{{ path('fos_user_security_logout') }}"> {{ 'layout.logged_in_as' |trans({'%username%': app.user.username}, 'FOSUserBundle') }} <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="{{ path('fos_user_security_logout') }}"> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+										<a href="{{ path('fos_user_security_logout') }}" alt="{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}"> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
 									</li>
 									<li>
-										<a href="{{ path('fos_user_profile_show') }}">Profil</a>
+										<a href="{{ path('fos_user_profile_show') }}" alt="Profil">Profil</a>
 									</li>
 									<li>
-										<a href="{{ path('fos_user_change_password') }}">Mot de passe</a>
+										<a href="{{ path('fos_user_change_password') }}" alt="Mot de passe">Mot de passe</a>
 									</li>
 								</ul>
 								{% else %}
-								<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+								<a href="{{ path('fos_user_security_login') }}" alt="{{ 'layout.login'|trans({}, 'FOSUserBundle') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
 								{% endif %}
 							</li>
 						</ul>
