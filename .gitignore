@@ -51,3 +51,4 @@ _work/import.php
 Symfony/app/build
 .settings
 */web/uploads/*
+.idea/workspace.xml
