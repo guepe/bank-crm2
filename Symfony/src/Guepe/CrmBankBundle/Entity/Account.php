@@ -24,7 +24,11 @@ class Account {
 	 * @ORM\JoinTable(name="accounts_contacts")
 	 */ 
 	protected $contacts;
-
+    /**
+     * @ORM\ManyToMany(targetEntity="Document", inversedBy="accounts")
+     * @ORM\JoinTable(name="accounts_document")
+     */
+    protected $document;
 	/**
 	 * @ORM\Column(type="string", length=100,nullable=true)
 	 */
@@ -372,4 +376,44 @@ class Account {
 	public function getSavingsproduct() {
 		return $this->savingsproduct;
 	}
+
+    /**
+     * Set eIdDocument
+     *
+     * @param Guepe\CrmBankBundle\Entity\Documents $eIdDocument
+     */
+    public function setEIdDocument(\Guepe\CrmBankBundle\Entity\Documents $eIdDocument)
+    {
+        $this->eIdDocument = $eIdDocument;
+    }
+
+    /**
+     * Get eIdDocument
+     *
+     * @return Guepe\CrmBankBundle\Entity\Documents 
+     */
+    public function getEIdDocument()
+    {
+        return $this->eIdDocument;
+    }
+
+    /**
+     * Add document
+     *
+     * @param Guepe\CrmBankBundle\Entity\Document $document
+     */
+    public function addDocument(\Guepe\CrmBankBundle\Entity\Document $document)
+    {
+        $this->document[] = $document;
+    }
+
+    /**
+     * Get document
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
 }

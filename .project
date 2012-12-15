@@ -6,6 +6,11 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>com.aptana.editor.php.aptanaPhpBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>com.aptana.ide.core.unifiedBuilder</name>
 			<arguments>
 			</arguments>
@@ -33,8 +38,8 @@
 	</buildSpec>
 	<natures>
 		<nature>com.dubture.symfony.core.symfonyNature</nature>
+		<nature>com.aptana.editor.php.phpNature</nature>
 		<nature>org.eclipse.php.core.PHPNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
-		<nature>com.aptana.ruby.core.rubynature</nature>
 	</natures>
 </projectDescription>

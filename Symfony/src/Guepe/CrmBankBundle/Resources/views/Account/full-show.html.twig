@@ -22,6 +22,9 @@
 				<li>
 					<a href="{{ path('EditAccount',{'id': account.id }) }}"><i class="icon-eye-open"></i> Modifier</a>
 				</li>
+                <li>
+                    <a href="{{ path('AddAccountDocument',{'id': account.id}) }}"><i class="icon-eye-open"></i> Ajout de documents</a>
+                </li>
 			</ul>
 		</div>
 		<span class="element_title">{{account.name}}</span>
@@ -336,9 +339,45 @@
 					<td colspan="18" class="no_data">Aucune Produits de Placement n'a été trouvé.</td>
 				</tr>
 				{% endfor %}
-		</table>
 		</tbody>
-	</div>
+		</table>
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th colspan=18 class="block_head"><span class="account-product">Documents </span>
+                    <div class="btn-group pull-right">
+                        <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#"> Action <span class="caret"></span> </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a id="addaccountdocument" href="{{ path('AddAccountDocument',{'id': account.id}) }}"><i class="icon-plus"></i> Upload</a>
+                            </li>
+                        </ul>
+                    </div></th>
+            <tr class="product-show-label">
+                <th width="118em"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for document in account.document %}
+            <tr
+                    {% if loop.index % 2 %}
+                        id="line1"
+                    {%else%}
+                        id="line2"
+                    {% endif %}
+                    >
+                <td><a href="/uploads/documents/{{document.path}}">{{document.id}} {{document.name}}</a></td>
+
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="18" class="no_data">Aucun Documents  n'a été trouvé.</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
 
 </div>
 {% endif %}

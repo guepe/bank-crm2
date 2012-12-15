@@ -47,12 +47,9 @@ class ContactController extends Controller {
 		} else {
 			$contact = new Contact();
 		}
-
 		$form = $this->container->get('form.factory')
 				->create(new ContactForm(), $contact);
-
 		$request = $this->container->get('request');
-
 		if ($request->getMethod() == 'POST') {
 			$form->bindRequest($request);
 
@@ -69,10 +66,8 @@ class ContactController extends Controller {
 								$this
 										->generateUrl('ShowContact',
 												array('id' => $contact->getId())));
-
 			}
 		}
-
 		return array('form' => $form->createView(), 'message' => $message,);
 	}
 
