@@ -49,3 +49,5 @@ _work
 _work/import.php
 _work/import.php
 Symfony/app/build
+.settings
+*/web/uploads/*
