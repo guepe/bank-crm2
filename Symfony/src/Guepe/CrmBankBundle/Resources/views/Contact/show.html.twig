@@ -15,14 +15,17 @@
 <div id="showbaseelement">
 	<div class="headblock-element">
 		<span class="element_title">{{contact.firstname}} {{contact.lastname}}</span>
-			<div class="btn-group pull-right ">
-				<a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#"> Action <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="{{ path('EditContact',{'id': contact.id}) }}"><i class="icon-eye-open"></i> Modifier</a>
-					</li>
-				</ul>
-			</div>
+		<div class="btn-group pull-right ">
+			<a class="btn dropdown-toggle btn-large btn-warning " data-toggle="dropdown" href="#"> Action <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li>
+					<a href="{{ path('EditContact',{'id': contact.id}) }}"><i class="icon-eye-open"></i> Modifier</a>
+				</li>
+				<li>
+					<a href="{{ path('AddDocument',{'contact_id': contact.id}) }}"><i class="icon-eye-open"></i> Ajout de documents</a>
+				</li>
+			</ul>
+		</div>
 		<br/>
 		<img valign="middle" src="{{ asset('bundles/guepecrmbank/images/icons/mail.png') }}" ><a href="mailto:{{contact.email}}">{{contact.email}}</a>
 		<br/>
@@ -37,7 +40,7 @@
 	<br/>
 	<strong>Date et lieu de naissance:</strong> {{contact.birthplace}} {{contact.birthdate|date('d/m/Y')}}
 	<br/>
-	<strong>Numéro de carte d'identité:</strong> {{contact.eid}}
+	<strong>Numéro de carte d'identité:</strong> {{contact.eid}}  
 	<br/>
 	<strong>Numéro national:</strong> {{contact.niss}}
 	<br/>
@@ -56,6 +59,13 @@
 			<strong>Date des rentrées:</strong> {{contact.incomedate}}
 		</ul>
 	</div>
+	<strong>Documents:</strong> 
+	
+	{% for document in contact.document %}
+	
+		<br/><a href="/uploads/documents/{{document.path}}">{{document.id}} {{document.name}}</a>
+	
+	{% endfor %}
 </div>
 {% endif %}
 {% endblock %}

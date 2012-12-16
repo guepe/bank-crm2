@@ -25,6 +25,7 @@ class Account {
 	 */ 
 	protected $contacts;
 
+
 	/**
 	 * @ORM\Column(type="string", length=100,nullable=true)
 	 */
@@ -372,4 +373,24 @@ class Account {
 	public function getSavingsproduct() {
 		return $this->savingsproduct;
 	}
+
+    /**
+     * Set eIdDocument
+     *
+     * @param Guepe\CrmBankBundle\Entity\Documents $eIdDocument
+     */
+    public function setEIdDocument(\Guepe\CrmBankBundle\Entity\Documents $eIdDocument)
+    {
+        $this->eIdDocument = $eIdDocument;
+    }
+
+    /**
+     * Get eIdDocument
+     *
+     * @return Guepe\CrmBankBundle\Entity\Documents 
+     */
+    public function getEIdDocument()
+    {
+        return $this->eIdDocument;
+    }
 }

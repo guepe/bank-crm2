@@ -15,11 +15,21 @@ class Contact {
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
+
 	protected $id;
 	/**
-	 * @ORM\Column(type="string", length=100,nullable=true)
+	 * @ORM\Column(type="string", length=1,nullable=true)
 	 */
 	protected $titre;
+	/**
+	 * @ORM\OneToOne(targetEntity="Document",cascade={"persist", "merge", "remove"})
+	 */ 
+	protected $eIdDocument;
+	/**
+	 * @ORM\ManyToMany(targetEntity="Document", inversedBy="contact")
+	 * @ORM\JoinTable(name="contacts_document")
+	 */ 
+	protected $document;
 	/**
 	 * @ORM\Column(type="string", length=100,nullable=true)
 	 */
@@ -539,4 +549,46 @@ class Contact {
 	public function getProfession() {
 		return $this->profession;
 	}
+
+    /**
+     * Set eIdDocument
+     *
+     * @param Guepe\CrmBankBundle\Entity\Document $eIdDocument
+     */
+    public function setEIdDocument(\Guepe\CrmBankBundle\Entity\Document $eIdDocument)
+    {
+        $this->eIdDocument = $eIdDocument;
+    }
+
+
+
+    /**
+     * Get eIdDocument
+     *
+     * @return Guepe\CrmBankBundle\Entity\Document 
+     */
+    public function getEIdDocument()
+    {
+        return $this->eIdDocument;
+    }
+
+    /**
+     * Add document
+     *
+     * @param Guepe\CrmBankBundle\Entity\Document $document
+     */
+    public function addDocument(\Guepe\CrmBankBundle\Entity\Document $document)
+    {
+        $this->document[] = $document;
+    }
+
+    /**
+     * Get document
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
 }

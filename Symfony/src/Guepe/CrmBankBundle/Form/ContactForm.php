@@ -1,6 +1,8 @@
 <?php
 
 namespace Guepe\CrmBankBundle\Form;
+use Guepe\CrmBankBundle\Entity\Document;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
@@ -40,8 +42,7 @@ class ContactForm extends AbstractType {
 						array("label" => "Numéro de carte d'identité",
 								'required' => false))
 				->add('niss', 'text',
-						array("label" => "Numéro nationnal",
-								'required' => false))
+						array("label" => "Numéro national", 'required' => false))
 				->add('profession', 'text',
 						array("label" => "Profession", 'required' => false))
 				->add('marital_status', 'choice',
@@ -59,7 +60,11 @@ class ContactForm extends AbstractType {
 										'annual' => 'Annuel')))
 				->add('income_date', 'text',
 						array("label" => 'Date des rentrées',
-								'required' => false))
+							'required' => false))
+				//->add('eIdDocument','collection',array('type' => new Document()))
+//				->add('eIdDocument', 'entity',
+	//					array('class' => 'GuepeCrmBankBundle:Document',
+	//							'property' => 'file',))
 		// ->add('files')
 		;
 	}
