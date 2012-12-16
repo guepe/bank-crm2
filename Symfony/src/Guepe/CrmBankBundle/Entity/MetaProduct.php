@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({"bankproduct" = "BankProduct","creditproduct"="CreditProduct","fiscalproduct"="FiscalProduct","savingsproduct"="SavingsProduct"})
  * @ORM\Table(name="metaproduct")
  */
-
 class MetaProduct {
 	/**
 	 * @ORM\Id
@@ -79,7 +78,6 @@ class MetaProduct {
 		$this->Number = $number;
 	}
 
-	/**
 	 * Get Number
 	 *
 	 * @return string 

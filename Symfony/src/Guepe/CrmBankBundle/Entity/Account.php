@@ -338,6 +338,7 @@ class Account {
 	public function getCountry() {
 		return $this->country;
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Add fiscalproduct
@@ -409,11 +410,70 @@ class Account {
 
     /**
      * Get document
+=======
+
+	/**
+	 * Add fiscalproduct
+	 *
+	 * @param Guepe\CrmBankBundle\Entity\FiscalProduct $fiscalproduct
+	 */
+	public function addFiscalProduct(
+			\Guepe\CrmBankBundle\Entity\FiscalProduct $fiscalproduct) {
+		$this->fiscalproduct[] = $fiscalproduct;
+	}
+
+	/**
+	 * Get fiscalproduct
+	 *
+	 * @return Doctrine\Common\Collections\Collection 
+	 */
+	public function getFiscalproduct() {
+		return $this->fiscalproduct;
+	}
+
+	/**
+	 * Add savingsproduct
+	 *
+	 * @param Guepe\CrmBankBundle\Entity\SavingsProduct $savingsproduct
+	 */
+	public function addSavingsProduct(
+			\Guepe\CrmBankBundle\Entity\SavingsProduct $savingsproduct) {
+		$this->savingsproduct[] = $savingsproduct;
+	}
+
+	/**
+	 * Get savingsproduct
+	 *
+	 * @return Doctrine\Common\Collections\Collection 
+	 */
+	public function getSavingsproduct() {
+		return $this->savingsproduct;
+	}
+
+    /**
+     * Set eIdDocument
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @param Guepe\CrmBankBundle\Entity\Documents $eIdDocument
      */
+    public function setEIdDocument(\Guepe\CrmBankBundle\Entity\Documents $eIdDocument)
+    {
+        $this->eIdDocument = $eIdDocument;
+    }
+
+    /**
+     * Get eIdDocument
+>>>>>>> 5c2209e9eaabe040bf502e6b60deb4bfd81f0a09
+     *
+     * @return Guepe\CrmBankBundle\Entity\Documents 
+     */
+<<<<<<< HEAD
     public function getDocument()
     {
         return $this->document;
+=======
+    public function getEIdDocument()
+    {
+        return $this->eIdDocument;
+>>>>>>> 5c2209e9eaabe040bf502e6b60deb4bfd81f0a09
     }
 }
