@@ -51,4 +51,6 @@ _work/import.php
 Symfony/app/build
 .settings
 */web/uploads/*
-.idea/*
+.idea/*.*
+Symfony/vendor/*
+.idea/workspace.xml
