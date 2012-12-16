@@ -78,6 +78,7 @@ class MetaProduct {
 		$this->Number = $number;
 	}
 
+    /**
 	 * Get Number
 	 *
 	 * @return string 
