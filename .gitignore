@@ -54,3 +54,5 @@ Symfony/app/build
 .idea/*.*
 Symfony/vendor/*
 .idea/workspace.xml
+Symfony/src/Guepe/CrmBankBundle/Resources/public/js/jquery-ui/development-bundle/docs
+Symfony/src/Guepe/CrmBankBundle/Resources/public/js/jquery-ui/development-bundle/demos

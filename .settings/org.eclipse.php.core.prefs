@@ -1,6 +1,0 @@
-#Fri Dec 30 23:36:26 CET 2011
-eclipse.preferences.version=1
-include_path=0;/baln-crm2
-org.eclipse.php.core.taskCaseSensitive=enabled
-org.eclipse.php.core.taskPriorities=NORMAL,HIGH,NORMAL,NORMAL
-org.eclipse.php.core.taskTags=TODO,FIXME,XXX,@todo
