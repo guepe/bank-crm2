@@ -7,28 +7,10 @@
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModuleExplicit.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModulePharTarGz.phar.tar.gz" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/goutte/goutte.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/View/_templates/view.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModulePharTar.phar.tar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModule.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/classmap.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/Zend_LoaderTest.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/symfony/tests/Symfony/Tests/Component/DependencyInjection/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModulePharZip.phar.zip" />
+          <root url="phar:///Users/phde/Documents/Prive/Projets/bank-crm2/Symfony/vendor/goutte/goutte.phar" />
         </CLASSES>
         <SOURCES>
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModuleExplicit.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModulePharTarGz.phar.tar.gz" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/goutte/goutte.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/View/_templates/view.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModulePharTar.phar.tar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModule.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/classmap.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/Zend_LoaderTest.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/symfony/tests/Symfony/Tests/Component/DependencyInjection/Fixtures/includes/ProjectWithXsdExtensionInPhar.phar" />
-          <root url="phar:///Users/phde/Documents/Prive/bank-crm2/Symfony/vendor/zend/tests/Zend/Loader/_files/PharModulePharZip.phar.zip" />
+          <root url="phar:///Users/phde/Documents/Prive/Projets/bank-crm2/Symfony/vendor/goutte/goutte.phar" />
         </SOURCES>
       </library>
     </orderEntry>
