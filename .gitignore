@@ -58,3 +58,7 @@ yarn-error.log
 /*.sqlite3
 /mysql-data/
 ###< Database ###
+
+###> Local migration sandbox ###
+/migration/symfony8-app/
+###< Local migration sandbox ###

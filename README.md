@@ -11,6 +11,7 @@ A modern CRM application for banking built with Symfony 8, featuring account man
 - **Document Upload**: Secure file storage with metadata tracking
 - **Product Catalog**: Manage various banking products (savings, credit, fiscal, etc.)
 - **Portal Access**: Client portal for account holders
+- **AI-Powered Onboarding**: ChatGPT-driven interactive chat to collect complete customer profiles
 
 ## Tech Stack
 
@@ -42,6 +43,18 @@ A modern CRM application for banking built with Symfony 8, featuring account man
 - Run tests: `php bin/console test` or `phpunit`
 - Code analysis: `php bin/console phpstan`
 - Debug toolbar available in dev environment
+
+## Configuration
+
+### ChatGPT Integration for Onboarding
+
+To use the AI-powered onboarding module with ChatGPT:
+
+1. Get your OpenAI API key from https://platform.openai.com/account/api-keys
+2. Add to `.env.local`: `OPENAI_API_KEY=sk-proj-YOUR-KEY`
+3. Access onboarding at `/onboarding`
+
+See [CHATGPT_SETUP.md](CHATGPT_SETUP.md) for detailed instructions.
 
 ## Legacy Code
 
