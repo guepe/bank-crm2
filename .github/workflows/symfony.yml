@@ -1,50 +1,53 @@
 name: Symfony
 
 on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+    push:
+        branches: ["master"]
+    pull_request:
+        branches: ["master"]
 
 permissions:
-  contents: read
+    contents: read
+
+env:
+    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  symfony-tests:
-    runs-on: ubuntu-latest
+    symfony-tests:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.5'
-          extensions: ctype, iconv, pdo_sqlite
-          coverage: none
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: "8.5"
+                  extensions: ctype, iconv, pdo_sqlite
+                  coverage: none
 
-      - name: Copy test env
-        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+            - name: Copy test env
+              run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
 
-      - name: Cache Composer
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+            - name: Cache Composer
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-php-
 
-      - name: Install dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Prepare test database
-        env:
-          APP_ENV: test
-          DATABASE_URL: sqlite:///%kernel.project_dir%/var/test.db
-        run: |
-          php bin/console doctrine:database:create --if-not-exists --env=test
-          php bin/console doctrine:migrations:migrate --no-interaction --env=test
+            - name: Install dependencies
+              run: composer install --no-interaction --no-progress --prefer-dist
+            - name: Prepare test database
+              env:
+                  APP_ENV: test
+                  DATABASE_URL: sqlite:///%kernel.project_dir%/var/test.db
+              run: |
+                  php bin/console doctrine:database:create --if-not-exists --env=test
+                  php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
-      - name: Run PHPUnit
-        env:
-          APP_ENV: test
-        run: php bin/phpunit --testdox
+            - name: Run PHPUnit
+              env:
+                  APP_ENV: test
+              run: php bin/phpunit --testdox
