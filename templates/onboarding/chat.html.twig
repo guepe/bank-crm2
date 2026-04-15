@@ -1,0 +1,854 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title or 'Onboarding' }}{% endblock %}
+
+{% block body %}
+    <style>
+        .onboarding-layout {
+            display: grid;
+            grid-template-columns: 280px minmax(0, 1fr) 320px;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .onboarding-sidebar,
+        .onboarding-chat-shell,
+        .onboarding-data-shell {
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.76);
+            padding: 20px;
+        }
+
+        .phase-progress {
+            height: 10px;
+            background: rgba(33, 58, 45, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .phase-progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #1f6f5f 0%, #4f9b78 100%);
+            border-radius: 999px;
+            transition: width 200ms ease;
+        }
+
+        .phase-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .phase-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 12px 14px;
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.65);
+            transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+        }
+
+        .phase-item.is-current {
+            border-color: rgba(31, 111, 95, 0.45);
+            background: rgba(31, 111, 95, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .phase-dot {
+            width: 12px;
+            height: 12px;
+            margin-top: 5px;
+            border-radius: 999px;
+            background: rgba(86, 100, 93, 0.35);
+            flex: 0 0 auto;
+        }
+
+        .phase-item.is-current .phase-dot {
+            background: var(--accent);
+        }
+
+        .phase-title {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .phase-state {
+            margin: 4px 0 0;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .missing-list {
+            margin: 12px 0 0;
+            padding-left: 18px;
+        }
+
+        .chat-window {
+            min-height: 34rem;
+            max-height: 34rem;
+            overflow-y: auto;
+            padding: 18px;
+            border-radius: 18px;
+            background:
+                radial-gradient(circle at top left, rgba(31, 111, 95, 0.07), transparent 30%),
+                rgba(242, 239, 231, 0.7);
+            border: 1px solid var(--panel-border);
+            display: grid;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .chat-empty {
+            align-self: center;
+            justify-self: center;
+            max-width: 360px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .chat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .chat-row.user {
+            align-items: flex-end;
+        }
+
+        .chat-bubble {
+            max-width: min(78%, 620px);
+            padding: 14px 16px;
+            border-radius: 18px;
+            line-height: 1.55;
+            box-shadow: 0 12px 24px rgba(21, 42, 33, 0.08);
+            white-space: pre-wrap;
+        }
+
+        .chat-bubble.user {
+            background: linear-gradient(135deg, #1f6f5f 0%, #2d8a73 100%);
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .chat-bubble.assistant {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-main);
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            border-bottom-left-radius: 6px;
+        }
+
+        .chat-bubble.is-thinking {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .chat-time {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .chat-form {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-form input {
+            min-width: 0;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .chat-tools {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+            padding: 14px 16px;
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            border-radius: 18px;
+            background: rgba(246, 244, 238, 0.72);
+        }
+
+        .chat-tools-head {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-tools form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-tools input[type="file"] {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.92);
+        }
+
+        .button-link.warning {
+            background: #b7791f;
+        }
+
+        .summary-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .summary-block {
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.68);
+            padding: 14px;
+        }
+
+        .summary-block h3 {
+            margin: 0 0 10px;
+            font-size: 1rem;
+        }
+
+        .summary-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .summary-list p {
+            margin: 0;
+        }
+
+        .summary-empty {
+            margin: 0;
+            color: var(--text-muted);
+        }
+
+        .data-dump {
+            margin: 0;
+            padding: 14px;
+            border-radius: 14px;
+            background: #f6f4ee;
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            color: #2c3a33;
+            font-size: 0.83rem;
+            line-height: 1.5;
+            overflow: auto;
+            max-height: 19rem;
+        }
+
+        .extracted-groups {
+            display: grid;
+            gap: 12px;
+        }
+
+        .extracted-group {
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            border-radius: 14px;
+            background: rgba(246, 244, 238, 0.72);
+            padding: 12px;
+        }
+
+        .extracted-group h4 {
+            margin: 0 0 8px;
+            font-size: 0.92rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .extracted-items {
+            display: grid;
+            gap: 6px;
+        }
+
+        .extracted-item {
+            margin: 0;
+            font-size: 0.92rem;
+        }
+
+        .data-raw {
+            margin-top: 12px;
+        }
+
+        .data-raw summary {
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1080px) {
+            .onboarding-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .onboarding-sidebar,
+            .onboarding-data-shell {
+                order: 2;
+            }
+
+            .onboarding-chat-shell {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .chat-form {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-bubble {
+                max-width: 100%;
+            }
+
+            .chat-window {
+                min-height: 26rem;
+                max-height: 26rem;
+            }
+        }
+    </style>
+
+    <div class="topline" data-session-id="{{ session.id }}">
+        <p class="muted">Planilife</p>
+        <h1>{{ page_title or 'Onboarding Client' }}</h1>
+        <p class="muted">Conversation guidée, progression par phase et synchronisation directe des données client.</p>
+    </div>
+
+    <div class="onboarding-layout">
+        <aside class="onboarding-sidebar">
+            <div class="section-head">
+                <h2>Phases</h2>
+                <strong id="phase-completeness">{{ completeness|default(0)|number_format(0, ',', ' ') }}%</strong>
+            </div>
+
+            <p class="muted">Complétude de la phase courante</p>
+            <div class="phase-progress">
+                <div id="phase-progress-bar" class="phase-progress-bar" style="width: {{ completeness|default(0) }}%"></div>
+            </div>
+
+            <div id="phase-list" class="phase-list">
+                {% for phase in phaseSequence %}
+                    {% set current = session.phase == phase %}
+                    <div class="phase-item{{ current ? ' is-current' : '' }}" data-phase="{{ phase }}">
+                        <div class="phase-dot"></div>
+                        <div>
+                            <p class="phase-title">{{ phase|replace({'_': ' '}) }}</p>
+                            <p class="phase-state" data-role="phase-state">{{ current ? 'Phase courante' : 'En attente' }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <section style="margin-top: 22px;">
+                <h2>Champs manquants</h2>
+                <ul id="missing-fields" class="missing-list">
+                    {% for field in missingFields %}
+                        <li>{{ field }}</li>
+                    {% else %}
+                        <li>Aucun champ bloquant pour cette phase</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </aside>
+
+        <section class="onboarding-chat-shell">
+            <div class="section-head">
+                <div>
+                    <p class="muted">Conversation</p>
+                    <h2>Chat Planilife</h2>
+                </div>
+            </div>
+
+            <div id="chat-container" class="chat-window">
+                {% for message in displayMessages %}
+                    <div class="chat-row{{ message.role == 'user' ? ' user' : '' }}">
+                        <div class="chat-bubble {{ message.role == 'user' ? 'user' : 'assistant' }}">{{ message.content }}</div>
+                        <div class="chat-time">{{ message.timestamp ?? 'À l’instant' }}</div>
+                    </div>
+                {% else %}
+                    <div id="chat-empty-state" class="chat-empty">
+                        <p>Aucune conversation pour l’instant.</p>
+                        <p>Commence simplement avec le prénom du client, sa situation ou son objectif principal.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <form id="message-form" class="chat-form">
+                <input
+                    type="text"
+                    id="message-input"
+                    placeholder="Écris la prochaine réponse du client..."
+                    autocomplete="off"
+                >
+                <button type="submit" id="send-button">Envoyer</button>
+            </form>
+
+            <section class="chat-tools">
+                <div class="chat-tools-head">
+                    <div>
+                        <strong>Document dans le chat</strong>
+                        <p class="muted">Ajoute un PDF, une image, un TXT ou un DOCX pour en extraire des données utiles selon l’étape.</p>
+                    </div>
+                </div>
+                <form id="document-form" enctype="multipart/form-data">
+                    <input type="file" id="document-input" name="document" accept=".pdf,.jpg,.jpeg,.png,.txt,.docx">
+                    <button type="submit" id="document-send-button" class="secondary">Analyser le document</button>
+                </form>
+            </section>
+
+            <div class="chat-actions">
+                {% if session.status == 'in_progress' %}
+                    <button id="save-btn" type="button" class="warning">Sauvegarder</button>
+                    <a href="{{ path('app_onboarding_review', {id: session.id}) }}" class="button-link secondary">Valider le profil</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <aside class="onboarding-data-shell">
+            <div class="section-head">
+                <div>
+                    <p class="muted">Base de données</p>
+                    <h2>Injection</h2>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <section class="summary-block">
+                    <h3>Contact</h3>
+                    <div id="contact-data" class="summary-list">
+                        {% for label, value in entitySummaries.contact|default({}) %}
+                            <p><strong>{{ label|capitalize }}:</strong> {{ value }}</p>
+                        {% else %}
+                            <p class="summary-empty">Aucune donnée contact.</p>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="summary-block">
+                    <h3>Compte</h3>
+                    <div id="account-data" class="summary-list">
+                        {% for label, value in entitySummaries.account|default({}) %}
+                            <p><strong>{{ label|capitalize }}:</strong> {{ value }}</p>
+                        {% else %}
+                            <p class="summary-empty">Aucune donnée compte.</p>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="summary-block">
+                    <h3>Données extraites</h3>
+                    <div id="extracted-data-summary" class="extracted-groups">
+                        {% if session.extractedData is empty %}
+                            <p class="summary-empty">Aucune donnée extraite pour l’instant.</p>
+                        {% endif %}
+                    </div>
+                    <details class="data-raw">
+                        <summary>Voir les données brutes</summary>
+                        <pre id="extracted-data" class="data-dump">{{ session.extractedData|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                    </details>
+                </section>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const sessionId = '{{ session.id }}';
+        const chatContainer = document.getElementById('chat-container');
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const extractedDataBlock = document.getElementById('extracted-data');
+        const extractedDataSummary = document.getElementById('extracted-data-summary');
+        const contactData = document.getElementById('contact-data');
+        const accountData = document.getElementById('account-data');
+        const missingFields = document.getElementById('missing-fields');
+        const progressBar = document.getElementById('phase-progress-bar');
+        const completenessValue = document.getElementById('phase-completeness');
+        const documentForm = document.getElementById('document-form');
+        const documentInput = document.getElementById('document-input');
+        const documentSendButton = document.getElementById('document-send-button');
+        const initialExtractedData = {{ session.extractedData|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }};
+
+        let currentAssistantBubble = null;
+
+        messageForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const message = messageInput.value.trim();
+            if (!message) {
+                return;
+            }
+
+            hideEmptyState();
+            appendMessage('user', message);
+            messageInput.value = '';
+            lockForm(true);
+
+            currentAssistantBubble = appendMessage('assistant', '');
+
+            try {
+                const response = await fetch(`/onboarding/${sessionId}/message/stream`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/event-stream',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                if (!response.ok || !response.body) {
+                    throw new Error('Flux SSE indisponible');
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                let buffer = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) {
+                        break;
+                    }
+
+                    buffer += decoder.decode(value, { stream: true });
+                    const events = buffer.split('\n\n');
+                    buffer = events.pop() ?? '';
+
+                    for (const rawEvent of events) {
+                        handleSseEvent(rawEvent);
+                    }
+                }
+
+                if (buffer.trim() !== '') {
+                    handleSseEvent(buffer);
+                }
+            } catch (error) {
+                updateAssistantBubble(`Erreur: ${error.message}`);
+            } finally {
+                lockForm(false);
+                messageInput.focus();
+            }
+        });
+
+        documentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const file = documentInput.files && documentInput.files[0] ? documentInput.files[0] : null;
+            if (!file) {
+                return;
+            }
+
+            hideEmptyState();
+            appendMessage('user', `[Document envoyé: ${file.name}]`);
+            currentAssistantBubble = appendMessage('assistant', '');
+            updateAssistantBubble('Analyse du document en cours...');
+            if (currentAssistantBubble) {
+                currentAssistantBubble.classList.add('is-thinking');
+            }
+
+            lockDocumentForm(true);
+
+            try {
+                const formData = new FormData();
+                formData.append('document', file);
+
+                const response = await fetch(`/onboarding/${sessionId}/document`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const payload = await response.json();
+                if (!response.ok) {
+                    throw new Error(payload.error || 'Impossible d’analyser ce document');
+                }
+
+                updateAssistantBubble(payload.message || 'Document analysé.');
+                applyLiveState(payload);
+            } catch (error) {
+                updateAssistantBubble(`Erreur: ${error.message}`);
+            } finally {
+                lockDocumentForm(false);
+                documentForm.reset();
+            }
+        });
+
+        function handleSseEvent(rawEvent) {
+            const lines = rawEvent.split('\n').filter(Boolean);
+            let eventName = 'message';
+            let data = '';
+
+            for (const line of lines) {
+                if (line.startsWith('event:')) {
+                    eventName = line.slice(6).trim();
+                }
+                if (line.startsWith('data:')) {
+                    data += line.slice(5).trim();
+                }
+            }
+
+            if (!data) {
+                return;
+            }
+
+            const payload = JSON.parse(data);
+
+        if (eventName === 'typing') {
+            updateAssistantBubble('Planilife prépare sa prochaine question...');
+            if (currentAssistantBubble) {
+                currentAssistantBubble.classList.add('is-thinking');
+            }
+            return;
+        }
+
+        if (eventName === 'final') {
+            updateAssistantBubble(payload.message || currentAssistantBubble?.dataset.fullText || '');
+            if (currentAssistantBubble) {
+                currentAssistantBubble.classList.remove('is-thinking');
+            }
+            applyLiveState(payload);
+            return;
+        }
+
+            if (eventName === 'error') {
+                updateAssistantBubble(`Erreur: ${payload.message || 'Erreur inconnue'}`);
+            }
+        }
+
+        function appendMessage(role, content) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `chat-row${role === 'user' ? ' user' : ''}`;
+
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${role === 'user' ? 'user' : 'assistant'}`;
+            bubble.textContent = content;
+            bubble.dataset.fullText = content;
+
+            const time = document.createElement('div');
+            time.className = 'chat-time';
+            time.textContent = new Date().toLocaleTimeString();
+
+            wrapper.appendChild(bubble);
+            wrapper.appendChild(time);
+            chatContainer.appendChild(wrapper);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            return bubble;
+        }
+
+        function updateAssistantBubble(content) {
+            if (!currentAssistantBubble) {
+                currentAssistantBubble = appendMessage('assistant', content);
+                return;
+            }
+
+        currentAssistantBubble.dataset.fullText = content;
+        currentAssistantBubble.textContent = content;
+        currentAssistantBubble.classList.remove('is-thinking');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+        function applyLiveState(payload) {
+            completenessValue.textContent = `${Math.round(payload.completeness || 0)}%`;
+            progressBar.style.width = `${payload.completeness || 0}%`;
+            renderMissingFields(payload.missingFields || []);
+            renderPhaseState(payload.phase);
+            renderSummary(contactData, payload.contactSummary || {}, 'Aucune donnée contact.');
+            renderSummary(accountData, payload.accountSummary || {}, 'Aucune donnée compte.');
+            renderExtractedSummary(payload.extractedData || {});
+            extractedDataBlock.textContent = JSON.stringify(payload.extractedData || {}, null, 2);
+        }
+
+        function renderMissingFields(fields) {
+            missingFields.innerHTML = '';
+
+            if (!fields.length) {
+                missingFields.innerHTML = '<li>Aucun champ bloquant pour cette phase</li>';
+                return;
+            }
+
+            fields.forEach((field) => {
+                const item = document.createElement('li');
+                item.textContent = field;
+                missingFields.appendChild(item);
+            });
+        }
+
+        function renderPhaseState(currentPhase) {
+            document.querySelectorAll('.phase-item').forEach((item) => {
+                const isCurrent = item.dataset.phase === currentPhase;
+                item.classList.toggle('is-current', isCurrent);
+
+                const status = item.querySelector('[data-role="phase-state"]');
+                if (status) {
+                    status.textContent = isCurrent ? 'Phase courante' : 'En attente';
+                }
+            });
+        }
+
+        function renderSummary(container, data, emptyText) {
+            container.innerHTML = '';
+
+            const entries = Object.entries(data);
+            if (!entries.length) {
+                container.innerHTML = `<p class="summary-empty">${emptyText}</p>`;
+                return;
+            }
+
+            entries.forEach(([key, value]) => {
+                const row = document.createElement('p');
+                row.innerHTML = `<strong>${escapeHtml(capitalize(key))}:</strong> ${escapeHtml(formatValue(value))}`;
+                container.appendChild(row);
+            });
+        }
+
+        function renderExtractedSummary(data) {
+            extractedDataSummary.innerHTML = '';
+
+            const sections = [
+                ['client', 'Client'],
+                ['projets', 'Projets'],
+                ['risque', 'Risque'],
+                ['etapes', 'Étapes'],
+                ['patrimoine', 'Patrimoine'],
+            ];
+
+            let hasContent = false;
+
+            sections.forEach(([key, label]) => {
+                if (!data[key] || typeof data[key] !== 'object' || Array.isArray(data[key])) {
+                    return;
+                }
+
+                const entries = Object.entries(data[key]).filter(([, value]) => value !== null && value !== '' && (!Array.isArray(value) || value.length > 0));
+                if (!entries.length) {
+                    return;
+                }
+
+                hasContent = true;
+
+                const section = document.createElement('section');
+                section.className = 'extracted-group';
+
+                const title = document.createElement('h4');
+                title.textContent = label;
+                section.appendChild(title);
+
+                const items = document.createElement('div');
+                items.className = 'extracted-items';
+
+                entries.forEach(([entryKey, value]) => {
+                    const row = document.createElement('p');
+                    row.className = 'extracted-item';
+                    row.innerHTML = `<strong>${escapeHtml(formatLabel(entryKey))}:</strong> ${escapeHtml(formatValue(value))}`;
+                    items.appendChild(row);
+                });
+
+                section.appendChild(items);
+                extractedDataSummary.appendChild(section);
+            });
+
+            if (!hasContent) {
+                extractedDataSummary.innerHTML = '<p class="summary-empty">Aucune donnée extraite pour l’instant.</p>';
+            }
+        }
+
+        function formatLabel(value) {
+            const normalized = value.replaceAll('_', ' ');
+            return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+        }
+
+        function formatValue(value) {
+            if (Array.isArray(value)) {
+                return value.map((item) => formatValue(item)).join(' ; ');
+            }
+
+            if (typeof value === 'object' && value !== null) {
+                return Object.entries(value).map(([key, nestedValue]) => `${formatLabel(key)}: ${formatValue(nestedValue)}`).join(' | ');
+            }
+
+            if (typeof value === 'boolean') {
+                return value ? 'Oui' : 'Non';
+            }
+
+            return `${value}`;
+        }
+
+        function capitalize(value) {
+            return value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
+        function escapeHtml(value) {
+            return value
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function hideEmptyState() {
+            const emptyState = document.getElementById('chat-empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+        }
+
+        function lockForm(locked) {
+            sendButton.disabled = locked;
+            messageInput.disabled = locked;
+        }
+
+        function lockDocumentForm(locked) {
+            documentSendButton.disabled = locked;
+            documentInput.disabled = locked;
+        }
+
+        const saveBtn = document.getElementById('save-btn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', async () => {
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Sauvegarde...';
+
+                try {
+                    const response = await fetch(`/onboarding/${sessionId}/save`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Impossible de sauvegarder');
+                    }
+
+                    saveBtn.textContent = 'Sauvegardé';
+                    window.setTimeout(() => {
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = 'Sauvegarder';
+                    }, 1400);
+                } catch (error) {
+                    alert(`Erreur: ${error.message}`);
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Sauvegarder';
+                }
+            });
+        }
+
+        renderExtractedSummary(initialExtractedData || {});
+    </script>
+{% endblock %}

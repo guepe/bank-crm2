@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+    <style>
+        .register-shell {
+            display: grid;
+            gap: 18px;
+            max-width: 760px;
+        }
+
+        .register-card,
+        .register-note {
+            border: 1px solid var(--panel-border);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.78);
+            padding: 24px;
+        }
+
+        .register-note {
+            background:
+                radial-gradient(circle at top right, rgba(31, 111, 95, 0.1), transparent 36%),
+                rgba(246, 244, 238, 0.82);
+        }
+    </style>
+
+    <div class="topline">
+        <p class="muted">Accès client</p>
+        <h1>{{ page_title }}</h1>
+        <p class="muted">Crée ton accès portail pour suivre ton dossier et retrouver tes informations plus tard.</p>
+    </div>
+
+    <div class="register-shell">
+        <section class="register-card">
+            {{ form_start(form, {attr: {class: 'stack'}}) }}
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword) }}
+                <div class="actions">
+                    <button type="submit">Créer mon compte</button>
+                    <a href="{{ path('app_login') }}" class="button-link secondary">J’ai déjà un compte</a>
+                </div>
+            {{ form_end(form) }}
+        </section>
+
+        <aside class="register-note">
+            <p class="muted">Après création</p>
+            <h2>Ton compte sera prêt immédiatement.</h2>
+            <p class="muted">
+                Tu pourras ensuite te connecter avec ton nom d’utilisateur et ton mot de passe, puis accéder à ton espace client.
+            </p>
+        </aside>
+    </div>
+{% endblock %}

@@ -1,0 +1,348 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+    <style>
+        .onboarding-home {
+            display: grid;
+            gap: 22px;
+        }
+
+        .onboarding-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .hero-main,
+        .hero-side,
+        .session-card {
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.76);
+            padding: 26px;
+        }
+
+        .hero-main {
+            background:
+                radial-gradient(circle at top left, rgba(31, 111, 95, 0.14), transparent 34%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(244, 241, 233, 0.92));
+        }
+
+        .hero-kicker {
+            margin: 0 0 10px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .hero-main h1 {
+            max-width: 11ch;
+            margin-bottom: 14px;
+        }
+
+        .hero-lead {
+            max-width: 58ch;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .hero-points {
+            display: grid;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .hero-point {
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.72);
+            padding: 14px 16px;
+        }
+
+        .hero-point strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .hero-side {
+            display: grid;
+            gap: 16px;
+            align-content: start;
+        }
+
+        .hero-stat {
+            border-radius: 18px;
+            background: rgba(246, 244, 238, 0.82);
+            padding: 16px;
+        }
+
+        .hero-stat strong {
+            display: block;
+            font-size: 2rem;
+            line-height: 1;
+            margin-top: 8px;
+        }
+
+        .session-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .session-head {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .session-title {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .session-meta {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .status-in-progress {
+            background: rgba(31, 111, 95, 0.12);
+            color: var(--accent-strong);
+        }
+
+        .status-completed {
+            background: rgba(74, 122, 91, 0.14);
+            color: #315540;
+        }
+
+        .status-draft {
+            background: rgba(171, 136, 58, 0.14);
+            color: #8a6410;
+        }
+
+        .status-other {
+            background: rgba(86, 100, 93, 0.14);
+            color: var(--text-muted);
+        }
+
+        .session-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .session-stat {
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            border-radius: 16px;
+            background: rgba(246, 244, 238, 0.76);
+            padding: 12px 14px;
+        }
+
+        .session-stat strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 1.2rem;
+        }
+
+        .session-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 34px 24px;
+        }
+
+        @media (max-width: 980px) {
+            .onboarding-hero {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    {% set inProgressCount = sessions|filter(session => session.status == 'in_progress')|length %}
+    {% set completedCount = sessions|filter(session => session.status == 'completed')|length %}
+
+    <div class="onboarding-home">
+        <section class="onboarding-hero">
+            <div class="hero-main">
+                <p class="hero-kicker">Onboarding patrimonial</p>
+                <h1>Accueillir un nouveau client, simplement.</h1>
+                <p class="hero-lead">
+                    Lance une conversation guidée, collecte les informations essentielles et construis automatiquement un dossier propre,
+                    structuré et exploitable par l’équipe.
+                </p>
+
+                <div class="hero-actions">
+                    {% if app.user %}
+                        <a href="{{ path('app_onboarding_new') }}" class="button-link">Commencer une inscription</a>
+                    {% else %}
+                        <a href="{{ path('app_register') }}" class="button-link">Créer un compte</a>
+                        <a href="{{ path('app_login') }}" class="button-link secondary">Se connecter</a>
+                    {% endif %}
+                    {% if sessions|length > 0 %}
+                        <a href="#sessions" class="button-link secondary">Voir les dossiers existants</a>
+                    {% endif %}
+                </div>
+
+                <div class="hero-points">
+                    <article class="hero-point">
+                        <strong>Entretien guidé</strong>
+                        <span class="muted">Le parcours suit les grandes phases de découverte, objectifs, risque, étapes de vie et patrimoine.</span>
+                    </article>
+                    <article class="hero-point">
+                        <strong>Injection directe en base</strong>
+                        <span class="muted">Les données utiles sont consolidées automatiquement dans le contact, le compte et les produits détectés.</span>
+                    </article>
+                    <article class="hero-point">
+                        <strong>Validation avant création</strong>
+                        <span class="muted">Tu peux toujours relire et corriger avant de finaliser le profil client.</span>
+                    </article>
+                </div>
+            </div>
+
+            <aside class="hero-side">
+                <div class="hero-stat">
+                    <span class="muted">Onboardings actifs</span>
+                    <strong>{{ inProgressCount }}</strong>
+                </div>
+                <div class="hero-stat">
+                    <span class="muted">Profils finalisés</span>
+                    <strong>{{ completedCount }}</strong>
+                </div>
+                <div class="hero-stat">
+                    <span class="muted">Parcours conseillé</span>
+                    <strong>5 phases</strong>
+                </div>
+                {% if not app.user %}
+                    <div class="hero-stat">
+                        <span class="muted">Accès</span>
+                        <strong>Création possible</strong>
+                    </div>
+                {% endif %}
+            </aside>
+        </section>
+
+        <section id="sessions" class="section-card">
+            <div class="section-head">
+                <div>
+                    <p class="muted">Historique</p>
+                    <h2>Dossiers récents</h2>
+                </div>
+                {% if app.user %}
+                    <a href="{{ path('app_onboarding_new') }}" class="button-link secondary">Nouveau dossier</a>
+                {% else %}
+                    <a href="{{ path('app_register') }}" class="button-link secondary">Créer un compte</a>
+                {% endif %}
+            </div>
+
+            {% if app.user and sessions|length > 0 %}
+                <div class="session-grid">
+                    {% for session in sessions %}
+                        {% set statusClass = session.status == 'in_progress'
+                            ? 'status-in-progress'
+                            : (session.status == 'completed'
+                                ? 'status-completed'
+                                : (session.status == 'draft' ? 'status-draft' : 'status-other')) %}
+                        <article class="session-card">
+                            <div class="session-head">
+                                <div>
+                                    <p class="session-title">
+                                        {% if session.contact and session.contact.firstname %}
+                                            {{ session.contact.firstname }} {{ session.contact.lastname and session.contact.lastname != 'A completer' ? session.contact.lastname : '' }}
+                                        {% else %}
+                                            Dossier #{{ session.id }}
+                                        {% endif %}
+                                    </p>
+                                    <p class="session-meta">
+                                        Créé le {{ session.createdAt|date('d/m/Y à H:i') }}
+                                        · Mis à jour {{ session.updatedAt|date('d/m/Y à H:i') }}
+                                    </p>
+                                </div>
+                                <span class="status-pill {{ statusClass }}">
+                                    {% if session.status == 'in_progress' %}
+                                        En cours
+                                    {% elseif session.status == 'completed' %}
+                                        Finalisé
+                                    {% elseif session.status == 'draft' %}
+                                        Brouillon
+                                    {% else %}
+                                        {{ session.status }}
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div class="session-stats">
+                                <div class="session-stat">
+                                    <span class="muted">Messages</span>
+                                    <strong>{{ session.messages|length }}</strong>
+                                </div>
+                                <div class="session-stat">
+                                    <span class="muted">Blocs extraits</span>
+                                    <strong>{{ session.extractedData|length }}</strong>
+                                </div>
+                                <div class="session-stat">
+                                    <span class="muted">Compte</span>
+                                    <strong>{{ session.account ? 'Oui' : 'Non' }}</strong>
+                                </div>
+                            </div>
+
+                            <div class="session-actions">
+                                {% if session.status == 'in_progress' %}
+                                    <a href="{{ path('app_onboarding_chat', {id: session.id}) }}" class="button-link">Continuer</a>
+                                    <a href="{{ path('app_onboarding_review', {id: session.id}) }}" class="button-link secondary">Relire</a>
+                                {% elseif session.status == 'completed' and session.account %}
+                                    <a href="{{ path('app_account_show', {id: session.account.id}) }}" class="button-link">Voir le compte</a>
+                                {% endif %}
+
+                                <a href="{{ path('app_onboarding_show', {id: session.id}) }}" class="button-link secondary">Détails</a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% elseif app.user %}
+                <div class="empty-state">
+                    <h2>Aucun dossier en cours</h2>
+                    <p class="muted">Commence un premier onboarding pour guider un nouveau client et construire son profil au fil de la conversation.</p>
+                    <p style="margin-top: 18px;">
+                        <a href="{{ path('app_onboarding_new') }}" class="button-link">Créer un premier dossier</a>
+                    </p>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h2>Une entrée simple pour démarrer</h2>
+                    <p class="muted">Crée ton compte ou connecte-toi pour ouvrir un nouveau dossier onboarding, reprendre un entretien existant et finaliser un profil client.</p>
+                    <p style="margin-top: 18px;">
+                        <a href="{{ path('app_register') }}" class="button-link">Créer un compte</a>
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

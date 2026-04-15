@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\OnboardingSessionRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly OnboardingSessionRepository $onboardingSessionRepository,
+    )
     {
     }
 
@@ -57,6 +61,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $roles = $token->getRoleNames();
 
         if (in_array('ROLE_CLIENT', $roles, true) && !in_array('ROLE_USER', $roles, true)) {
+            $user = $token->getUser();
+
+            if ($user instanceof \App\Entity\User) {
+                $inProgressSession = $this->onboardingSessionRepository->findInProgressByUser($user);
+                if ($inProgressSession !== null) {
+                    return new RedirectResponse($this->urlGenerator->generate('app_onboarding_chat', [
+                        'id' => $inProgressSession->getId(),
+                    ]));
+                }
+
+                return new RedirectResponse($this->urlGenerator->generate('app_portal_dashboard'));
+            }
+
             return new RedirectResponse($this->urlGenerator->generate('app_portal_dashboard'));
         }
 

@@ -1,0 +1,334 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title or 'Valider mon profil' }}{% endblock %}
+
+{% block body %}
+    <style>
+        .review-layout {
+            display: grid;
+            gap: 18px;
+        }
+
+        .review-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .review-panel,
+        .review-callout,
+        .review-timeline {
+            border: 1px solid var(--panel-border);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.74);
+            padding: 22px;
+        }
+
+        .review-callout {
+            background:
+                radial-gradient(circle at top right, rgba(31, 111, 95, 0.12), transparent 38%),
+                rgba(255, 255, 255, 0.82);
+        }
+
+        .review-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .review-stat {
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            border-radius: 18px;
+            background: rgba(246, 244, 238, 0.72);
+            padding: 14px 16px;
+        }
+
+        .review-stat strong {
+            display: block;
+            font-size: 1.9rem;
+            line-height: 1;
+            margin-top: 8px;
+        }
+
+        .review-columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .review-section h2,
+        .review-timeline h2 {
+            margin-bottom: 14px;
+        }
+
+        .review-list {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .review-list div {
+            display: grid;
+            gap: 3px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(33, 58, 45, 0.08);
+        }
+
+        .review-list div:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .review-list dt {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .review-list dd {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .review-empty {
+            margin: 0;
+            color: var(--text-muted);
+        }
+
+        .review-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .review-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 8px 12px;
+            background: rgba(31, 111, 95, 0.1);
+            color: var(--accent-strong);
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .review-message-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .review-message {
+            padding: 16px 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(33, 58, 45, 0.08);
+            background: rgba(246, 244, 238, 0.64);
+        }
+
+        .review-message.user {
+            background: rgba(31, 111, 95, 0.08);
+            border-color: rgba(31, 111, 95, 0.12);
+        }
+
+        .review-message-head {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .review-message-role {
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+        }
+
+        .review-message-time {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+        }
+
+        .review-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .review-actions form {
+            margin: 0;
+        }
+
+        .review-actions-main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        @media (max-width: 980px) {
+            .review-hero,
+            .review-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .review-actions {
+                align-items: stretch;
+            }
+        }
+    </style>
+
+    {% set messageCount = displayMessages|length %}
+    {% set contactCount = account and account.contacts is defined ? account.contacts|length : 0 %}
+    {% set productCount = account ? account.products|length : 0 %}
+    {% set documentCount = account ? account.documents|length : 0 %}
+
+    <div class="review-layout">
+        <div class="topline">
+            <p class="muted">Onboarding</p>
+            <h1>{{ page_title or 'Valider mon profil' }}</h1>
+            <p class="muted">Relis les informations extraites avant de créer définitivement le contact et le dossier client.</p>
+        </div>
+
+        <section class="review-hero">
+            <div class="review-panel">
+                <div class="section-head">
+                    <div>
+                        <p class="muted">Synthèse</p>
+                        <h2>Résumé de l’entretien</h2>
+                    </div>
+                    <a href="{{ path('app_onboarding_chat', {id: session.id}) }}" class="button-link secondary">Retour au chat</a>
+                </div>
+
+                <p class="muted">
+                    {{ contact ? (contact.firstname ?: 'Client') ~ ' ' ~ (contact.lastname and contact.lastname != 'A completer' ? contact.lastname : '')|trim : 'Nouveau client' }}
+                    {{ account and account.name and account.name != 'A completer' ? '· Dossier ' ~ account.name : '' }}
+                </p>
+
+                <div class="review-summary">
+                    <article class="review-stat">
+                        <span class="muted">Messages</span>
+                        <strong>{{ messageCount }}</strong>
+                    </article>
+                    <article class="review-stat">
+                        <span class="muted">Contacts liés</span>
+                        <strong>{{ contactCount }}</strong>
+                    </article>
+                    <article class="review-stat">
+                        <span class="muted">Produits détectés</span>
+                        <strong>{{ productCount }}</strong>
+                    </article>
+                    <article class="review-stat">
+                        <span class="muted">Documents liés</span>
+                        <strong>{{ documentCount }}</strong>
+                    </article>
+                </div>
+            </div>
+
+            <aside class="review-callout">
+                <p class="muted">Avant finalisation</p>
+                <h2>Ce qu’on va créer</h2>
+                <div class="review-badges">
+                    <span class="review-badge">{{ contact ? 'Contact prêt' : 'Contact à compléter' }}</span>
+                    <span class="review-badge">{{ account ? 'Compte prêt' : 'Compte à compléter' }}</span>
+                    <span class="review-badge">{{ productCount }} produit{{ productCount > 1 ? 's' : '' }}</span>
+                </div>
+                <p class="muted" style="margin-top: 16px;">
+                    Si quelque chose te semble incomplet ou mal interprété, retourne dans le chat pour corriger la conversation avant de valider.
+                </p>
+            </aside>
+        </section>
+
+        <div class="review-columns">
+            <section class="review-panel review-section">
+                <div class="section-head">
+                    <div>
+                        <p class="muted">Contact</p>
+                        <h2>Informations personnelles</h2>
+                    </div>
+                </div>
+
+                {% if contact %}
+                    <dl class="review-list">
+                        <div><dt>Prénom</dt><dd>{{ contact.firstname ?: '—' }}</dd></div>
+                        <div><dt>Nom</dt><dd>{{ contact.lastname and contact.lastname != 'A completer' ? contact.lastname : '—' }}</dd></div>
+                        <div><dt>Email</dt><dd>{{ contact.email ?: '—' }}</dd></div>
+                        <div><dt>Téléphone</dt><dd>{{ contact.phone ?: '—' }}</dd></div>
+                        <div><dt>Profession</dt><dd>{{ contact.profession ?: '—' }}</dd></div>
+                        <div><dt>Naissance</dt><dd>{{ contact.birthdate ? contact.birthdate|date('d/m/Y') : '—' }}</dd></div>
+                        <div><dt>Lieu de naissance</dt><dd>{{ contact.birthplace ?: '—' }}</dd></div>
+                        <div><dt>NISS</dt><dd>{{ contact.niss ?: '—' }}</dd></div>
+                        <div><dt>Revenu annuel</dt><dd>{{ contact.incomeAmount ? contact.incomeAmount|number_format(2, ',', ' ') ~ ' €' : '—' }}</dd></div>
+                    </dl>
+                {% else %}
+                    <p class="review-empty">Aucune information personnelle n’a encore été consolidée.</p>
+                {% endif %}
+            </section>
+
+            <section class="review-panel review-section">
+                <div class="section-head">
+                    <div>
+                        <p class="muted">Compte</p>
+                        <h2>Dossier et rattachements</h2>
+                    </div>
+                </div>
+
+                {% if account %}
+                    <dl class="review-list">
+                        <div><dt>Nom du dossier</dt><dd>{{ account.name and account.name != 'A completer' ? account.name : '—' }}</dd></div>
+                        <div><dt>Statut</dt><dd>{{ account.companyStatut ?: '—' }}</dd></div>
+                        <div><dt>Type</dt><dd>{{ account.type ?: '—' }}</dd></div>
+                        <div><dt>Adresse</dt><dd>{{ account.streetNum ?: '—' }}</dd></div>
+                        <div><dt>Ville / Code postal</dt><dd>{{ (account.zip ?: '') ~ ((account.zip and account.city) ? ' ' : '') ~ (account.city ?: '') ?: '—' }}</dd></div>
+                        <div><dt>Contacts liés</dt><dd>{{ account.contacts|length ?: 0 }}</dd></div>
+                        <div><dt>Documents liés</dt><dd>{{ account.documents|length ?: 0 }}</dd></div>
+                        <div><dt>Produits liés</dt><dd>{{ account.products|length ?: 0 }}</dd></div>
+                    </dl>
+                {% else %}
+                    <p class="review-empty">Aucune information de dossier n’a encore été consolidée.</p>
+                {% endif %}
+            </section>
+        </div>
+
+        <section class="review-timeline">
+            <div class="section-head">
+                <div>
+                    <p class="muted">Conversation</p>
+                    <h2>Historique de l’entretien</h2>
+                </div>
+            </div>
+
+            <div class="review-message-list">
+                {% for message in displayMessages %}
+                    <article class="review-message{{ message.role == 'user' ? ' user' : '' }}">
+                        <div class="review-message-head">
+                            <span class="review-message-role">{{ message.role == 'user' ? 'Client / conseiller' : 'Planilife' }}</span>
+                            <span class="review-message-time">{{ message.timestamp ?: 'À l’instant' }}</span>
+                        </div>
+                        <div>{{ message.content }}</div>
+                    </article>
+                {% else %}
+                    <p class="review-empty">Aucun échange à afficher pour l’instant.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div class="review-actions">
+            <a href="{{ path('app_onboarding_chat', {id: session.id}) }}" class="button-link secondary">Continuer le chat</a>
+
+            <div class="review-actions-main">
+                <a href="{{ path('app_onboarding_chat', {id: session.id}) }}" class="button-link secondary">Corriger avant validation</a>
+                <form action="{{ path('app_onboarding_complete', {id: session.id}) }}" method="POST">
+                    <input type="hidden" name="_token" value="{{ csrf_token('complete_' ~ session.id) }}">
+                    <button type="submit">Finaliser et créer le profil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

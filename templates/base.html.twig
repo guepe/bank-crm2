@@ -282,6 +282,7 @@
                     <nav class="nav">
                         <div class="nav-links">
                             {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('app_onboarding_index') }}">Accueil</a>
                                 <a href="{{ path('app_dashboard') }}">Tableau de bord</a>
                                 <a href="{{ path('app_lead_index') }}">Leads</a>
                                 <a href="{{ path('app_contact_index') }}">Contacts</a>
