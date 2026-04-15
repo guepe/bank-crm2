@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">CRM modernise</p>
+        <h1>Tableau de bord</h1>
+        <p class="muted">Premier noyau migre depuis l'ancien bundle Symfony 2.</p>
+    </div>
+
+    <div class="stats">
+        <article class="stat-card">
+            <span class="stat-label">Leads</span>
+            <strong>{{ lead_count }}</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Contacts</span>
+            <strong>{{ contact_count }}</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Comptes</span>
+            <strong>{{ account_count }}</strong>
+        </article>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Leads recents</h2>
+                <a class="button-link secondary" href="{{ path('app_lead_index') }}">Voir tout</a>
+            </div>
+            <ul class="plain-list">
+                {% for lead in recent_leads %}
+                    <li><a href="{{ path('app_lead_show', {id: lead.id}) }}">{{ lead.name }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun lead.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Contacts recents</h2>
+                <a class="button-link secondary" href="{{ path('app_contact_index') }}">Voir tout</a>
+            </div>
+            <ul class="plain-list">
+                {% for contact in recent_contacts %}
+                    <li><a href="{{ path('app_contact_show', {id: contact.id}) }}">{{ contact }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun contact.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Comptes recents</h2>
+                <a class="button-link secondary" href="{{ path('app_account_index') }}">Voir tout</a>
+            </div>
+            <ul class="plain-list">
+                {% for account in recent_accounts %}
+                    <li><a href="{{ path('app_account_show', {id: account.id}) }}">{{ account.name }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun compte.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Actions</h2>
+            </div>
+            <div class="stack compact">
+                <a class="button-link" href="{{ path('app_lead_new') }}">Nouveau lead</a>
+                <a class="button-link" href="{{ path('app_contact_new') }}">Nouveau contact</a>
+                <a class="button-link" href="{{ path('app_account_new') }}">Nouveau compte</a>
+            </div>
+        </section>
+    </div>
+{% endblock %}

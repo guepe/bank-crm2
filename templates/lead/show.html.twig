@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ lead.name }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Lead</p>
+            <h1>{{ lead.name }}</h1>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_lead_edit', {id: lead.id}) }}">Modifier</a>
+        </div>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Coordonnees</h2>
+            <dl class="info-list">
+                <div><dt>Rue</dt><dd>{{ lead.streetNum ?: '—' }}</dd></div>
+                <div><dt>Code postal</dt><dd>{{ lead.zip ?: '—' }}</dd></div>
+                <div><dt>Ville</dt><dd>{{ lead.city ?: '—' }}</dd></div>
+                <div><dt>Pays</dt><dd>{{ lead.country ?: '—' }}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Qualification</h2>
+            <dl class="info-list">
+                <div><dt>Statut</dt><dd>{{ lead.companyStatut ?: '—' }}</dd></div>
+                <div><dt>Type</dt><dd>{{ lead.type ?: '—' }}</dd></div>
+                <div><dt>Autre banque</dt><dd>{{ lead.otherBank ?: '—' }}</dd></div>
+                <div><dt>Debut relation</dt><dd>{{ lead.startingDate ? lead.startingDate|date('d/m/Y') : '—' }}</dd></div>
+            </dl>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Notes</h2>
+        <p>{{ lead.notes ?: 'Aucune note.' }}</p>
+    </section>
+
+    <form method="post" action="{{ path('app_lead_delete', {id: lead.id}) }}" onsubmit="return confirm('Supprimer ce lead ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-lead-' ~ lead.id) }}">
+        <button type="submit" class="danger">Supprimer</button>
+    </form>
+{% endblock %}

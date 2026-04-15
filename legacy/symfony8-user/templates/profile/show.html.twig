@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Migration Symfony 8</p>
+        <h1>Profil</h1>
+        <p class="muted">Premier ecran protege pour valider la couche User modernisee.</p>
+    </div>
+
+    <div class="stack">
+        <div>
+            <strong>Utilisateur</strong>
+            <p>{{ user.userIdentifier }}</p>
+        </div>
+
+        <div>
+            <strong>Email</strong>
+            <p>{{ user.email ?: 'Non renseigne' }}</p>
+        </div>
+
+        <div>
+            <strong>Roles</strong>
+            <p>{{ user.roles|join(', ') }}</p>
+        </div>
+
+        <a class="button-link" href="{{ path('app_logout') }}">Se deconnecter</a>
+    </div>
+{% endblock %}

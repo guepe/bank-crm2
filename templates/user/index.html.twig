@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Administration</p>
+            <h1>Utilisateurs</h1>
+        </div>
+        <a class="button-link" href="{{ path('app_user_new') }}">Nouvel utilisateur</a>
+    </div>
+
+    <div class="section-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Contact</th>
+                    <th>Actif</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email ?: '—' }}</td>
+                        <td>{{ user.roleLabels|join(', ') ?: '—' }}</td>
+                        <td>{% if user.contact %}<a href="{{ path('app_contact_show', {id: user.contact.id}) }}">{{ user.contact }}</a>{% else %}—{% endif %}</td>
+                        <td>{{ user.enabled ? 'Oui' : 'Non' }}</td>
+                        <td><a href="{{ path('app_user_show', {id: user.id}) }}">Ouvrir</a></td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="muted">Aucun utilisateur.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

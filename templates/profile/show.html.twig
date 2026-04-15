@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil interne{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Administration</p>
+        <h1>Profil</h1>
+    </div>
+
+    <section class="section-card">
+        <dl class="info-list">
+            <div><dt>Nom d utilisateur</dt><dd>{{ user.userIdentifier }}</dd></div>
+            <div><dt>Email</dt><dd>{{ user.email ?: '—' }}</dd></div>
+            <div><dt>Roles</dt><dd>{{ user.roleLabels|join(', ') ?: '—' }}</dd></div>
+            <div><dt>Actif</dt><dd>{{ user.enabled ? 'Oui' : 'Non' }}</dd></div>
+        </dl>
+        <p><a class="button-link secondary" href="{{ path('app_profile_password') }}">Changer mon mot de passe</a></p>
+    </section>
+{% endblock %}

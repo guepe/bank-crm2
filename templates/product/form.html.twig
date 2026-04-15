@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Produits</p>
+            <h1>{{ page_title }}</h1>
+        </div>
+        <a class="button-link secondary" href="{{ account_context is defined and account_context ? path('app_account_show', {id: account_context.id}) : path('app_product_index') }}">Retour</a>
+    </div>
+
+    {% if account_context is defined and account_context %}
+        <p class="muted">Creation depuis le compte <strong>{{ account_context.name }}</strong>.</p>
+    {% endif %}
+
+    <div class="section-card form-shell">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="actions">
+                <button type="submit">Enregistrer</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

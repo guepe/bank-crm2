@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Contact;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class PortalContactType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('firstname', null, ['label' => 'Prenom', 'required' => false])
+            ->add('lastname', null, ['label' => 'Nom'])
+            ->add('email', null, ['required' => false])
+            ->add('phone', null, ['label' => 'Telephone', 'required' => false])
+            ->add('phone2', null, ['label' => 'Autre telephone', 'required' => false])
+            ->add('gsm', null, ['required' => false])
+            ->add('streetNum', null, ['label' => 'Rue et numero', 'required' => false])
+            ->add('zip', null, ['label' => 'Code postal', 'required' => false])
+            ->add('city', null, ['label' => 'Ville', 'required' => false])
+            ->add('country', CountryType::class, [
+                'label' => 'Pays',
+                'required' => false,
+                'preferred_choices' => ['BE'],
+            ])
+            ->add('birthdate', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+            ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Contact::class,
+        ]);
+    }
+}

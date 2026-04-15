@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ document.name ?: 'Document' }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Document</p>
+            <h1>{{ document.name ?: 'Sans nom' }}</h1>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_document_edit', {id: document.id}) }}">Modifier</a>
+            {% if document.path %}
+                <a class="button-link" href="{{ path('app_document_download', {id: document.id}) }}">Telecharger</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Fichier</h2>
+            <dl class="info-list">
+                <div><dt>Nom logique</dt><dd>{{ document.name ?: '—' }}</dd></div>
+                <div><dt>Chemin</dt><dd>{{ document.path ?: '—' }}</dd></div>
+                <div><dt>Type MIME</dt><dd>{{ document.mimeType ?: '—' }}</dd></div>
+                <div><dt>Taille</dt><dd>{{ document.size ?: '—' }}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Comptes lies</h2>
+            <ul class="plain-list">
+                {% for account in document.accounts %}
+                    <li><a href="{{ path('app_account_show', {id: account.id}) }}">{{ account.name }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun compte associe.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Contacts lies</h2>
+        <ul class="plain-list">
+            {% for contact in document.contacts %}
+                <li><a href="{{ path('app_contact_show', {id: contact.id}) }}">{{ contact }}</a></li>
+            {% else %}
+                <li class="muted">Aucun contact associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <form method="post" action="{{ path('app_document_delete', {id: document.id}) }}" onsubmit="return confirm('Supprimer ce document ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-document-' ~ document.id) }}">
+        <button type="submit" class="danger">Supprimer</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Migration Symfony 8</p>
+        <h1>Connexion</h1>
+        <p class="muted">Version moderne du login utilisateur, en remplacement de FOSUserBundle.</p>
+    </div>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="alert">
+            Connecte en tant que <strong>{{ app.user.userIdentifier }}</strong>.
+        </div>
+    {% endif %}
+
+    <form method="post" class="stack">
+        <div class="field">
+            <label for="username">Nom d'utilisateur</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                value="{{ last_username }}"
+                autocomplete="username"
+                required
+                autofocus
+            >
+        </div>
+
+        <div class="field">
+            <label for="password">Mot de passe</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required
+            >
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <button type="submit">Se connecter</button>
+    </form>
+{% endblock %}

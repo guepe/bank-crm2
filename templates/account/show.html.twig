@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ account.name }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Compte</p>
+            <h1>{{ account.name }}</h1>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_account_edit', {id: account.id}) }}">Modifier</a>
+        </div>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Coordonnees</h2>
+            <dl class="info-list">
+                <div><dt>Rue</dt><dd>{{ account.streetNum ?: '—' }}</dd></div>
+                <div><dt>Code postal</dt><dd>{{ account.zip ?: '—' }}</dd></div>
+                <div><dt>Ville</dt><dd>{{ account.city ?: '—' }}</dd></div>
+                <div><dt>Pays</dt><dd>{{ account.country ?: '—' }}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Qualification</h2>
+            <dl class="info-list">
+                <div><dt>Statut</dt><dd>{{ account.companyStatut ?: '—' }}</dd></div>
+                <div><dt>Type</dt><dd>{{ account.type ?: '—' }}</dd></div>
+                <div><dt>Autre banque</dt><dd>{{ account.otherBank ?: '—' }}</dd></div>
+                <div><dt>Debut relation</dt><dd>{{ account.startingDate ? account.startingDate|date('d/m/Y') : '—' }}</dd></div>
+            </dl>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <div class="section-head">
+            <h2>Contacts lies</h2>
+            <a class="button-link secondary" href="{{ path('app_contact_new', {account: account.id}) }}">Ajouter un contact</a>
+        </div>
+        <ul class="plain-list">
+            {% for contact in account.contacts %}
+                <li><a href="{{ path('app_contact_show', {id: contact.id}) }}">{{ contact }}</a></li>
+            {% else %}
+                <li class="muted">Aucun contact associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card">
+        <div class="section-head">
+            <h2>Documents lies</h2>
+            <a class="button-link secondary" href="{{ path('app_document_new', {account: account.id}) }}">Ajouter un document</a>
+        </div>
+        <ul class="plain-list">
+            {% for document in account.documents %}
+                <li><a href="{{ path('app_document_show', {id: document.id}) }}">{{ document }}</a></li>
+            {% else %}
+                <li class="muted">Aucun document associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Bank Products</h2>
+            <ul class="plain-list">
+                {% for product in account.bankProducts %}
+                    <li><a href="{{ path('app_bank_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a>{% if product.amount %} - {{ product.amount }}{% endif %}</li>
+                {% else %}
+                    <li class="muted">Aucun produit bancaire.</li>
+                {% endfor %}
+            </ul>
+            <a class="button-link secondary" href="{{ path('app_bank_product_new', {account: account.id}) }}">Ajouter un produit bancaire</a>
+        </section>
+
+        <section class="section-card">
+            <h2>Credit Products</h2>
+            <ul class="plain-list">
+                {% for product in account.creditProducts %}
+                    <li><a href="{{ path('app_credit_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a>{% if product.amount %} - {{ product.amount }}{% endif %}</li>
+                {% else %}
+                    <li class="muted">Aucun produit de credit.</li>
+                {% endfor %}
+            </ul>
+            <a class="button-link secondary" href="{{ path('app_credit_product_new', {account: account.id}) }}">Ajouter un produit de credit</a>
+        </section>
+
+        <section class="section-card">
+            <h2>Fiscal Products</h2>
+            <ul class="plain-list">
+                {% for product in account.fiscalProducts %}
+                    <li><a href="{{ path('app_fiscal_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a>{% if product.capitalTerme %} - {{ product.capitalTerme }}{% endif %}</li>
+                {% else %}
+                    <li class="muted">Aucun produit fiscal.</li>
+                {% endfor %}
+            </ul>
+            <a class="button-link secondary" href="{{ path('app_fiscal_product_new', {account: account.id}) }}">Ajouter un produit fiscal</a>
+        </section>
+
+        <section class="section-card">
+            <h2>Savings Products</h2>
+            <ul class="plain-list">
+                {% for product in account.savingsProducts %}
+                    <li><a href="{{ path('app_savings_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a>{% if product.amount %} - {{ product.amount }}{% endif %}</li>
+                {% else %}
+                    <li class="muted">Aucun produit d'epargne.</li>
+                {% endfor %}
+            </ul>
+            <a class="button-link secondary" href="{{ path('app_savings_product_new', {account: account.id}) }}">Ajouter un produit d'epargne</a>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Notes</h2>
+        <p>{{ account.notes ?: 'Aucune note.' }}</p>
+    </section>
+
+    <form method="post" action="{{ path('app_account_delete', {id: account.id}) }}" onsubmit="return confirm('Supprimer ce compte ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-account-' ~ account.id) }}">
+        <button type="submit" class="danger">Supprimer</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ contact }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Contact</p>
+            <h1>{{ contact }}</h1>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_contact_edit', {id: contact.id}) }}">Modifier</a>
+        </div>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Coordonnees</h2>
+            <dl class="info-list">
+                <div><dt>Email</dt><dd>{{ contact.email ?: '—' }}</dd></div>
+                <div><dt>Telephone</dt><dd>{{ contact.phone ?: '—' }}</dd></div>
+                <div><dt>GSM</dt><dd>{{ contact.gsm ?: '—' }}</dd></div>
+                <div><dt>Ville</dt><dd>{{ contact.city ?: '—' }}</dd></div>
+                <div><dt>Pays</dt><dd>{{ contact.country ?: '—' }}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Informations personnelles</h2>
+            <dl class="info-list">
+                <div><dt>Naissance</dt><dd>{{ contact.birthdate ? contact.birthdate|date('d/m/Y') : '—' }}</dd></div>
+                <div><dt>Lieu</dt><dd>{{ contact.birthplace ?: '—' }}</dd></div>
+                <div><dt>Profession</dt><dd>{{ contact.profession ?: '—' }}</dd></div>
+                <div><dt>Revenus</dt><dd>{{ contact.incomeAmount ?: '—' }}</dd></div>
+            </dl>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Comptes lies</h2>
+        <ul class="plain-list">
+            {% for account in contact.accounts %}
+                <li><a href="{{ path('app_account_show', {id: account.id}) }}">{{ account.name }}</a></li>
+            {% else %}
+                <li class="muted">Aucun compte associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card">
+        <h2>Documents lies</h2>
+        <ul class="plain-list">
+            {% for document in contact.documents %}
+                <li><a href="{{ path('app_document_show', {id: document.id}) }}">{{ document }}</a></li>
+            {% else %}
+                <li class="muted">Aucun document associe.</li>
+            {% endfor %}
+        </ul>
+        <a class="button-link secondary" href="{{ path('app_document_new') }}">Ajouter un document</a>
+    </section>
+
+    <section class="section-card">
+        <h2>Acces client</h2>
+        {% if contact.userAccount %}
+            <p>Login: <strong>{{ contact.userAccount.username }}</strong></p>
+            <a class="button-link secondary" href="{{ path('app_user_show', {id: contact.userAccount.id}) }}">Gerer l acces</a>
+        {% else %}
+            <p class="muted">Aucun acces client cree.</p>
+            <a class="button-link" href="{{ path('app_user_new', {contact: contact.id}) }}">Creer un acces client</a>
+        {% endif %}
+    </section>
+
+    <form method="post" action="{{ path('app_contact_delete', {id: contact.id}) }}" onsubmit="return confirm('Supprimer ce contact ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-contact-' ~ contact.id) }}">
+        <button type="submit" class="danger">Supprimer</button>
+    </form>
+{% endblock %}

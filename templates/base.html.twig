@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Bank CRM{% endblock %}</title>
+        <style>
+            :root {
+                --page-bg: linear-gradient(135deg, #f2efe7 0%, #d9e4dd 100%);
+                --panel-bg: rgba(255, 255, 255, 0.92);
+                --panel-border: rgba(33, 58, 45, 0.12);
+                --text-main: #1e2d24;
+                --text-muted: #56645d;
+                --accent: #1f6f5f;
+                --accent-strong: #124c40;
+                --danger-bg: #f8dfdf;
+                --danger-text: #8a2525;
+                --input-border: #c8d4cd;
+                --shadow: 0 20px 60px rgba(21, 42, 33, 0.14);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: Georgia, "Times New Roman", serif;
+                color: var(--text-main);
+                background: var(--page-bg);
+            }
+
+            .shell {
+                min-height: 100vh;
+                padding: 24px;
+            }
+
+            .panel {
+                width: min(100%, 1180px);
+                margin: 0 auto;
+                background: var(--panel-bg);
+                border: 1px solid var(--panel-border);
+                border-radius: 24px;
+                box-shadow: var(--shadow);
+                padding: 32px;
+                backdrop-filter: blur(8px);
+            }
+
+            h1 {
+                margin: 0 0 12px;
+                font-size: clamp(2rem, 5vw, 2.8rem);
+                line-height: 0.95;
+                letter-spacing: -0.04em;
+            }
+
+            p,
+            label,
+            li {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+
+            .muted {
+                color: var(--text-muted);
+            }
+
+            .alert {
+                border-radius: 14px;
+                padding: 12px 14px;
+                margin-bottom: 18px;
+            }
+
+            .alert-danger {
+                background: var(--danger-bg);
+                color: var(--danger-text);
+            }
+
+            .stack {
+                display: grid;
+                gap: 14px;
+            }
+
+            .field {
+                display: grid;
+                gap: 6px;
+            }
+
+            input {
+                width: 100%;
+                border: 1px solid var(--input-border);
+                border-radius: 12px;
+                padding: 12px 14px;
+                font: inherit;
+                background: rgba(255, 255, 255, 0.9);
+            }
+
+            button,
+            .button-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                border-radius: 999px;
+                padding: 12px 18px;
+                font: inherit;
+                font-weight: 700;
+                color: #fff;
+                background: var(--accent);
+                text-decoration: none;
+                cursor: pointer;
+                transition: transform 160ms ease, background 160ms ease;
+            }
+
+            button:hover,
+            .button-link:hover {
+                background: var(--accent-strong);
+                transform: translateY(-1px);
+            }
+
+            .topline {
+                margin-bottom: 24px;
+            }
+
+            .nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 24px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid var(--panel-border);
+            }
+
+            .nav-links,
+            .actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .grid {
+                display: grid;
+                gap: 18px;
+            }
+
+            .two-cols {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+
+            .stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+
+            .stat-card,
+            .section-card {
+                border: 1px solid var(--panel-border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.7);
+                padding: 18px;
+            }
+
+            .stat-card strong {
+                display: block;
+                font-size: 2rem;
+                margin-top: 8px;
+            }
+
+            .stat-label {
+                color: var(--text-muted);
+            }
+
+            .section-head {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 14px;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 18px;
+            }
+
+            h2 {
+                margin: 0 0 12px;
+                font-size: 1.3rem;
+            }
+
+            .plain-list {
+                margin: 0;
+                padding-left: 18px;
+            }
+
+            .compact {
+                gap: 10px;
+            }
+
+            .secondary {
+                background: #3f5f54;
+            }
+
+            .danger {
+                background: #9d2e2e;
+            }
+
+            .data-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 12px 10px;
+                border-bottom: 1px solid var(--panel-border);
+                text-align: left;
+                vertical-align: top;
+            }
+
+            .info-list {
+                display: grid;
+                gap: 10px;
+                margin: 0;
+            }
+
+            .info-list div {
+                display: grid;
+                gap: 3px;
+            }
+
+            .info-list dt {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+            }
+
+            .info-list dd {
+                margin: 0;
+            }
+
+            .form-shell form {
+                display: grid;
+                gap: 14px;
+            }
+
+            .form-shell label {
+                display: block;
+                margin-bottom: 6px;
+            }
+
+            textarea,
+            select {
+                width: 100%;
+                border: 1px solid var(--input-border);
+                border-radius: 12px;
+                padding: 12px 14px;
+                font: inherit;
+                background: rgba(255, 255, 255, 0.9);
+            }
+
+            ul {
+                line-height: 1.6;
+            }
+
+            a {
+                color: var(--accent-strong);
+            }
+
+            @media (max-width: 720px) {
+                .panel {
+                    padding: 20px;
+                }
+            }
+        </style>
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    </head>
+    <body>
+        <main class="shell">
+            <section class="panel">
+                {% if app.user %}
+                    <nav class="nav">
+                        <div class="nav-links">
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="{{ path('app_dashboard') }}">Tableau de bord</a>
+                                <a href="{{ path('app_lead_index') }}">Leads</a>
+                                <a href="{{ path('app_contact_index') }}">Contacts</a>
+                                <a href="{{ path('app_account_index') }}">Comptes</a>
+                                <a href="{{ path('app_product_index') }}">Produits</a>
+                                <a href="{{ path('app_document_index') }}">Documents</a>
+                                <a href="{{ path('app_user_index') }}">Utilisateurs</a>
+                                <a href="{{ path('app_profile') }}">Profil</a>
+                            {% elseif is_granted('ROLE_CLIENT') %}
+                                <a href="{{ path('app_portal_dashboard') }}">Mon espace</a>
+                                <a href="{{ path('app_portal_contact_edit') }}">Mon dossier</a>
+                            {% endif %}
+                        </div>
+                        <div class="actions">
+                            <span class="muted">{{ app.user.displayName ?? app.user.userIdentifier }}</span>
+                            <a class="button-link secondary" href="{{ path('app_logout') }}">Deconnexion</a>
+                        </div>
+                    </nav>
+                {% endif %}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert {{ label == 'success' ? '' : 'alert-danger' }}">{{ message }}</div>
+                    {% endfor %}
+                {% endfor %}
+                {% block body %}{% endblock %}
+            </section>
+        </main>
+    </body>
+</html>

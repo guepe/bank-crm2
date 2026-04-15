@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Portail client</p>
+        <h1>Mon espace</h1>
+        <p class="muted">Vous accedez a votre dossier client avec un acces limite.</p>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Mon acces</h2>
+            <dl class="info-list">
+                <div><dt>Login</dt><dd>{{ portal_user.username }}</dd></div>
+                <div><dt>Email</dt><dd>{{ portal_user.email ?: '—' }}</dd></div>
+            </dl>
+            <div class="actions">
+                <a class="button-link" href="{{ path('app_portal_contact_edit') }}">Mettre a jour mon dossier</a>
+                <a class="button-link secondary" href="{{ path('app_portal_password') }}">Changer mon mot de passe</a>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>Mon contact</h2>
+            {% if contact %}
+                <dl class="info-list">
+                    <div><dt>Nom</dt><dd>{{ contact }}</dd></div>
+                    <div><dt>Email</dt><dd>{{ contact.email ?: '—' }}</dd></div>
+                    <div><dt>Telephone</dt><dd>{{ contact.phone ?: '—' }}</dd></div>
+                    <div><dt>GSM</dt><dd>{{ contact.gsm ?: '—' }}</dd></div>
+                </dl>
+            {% else %}
+                <p class="muted">Aucun contact lie.</p>
+            {% endif %}
+        </section>
+    </div>
+
+    {% if contact %}
+        <section class="section-card">
+            <h2>Mes comptes</h2>
+            <ul class="plain-list">
+                {% for account in contact.accounts %}
+                    <li>{{ account.name }}</li>
+                {% else %}
+                    <li class="muted">Aucun compte associe.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <h2>Mes documents</h2>
+            <ul class="plain-list">
+                {% for document in contact.documents %}
+                    <li>{{ document }}</li>
+                {% else %}
+                    <li class="muted">Aucun document associe.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+{% endblock %}

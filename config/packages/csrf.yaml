@@ -1,0 +1,7 @@
+# Use classic session-backed CSRF protection for local forms and login.
+framework:
+    form:
+        csrf_protection:
+            token_id: submit
+
+    csrf_protection: ~

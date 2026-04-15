@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Module CRM</p>
+            <h1>Documents</h1>
+        </div>
+        <a class="button-link" href="{{ path('app_document_new') }}">Nouveau document</a>
+    </div>
+
+    <div class="section-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Type MIME</th>
+                    <th>Taille</th>
+                    <th>Comptes</th>
+                    <th>Contacts</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                    <tr>
+                        <td>{{ document.name ?: 'Sans nom' }}</td>
+                        <td>{{ document.mimeType ?: '—' }}</td>
+                        <td>{{ document.size ?: '—' }}</td>
+                        <td>{{ document.accounts|length }}</td>
+                        <td>{{ document.contacts|length }}</td>
+                        <td><a href="{{ path('app_document_show', {id: document.id}) }}">Ouvrir</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="muted">Aucun document.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

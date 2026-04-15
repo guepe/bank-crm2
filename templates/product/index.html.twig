@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Module CRM</p>
+            <h1>Produits</h1>
+        </div>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Bank Products</h2>
+                <a class="button-link" href="{{ path('app_bank_product_new') }}">Nouveau</a>
+            </div>
+            <ul class="plain-list">
+                {% for product in bank_products %}
+                    <li><a href="{{ path('app_bank_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun produit.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Credit Products</h2>
+                <a class="button-link" href="{{ path('app_credit_product_new') }}">Nouveau</a>
+            </div>
+            <ul class="plain-list">
+                {% for product in credit_products %}
+                    <li><a href="{{ path('app_credit_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun produit.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Fiscal Products</h2>
+                <a class="button-link" href="{{ path('app_fiscal_product_new') }}">Nouveau</a>
+            </div>
+            <ul class="plain-list">
+                {% for product in fiscal_products %}
+                    <li><a href="{{ path('app_fiscal_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun produit.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Savings Products</h2>
+                <a class="button-link" href="{{ path('app_savings_product_new') }}">Nouveau</a>
+            </div>
+            <ul class="plain-list">
+                {% for product in savings_products %}
+                    <li><a href="{{ path('app_savings_product_show', {id: product.id}) }}">{{ product.number ?: 'Sans numero' }}</a></li>
+                {% else %}
+                    <li class="muted">Aucun produit.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+{% endblock %}

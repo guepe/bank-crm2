@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.number ?: 'Produit' }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Produit</p>
+            <h1>{{ product.number ?: 'Sans numero' }}</h1>
+        </div>
+        <div class="actions">
+            {% if product_type == 'bank' %}
+                <a class="button-link secondary" href="{{ path('app_bank_product_edit', {id: product.id}) }}">Modifier</a>
+            {% elseif product_type == 'credit' %}
+                <a class="button-link secondary" href="{{ path('app_credit_product_edit', {id: product.id}) }}">Modifier</a>
+            {% elseif product_type == 'fiscal' %}
+                <a class="button-link secondary" href="{{ path('app_fiscal_product_edit', {id: product.id}) }}">Modifier</a>
+            {% else %}
+                <a class="button-link secondary" href="{{ path('app_savings_product_edit', {id: product.id}) }}">Modifier</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Commun</h2>
+            <dl class="info-list">
+                <div><dt>Type</dt><dd>{{ product.type ?: '—' }}</dd></div>
+                <div><dt>Societe</dt><dd>{{ product.company ?: '—' }}</dd></div>
+                <div><dt>Reference</dt><dd>{{ product.references ?: '—' }}</dd></div>
+                <div><dt>Taux interet</dt><dd>{{ product.tauxInteret ?: '—' }}</dd></div>
+                <div><dt>Categories</dt><dd>{% for category in product.categories %}{{ category.name }}{% if not loop.last %}, {% endif %}{% else %}—{% endfor %}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Specifique</h2>
+            <dl class="info-list">
+                {% if product_type == 'bank' %}
+                    <div><dt>Montant</dt><dd>{{ product.amount ?: '—' }}</dd></div>
+                {% elseif product_type == 'credit' %}
+                    <div><dt>Montant</dt><dd>{{ product.amount ?: '—' }}</dd></div>
+                    <div><dt>Duree</dt><dd>{{ product.duration ?: '—' }}</dd></div>
+                    <div><dt>Variabilite</dt><dd>{{ product.variability ?: '—' }}</dd></div>
+                    <div><dt>Objet</dt><dd>{{ product.purpose ?: '—' }}</dd></div>
+                    <div><dt>Garantie</dt><dd>{{ product.garantee ?: '—' }}</dd></div>
+                {% elseif product_type == 'fiscal' %}
+                    <div><dt>Capital terme</dt><dd>{{ product.capitalTerme ?: '—' }}</dd></div>
+                    <div><dt>Prime recurrente</dt><dd>{{ product.recurrentPrimeAmount ?: '—' }}</dd></div>
+                    <div><dt>Garantie</dt><dd>{{ product.garantee ?: '—' }}</dd></div>
+                    <div><dt>Reserve</dt><dd>{{ product.reserve ?: '—' }}</dd></div>
+                {% else %}
+                    <div><dt>Montant</dt><dd>{{ product.amount ?: '—' }}</dd></div>
+                    <div><dt>Duree</dt><dd>{{ product.duration ?: '—' }}</dd></div>
+                    <div><dt>Frequence</dt><dd>{{ product.primeRecurence ?: '—' }}</dd></div>
+                    <div><dt>Capital terme</dt><dd>{{ product.capitalTerme ?: '—' }}</dd></div>
+                    <div><dt>Garantie</dt><dd>{{ product.garantee ?: '—' }}</dd></div>
+                {% endif %}
+            </dl>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Description</h2>
+        <p>{{ product.description ?: 'Aucune description.' }}</p>
+        <h2>Notes</h2>
+        <p>{{ product.notes ?: 'Aucune note.' }}</p>
+    </section>
+
+    <section class="section-card">
+        <h2>Comptes lies</h2>
+        <ul class="plain-list">
+            {% for account in product.accounts %}
+                <li><a href="{{ path('app_account_show', {id: account.id}) }}">{{ account.name }}</a></li>
+            {% else %}
+                <li class="muted">Aucun compte associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <form method="post"
+        action="{% if product_type == 'bank' %}{{ path('app_bank_product_delete', {id: product.id}) }}{% elseif product_type == 'credit' %}{{ path('app_credit_product_delete', {id: product.id}) }}{% elseif product_type == 'fiscal' %}{{ path('app_fiscal_product_delete', {id: product.id}) }}{% else %}{{ path('app_savings_product_delete', {id: product.id}) }}{% endif %}"
+        onsubmit="return confirm('Supprimer ce produit ?');">
+        <input type="hidden" name="_token"
+            value="{% if product_type == 'bank' %}{{ csrf_token('delete-bank-product-' ~ product.id) }}{% elseif product_type == 'credit' %}{{ csrf_token('delete-credit-product-' ~ product.id) }}{% elseif product_type == 'fiscal' %}{{ csrf_token('delete-fiscal-product-' ~ product.id) }}{% else %}{{ csrf_token('delete-savings-product-' ~ product.id) }}{% endif %}">
+        <button type="submit" class="danger">Supprimer</button>
+    </form>
+{% endblock %}

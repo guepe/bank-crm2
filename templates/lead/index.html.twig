@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Leads{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Module CRM</p>
+            <h1>Leads</h1>
+        </div>
+        <a class="button-link" href="{{ path('app_lead_new') }}">Nouveau lead</a>
+    </div>
+
+    <div class="section-card">
+        <form method="get" class="stack compact">
+            <div class="field">
+                <label for="lead-search">Rechercher un lead</label>
+                <input id="lead-search" type="search" name="q" value="{{ search|default('') }}" placeholder="Nom, ville, type">
+            </div>
+            <div class="actions">
+                <button type="submit">Rechercher</button>
+                {% if search is not empty %}
+                    <a class="button-link secondary" href="{{ path('app_lead_index') }}">Effacer</a>
+                {% endif %}
+            </div>
+        </form>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Ville</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lead in leads %}
+                    <tr>
+                        <td>{{ lead.name }}</td>
+                        <td>{{ lead.city ?: '—' }}</td>
+                        <td>{{ lead.type ?: '—' }}</td>
+                        <td><a href="{{ path('app_lead_show', {id: lead.id}) }}">Ouvrir</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="muted">Aucun lead.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
