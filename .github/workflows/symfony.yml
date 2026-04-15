@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: ["master"]
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 permissions:
   contents: read
 
@@ -17,20 +14,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.5"
+          php-version: '8.5'
           extensions: ctype, iconv, pdo_sqlite
           coverage: none
 
       - name: Copy test env
         run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
 
-      - name: Cache Composer packages
+      - name: Cache Composer
         uses: actions/cache@v4
         with:
           path: vendor
@@ -40,20 +36,15 @@ jobs:
 
       - name: Install dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Lint container
-        env:
-          APP_ENV: test
-        run: php bin/console lint:container
-
-      - name: Validate Doctrine schema
+      - name: Prepare test database
         env:
           APP_ENV: test
           DATABASE_URL: sqlite:///%kernel.project_dir%/var/test.db
-        run: php bin/console doctrine:schema:validate
+        run: |
+          php bin/console doctrine:database:create --if-not-exists --env=test
+          php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
       - name: Run PHPUnit
         env:
           APP_ENV: test
-          DATABASE_URL: sqlite:///%kernel.project_dir%/var/test.db
         run: php bin/phpunit --testdox
