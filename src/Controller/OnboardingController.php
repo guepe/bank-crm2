@@ -34,13 +34,25 @@ class OnboardingController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
+        $isInternalUser = $user !== null && method_exists($user, 'isInternalUser') && $user->isInternalUser();
         $sessions = $user !== null
-            ? $this->sessionRepository->findBy(['user' => $user], ['createdAt' => 'DESC'])
+            ? $this->sessionRepository->findRecentSessions($isInternalUser ? null : $user)
             : [];
+        $inProgressCount = count(array_filter(
+            $sessions,
+            static fn (OnboardingSession $session): bool => $session->getStatus() === OnboardingSession::STATUS_IN_PROGRESS
+        ));
+        $completedCount = count(array_filter(
+            $sessions,
+            static fn (OnboardingSession $session): bool => $session->getStatus() === OnboardingSession::STATUS_COMPLETED
+        ));
 
         return $this->render('onboarding/index.html.twig', [
             'sessions' => $sessions,
-            'page_title' => 'Mes Onboardings',
+            'isInternalUser' => $isInternalUser,
+            'inProgressCount' => $inProgressCount,
+            'completedCount' => $completedCount,
+            'page_title' => $isInternalUser ? 'Pilotage onboarding' : 'Mes Onboardings',
         ]);
     }
 
@@ -307,7 +319,7 @@ class OnboardingController extends AbstractController
     #[Route('/{id}/complete', name: 'app_onboarding_complete', methods: ['POST'])]
     public function complete(OnboardingSession $session): Response
     {
-        $this->denyAccessUnlessGranted('view', $session);
+        $this->denyAccessUnlessGranted('edit', $session);
 
         $this->onboardingService->completeSession($session);
         $this->addFlash('success', 'Profil client créé avec succès!');

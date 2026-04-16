@@ -24,8 +24,8 @@ Colonnes recommandees :
 | US007 | Produits | En tant que conseiller, je peux rattacher un produit bancaire a un compte afin de suivre l'equipement client. | P1 | done |
 | US008 | Utilisateurs | En tant qu'administrateur, je peux creer un utilisateur et lui attribuer un role afin de gerer l'acces a l'application. | P1 | done |
 | US009 | Portail | En tant que client, je peux acceder a mon portail afin de consulter et mettre a jour les informations autorisees. | P1 | done |
-| US010 | Onboarding | En tant que client, je peux demarrer un onboarding conversationnel afin de transmettre mon dossier progressivement. | P1 | todo |
-| US011 | Onboarding | En tant que conseiller, je peux revoir puis convertir une session d'onboarding en donnees CRM afin d'eviter une ressaisie manuelle. | P1 | todo |
+| US010 | Onboarding | En tant que client, je peux demarrer un onboarding conversationnel afin de transmettre mon dossier progressivement. | P1 | done |
+| US011 | Onboarding | En tant que conseiller, je peux revoir puis convertir une session d'onboarding en donnees CRM afin d'eviter une ressaisie manuelle. | P1 | done |
 | US012 | Securite | En tant qu'utilisateur, je peux me connecter et gerer mon mot de passe afin d'acceder de facon securisee a mon espace. | P0 | done |
 | US013 | Contacts | En tant que conseiller, je peux associer une banque a une personne avec un interlocuteur bancaire specifique afin de rattacher le bon contexte bancaire a son dossier CRM. | P1 | done |
 | US014 | Banque | En tant que conseiller, je peux envoyer le dossier d'un client a une banque via un lien securise et unique afin que son interlocuteur bancaire complete les produits detenus par ce client dans cette banque. | P1 | done |
@@ -80,6 +80,30 @@ Criteres d'acceptation :
 - une session peut etre creee et reprise
 - le chat conserve l'historique des echanges
 - des documents peuvent etre ajoutes au parcours
+
+Hypothese d'implementation retenue :
+
+- une session appartient a un utilisateur authentifie
+- le parcours conversationnel est accessible au client sur plusieurs reprises
+- les pieces jointes du chat sont stockees avec le dossier et visibles dans l'historique
+
+## US011 - Revoir Et Convertir Une Session D'Onboarding
+
+En tant que conseiller
+Je veux revoir puis convertir une session d'onboarding en donnees CRM
+Afin d'eviter une ressaisie manuelle
+
+Criteres d'acceptation :
+
+- un utilisateur interne peut consulter les sessions onboarding existantes
+- il peut relire la synthese du dossier et l'historique de conversation
+- il peut finaliser la session et creer le contact et le compte CRM associes
+- la session est marquee comme finalisee apres conversion
+
+Hypothese d'implementation retenue :
+
+- les utilisateurs internes peuvent acceder a l'index, a la relecture et a la conversion des sessions
+- la conversion reutilise les mecanismes de consolidation deja presents dans le service d'onboarding
 
 ## US013 - Associer Une Banque Et Son Interlocuteur A Une Personne
 

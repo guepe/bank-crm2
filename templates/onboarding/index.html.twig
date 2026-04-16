@@ -200,8 +200,8 @@
                 </p>
 
                 <div class="hero-actions">
-                    {% if app.user %}
-                        <a href="{{ path('app_onboarding_new') }}" class="button-link">Commencer une inscription</a>
+                {% if app.user %}
+                    <a href="{{ path('app_onboarding_new') }}" class="button-link">{{ isInternalUser|default(false) ? 'Ouvrir un nouveau dossier' : 'Commencer une inscription' }}</a>
                     {% else %}
                         <a href="{{ path('app_register') }}" class="button-link">Créer un compte</a>
                         <a href="{{ path('app_login') }}" class="button-link secondary">Se connecter</a>
@@ -222,7 +222,7 @@
                     </article>
                     <article class="hero-point">
                         <strong>Validation avant création</strong>
-                        <span class="muted">Tu peux toujours relire et corriger avant de finaliser le profil client.</span>
+                        <span class="muted">{{ isInternalUser|default(false) ? 'Les conseillers peuvent relire, corriger et convertir un dossier client sans ressaisie manuelle.' : 'Tu peux toujours relire et corriger avant de finaliser le profil client.' }}</span>
                     </article>
                 </div>
             </div>
@@ -253,10 +253,10 @@
             <div class="section-head">
                 <div>
                     <p class="muted">Historique</p>
-                    <h2>Dossiers récents</h2>
+                    <h2>{{ isInternalUser|default(false) ? 'Dossiers a suivre' : 'Dossiers récents' }}</h2>
                 </div>
                 {% if app.user %}
-                    <a href="{{ path('app_onboarding_new') }}" class="button-link secondary">Nouveau dossier</a>
+                    <a href="{{ path('app_onboarding_new') }}" class="button-link secondary">{{ isInternalUser|default(false) ? 'Nouveau dossier client' : 'Nouveau dossier' }}</a>
                 {% else %}
                     <a href="{{ path('app_register') }}" class="button-link secondary">Créer un compte</a>
                 {% endif %}
@@ -281,6 +281,13 @@
                                         {% endif %}
                                     </p>
                                     <p class="session-meta">
+                                        {% if isInternalUser|default(false) %}
+                                            Client {{ session.user.displayName }}
+                                            {% if session.user.email %}
+                                                · {{ session.user.email }}
+                                            {% endif %}
+                                            <br>
+                                        {% endif %}
                                         Créé le {{ session.createdAt|date('d/m/Y à H:i') }}
                                         · Mis à jour {{ session.updatedAt|date('d/m/Y à H:i') }}
                                     </p>

@@ -28,6 +28,26 @@ class OnboardingSessionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @return list<OnboardingSession>
+     */
+    public function findRecentSessions(?User $user = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('os')
+            ->orderBy('os.updatedAt', 'DESC')
+            ->addOrderBy('os.createdAt', 'DESC');
+
+        if ($user instanceof User) {
+            $queryBuilder
+                ->where('os.user = :user')
+                ->setParameter('user', $user);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findInProgressByUser(User $user): ?OnboardingSession
     {
         return $this->createQueryBuilder('os')

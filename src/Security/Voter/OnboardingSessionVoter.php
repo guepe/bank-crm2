@@ -41,17 +41,29 @@ class OnboardingSessionVoter extends Voter
 
     private function canView(OnboardingSession $session, User $user): bool
     {
+        if ($user->isInternalUser()) {
+            return true;
+        }
+
         return $session->getUser()->getId() === $user->getId();
     }
 
     private function canEdit(OnboardingSession $session, User $user): bool
     {
+        if ($user->isInternalUser()) {
+            return $session->getStatus() === OnboardingSession::STATUS_IN_PROGRESS;
+        }
+
         return $session->getUser()->getId() === $user->getId()
             && $session->getStatus() === OnboardingSession::STATUS_IN_PROGRESS;
     }
 
     private function canDelete(OnboardingSession $session, User $user): bool
     {
+        if ($user->isInternalUser()) {
+            return true;
+        }
+
         return $session->getUser()->getId() === $user->getId();
     }
 }
