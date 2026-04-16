@@ -27,8 +27,8 @@ Colonnes recommandees :
 | US010 | Onboarding | En tant que client, je peux demarrer un onboarding conversationnel afin de transmettre mon dossier progressivement. | P1 | todo |
 | US011 | Onboarding | En tant que conseiller, je peux revoir puis convertir une session d'onboarding en donnees CRM afin d'eviter une ressaisie manuelle. | P1 | todo |
 | US012 | Securite | En tant qu'utilisateur, je peux me connecter et gerer mon mot de passe afin d'acceder de facon securisee a mon espace. | P0 | done |
-| US013 | Contacts | En tant que conseiller, je peux associer une banque a une personne avec un interlocuteur bancaire specifique afin de rattacher le bon contexte bancaire a son dossier CRM. | P1 | todo |
-| US014 | Banque | En tant que conseiller, je peux envoyer le dossier d'un client a une banque via un lien securise et unique afin que son interlocuteur bancaire complete les produits detenus par ce client dans cette banque. | P1 | todo |
+| US013 | Contacts | En tant que conseiller, je peux associer une banque a une personne avec un interlocuteur bancaire specifique afin de rattacher le bon contexte bancaire a son dossier CRM. | P1 | done |
+| US014 | Banque | En tant que conseiller, je peux envoyer le dossier d'un client a une banque via un lien securise et unique afin que son interlocuteur bancaire complete les produits detenus par ce client dans cette banque. | P1 | done |
 | US015 | Portail | En tant que conseiller, je peux envoyer a la personne un lien securise a son adresse e-mail apres validation du dossier afin qu'elle consulte le resume de ses donnees et, si besoin, les informations de mot de passe. | P1 | done |
 
 ## Details Des Premieres US
@@ -100,6 +100,11 @@ Point a clarifier avant implementation :
 - banque en texte libre ou selection dans un referentiel de banques
 - l'interlocuteur bancaire est-il un simple libelle, un contact dedie, ou une vraie entite relationnelle
 
+Hypothese d'implementation retenue :
+
+- la relation banque / interlocuteur est geree comme une entite dediee rattachee au contact
+- elle stocke le nom de la banque, le nom de l'interlocuteur, son e-mail, son telephone et des notes
+
 ## US014 - Envoyer Un Dossier Client A Une Banque Via Un Lien Securise
 
 En tant que conseiller
@@ -127,6 +132,12 @@ Points a clarifier avant implementation :
 - l'interlocuteur bancaire doit-il seulement completer des produits ou aussi voir une partie du dossier client
 - l'envoi se fait-il par email depuis l'application ou le lien est-il seulement genere puis copie
 - faut-il une validation finale cote conseiller avant integration definitive dans le dossier client
+
+Hypothese d'implementation retenue :
+
+- le lien bancaire est unique, securise et reutilisable jusqu'a expiration
+- l'interlocuteur bancaire voit le contexte client utile et peut ajouter des produits bancaires un par un
+- les produits ajoutes sont integres directement dans le dossier client sur un compte existant, avec la banque comme societe source
 
 ## US015 - Envoyer A La Personne Un Lien De Consultation Apres Validation
 

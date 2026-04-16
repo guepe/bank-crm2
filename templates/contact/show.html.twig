@@ -60,6 +60,31 @@
     </section>
 
     <section class="section-card">
+        <div class="section-head">
+            <h2>Relations bancaires</h2>
+            <a class="button-link secondary" href="{{ path('app_bank_relationship_new', {id: contact.id}) }}">Ajouter une banque</a>
+        </div>
+        <ul class="plain-list">
+            {% for relationship in contact.bankRelationships %}
+                <li>
+                    <strong>{{ relationship.bankName }}</strong>
+                    {% if relationship.bankContactName %} - {{ relationship.bankContactName }}{% endif %}
+                    {% if relationship.bankContactEmail %} - {{ relationship.bankContactEmail }}{% endif %}
+                    <div class="actions" style="margin-top: 8px;">
+                        <a class="button-link secondary" href="{{ path('app_bank_relationship_edit', {contact: contact.id, id: relationship.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('app_bank_relationship_send', {contact: contact.id, id: relationship.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('send-bank-relationship-' ~ relationship.id) }}">
+                            <button type="submit">Envoyer le dossier a la banque</button>
+                        </form>
+                    </div>
+                </li>
+            {% else %}
+                <li class="muted">Aucune relation bancaire definie.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card">
         <h2>Acces client</h2>
         {% if contact.userAccount %}
             <p>Login: <strong>{{ contact.userAccount.username }}</strong></p>

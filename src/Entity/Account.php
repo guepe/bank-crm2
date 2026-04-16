@@ -209,6 +209,7 @@ class Account
     {
         if (!$this->contacts->contains($contact)) {
             $this->contacts->add($contact);
+            $contact->addAccount($this);
         }
 
         return $this;
@@ -216,7 +217,9 @@ class Account
 
     public function removeContact(Contact $contact): self
     {
-        $this->contacts->removeElement($contact);
+        if ($this->contacts->removeElement($contact)) {
+            $contact->removeAccount($this);
+        }
 
         return $this;
     }

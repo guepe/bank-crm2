@@ -1,0 +1,22 @@
+<h1>Dossier client a completer</h1>
+
+<p>Bonjour {{ relationship.bankContactName ?: 'Madame, Monsieur' }},</p>
+
+<p>Un acces securise a ete prepare pour completer les produits detenus par le client <strong>{{ contact }}</strong> dans la banque <strong>{{ relationship.bankName }}</strong>.</p>
+
+<p>
+    Ouvrez ce lien pour consulter le contexte client et ajouter les produits concernes :
+    <br>
+    <a href="{{ access_url }}">{{ access_url }}</a>
+</p>
+
+<p>Ce lien expire le {{ expires_at|date('d/m/Y H:i') }}.</p>
+
+{% if summary.accounts is not empty %}
+    <p>Comptes deja associes au client :</p>
+    <ul>
+        {% for account in summary.accounts %}
+            <li>{{ account.name }}{% if account.type %} - {{ account.type }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

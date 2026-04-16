@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier bancaire a completer{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Acces banque</p>
+        <h1>Completer les produits du client</h1>
+        <p class="muted">Ce lien securise vous permet de renseigner les produits detenus par ce client dans votre banque.</p>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+                <h2>Client concerne</h2>
+                <dl class="info-list">
+                    <div><dt>Nom</dt><dd>{{ summary.contact.full_name ?: '—' }}</dd></div>
+                    <div><dt>Email</dt><dd>{{ summary.contact.email|default('—') }}</dd></div>
+                    <div><dt>Telephone</dt><dd>{{ summary.contact.phone|default('—') }}</dd></div>
+                    <div><dt>GSM</dt><dd>{{ summary.contact.gsm|default('—') }}</dd></div>
+                </dl>
+            </section>
+
+        <section class="section-card">
+                <h2>Banque</h2>
+                <dl class="info-list">
+                    <div><dt>Banque</dt><dd>{{ summary.bank.name }}</dd></div>
+                    <div><dt>Interlocuteur</dt><dd>{{ summary.bank.contact_name|default('—') }}</dd></div>
+                    <div><dt>E-mail</dt><dd>{{ summary.bank.contact_email|default('—') }}</dd></div>
+                    <div><dt>Expiration</dt><dd>{{ access_link.expiresAt|date('d/m/Y H:i') }}</dd></div>
+                </dl>
+            </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Comptes client</h2>
+        <ul class="plain-list">
+            {% for account in summary.accounts %}
+                <li>{{ account.name }}{% if account.type %} - {{ account.type }}{% endif %}{% if account.city %} - {{ account.city }}{% endif %}</li>
+            {% else %}
+                <li class="muted">Aucun compte associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card">
+        <h2>Produits deja renseignes</h2>
+        <ul class="plain-list">
+            {% for product in submitted_products %}
+                <li>{{ product.number ?: 'Sans numero' }}{% if product.type %} - {{ product.type }}{% endif %}{% if product.amount %} - {{ product.amount }}{% endif %}</li>
+            {% else %}
+                <li class="muted">Aucun produit bancaire renseigne pour le moment.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card form-shell">
+        <h2>Ajouter un produit bancaire</h2>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="actions">
+                <button type="submit">Ajouter le produit</button>
+            </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

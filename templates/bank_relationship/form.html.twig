@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Banques</p>
+            <h1>{{ page_title }}</h1>
+        </div>
+        <a class="button-link secondary" href="{{ path('app_contact_show', {id: contact.id}) }}">Retour au contact</a>
+    </div>
+
+    <p class="muted">Gestion du contexte bancaire pour <strong>{{ contact }}</strong>.</p>
+
+    <div class="section-card form-shell">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="actions">
+                <button type="submit">Enregistrer</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

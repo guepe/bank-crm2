@@ -91,6 +91,10 @@ class Contact
     #[ORM\JoinTable(name: 'contacts_document')]
     private Collection $documents;
 
+    /** @var Collection<int, BankRelationship> */
+    #[ORM\OneToMany(mappedBy: 'contact', targetEntity: BankRelationship::class, cascade: ['persist', 'remove'])]
+    private Collection $bankRelationships;
+
     #[ORM\OneToOne(mappedBy: 'contact', targetEntity: User::class)]
     private ?User $userAccount = null;
 
@@ -98,6 +102,7 @@ class Contact
     {
         $this->accounts = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->bankRelationships = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -368,6 +373,22 @@ class Contact
         return $this->accounts;
     }
 
+    public function addAccount(Account $account): self
+    {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts->add($account);
+        }
+
+        return $this;
+    }
+
+    public function removeAccount(Account $account): self
+    {
+        $this->accounts->removeElement($account);
+
+        return $this;
+    }
+
     /** @return Collection<int, Document> */
     public function getDocuments(): Collection
     {
@@ -394,6 +415,21 @@ class Contact
     {
         foreach ($this->documents->toArray() as $document) {
             $this->removeDocument($document);
+        }
+
+        return $this;
+    }
+
+    /** @return Collection<int, BankRelationship> */
+    public function getBankRelationships(): Collection
+    {
+        return $this->bankRelationships;
+    }
+
+    public function addBankRelationship(BankRelationship $bankRelationship): self
+    {
+        if (!$this->bankRelationships->contains($bankRelationship)) {
+            $this->bankRelationships->add($bankRelationship);
         }
 
         return $this;
