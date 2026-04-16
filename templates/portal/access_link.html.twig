@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Activation de votre acces{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Acces client</p>
+        <h1>Activer mon acces</h1>
+        <p class="muted">Ce lien securise vous permet de verifier votre dossier et de definir votre mot de passe.</p>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Mon acces</h2>
+            <dl class="info-list">
+                <div><dt>Identifiant</dt><dd>{{ access_link.user.username }}</dd></div>
+                <div><dt>Email</dt><dd>{{ access_link.user.email ?: '—' }}</dd></div>
+                <div><dt>Expiration</dt><dd>{{ access_link.expiresAt|date('d/m/Y H:i') }}</dd></div>
+            </dl>
+
+            <div class="form-shell">
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class="actions">
+                        <button type="submit">Definir mon mot de passe</button>
+                        <a class="button-link secondary" href="{{ path('app_login') }}">J ai deja un mot de passe</a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>Resume de mon dossier</h2>
+            <dl class="info-list">
+                <div><dt>Nom</dt><dd>{{ summary.contact.full_name ?: '—' }}</dd></div>
+                <div><dt>Email</dt><dd>{{ summary.contact.email ?: '—' }}</dd></div>
+                <div><dt>Telephone</dt><dd>{{ summary.contact.phone ?: '—' }}</dd></div>
+                <div><dt>GSM</dt><dd>{{ summary.contact.gsm ?: '—' }}</dd></div>
+                <div><dt>Adresse</dt><dd>{{ summary.contact.address ?: '—' }}</dd></div>
+                <div><dt>Date de naissance</dt><dd>{{ summary.contact.birthdate ?: '—' }}</dd></div>
+            </dl>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Comptes associes</h2>
+        <ul class="plain-list">
+            {% for account in summary.accounts %}
+                <li>
+                    {{ account.name }}
+                    {% if account.type %} - {{ account.type }}{% endif %}
+                    {% if account.city %} - {{ account.city }}{% endif %}
+                </li>
+            {% else %}
+                <li class="muted">Aucun compte associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card">
+        <h2>Documents associes</h2>
+        <ul class="plain-list">
+            {% for document in summary.documents %}
+                <li>{{ document.name }}</li>
+            {% else %}
+                <li class="muted">Aucun document associe.</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

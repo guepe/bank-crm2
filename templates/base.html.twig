@@ -289,7 +289,9 @@
                                 <a href="{{ path('app_account_index') }}">Comptes</a>
                                 <a href="{{ path('app_product_index') }}">Produits</a>
                                 <a href="{{ path('app_document_index') }}">Documents</a>
-                                <a href="{{ path('app_user_index') }}">Utilisateurs</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('app_user_index') }}">Utilisateurs</a>
+                                {% endif %}
                                 <a href="{{ path('app_profile') }}">Profil</a>
                             {% elseif is_granted('ROLE_CLIENT') %}
                                 <a href="{{ path('app_portal_dashboard') }}">Mon espace</a>

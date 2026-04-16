@@ -44,6 +44,7 @@ class PortalController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setEmail($contact->getEmail());
             $entityManager->flush();
             $this->addFlash('success', 'Votre dossier a ete mis a jour.');
 

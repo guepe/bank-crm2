@@ -139,9 +139,9 @@ class Contact
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastname(?string $lastname): self
     {
-        $this->lastname = trim($lastname);
+        $this->lastname = trim((string) $lastname);
 
         return $this;
     }

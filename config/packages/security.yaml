@@ -31,10 +31,11 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/logout$, roles: PUBLIC_ACCESS }
         - { path: ^/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/portal/access, roles: PUBLIC_ACCESS }
         - { path: ^/onboarding$, roles: PUBLIC_ACCESS }
         - { path: ^/onboarding, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/portal, roles: ROLE_CLIENT }
-        - { path: ^/users, roles: ROLE_USER }
+        - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/profile$, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_USER }
 

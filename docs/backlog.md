@@ -1,0 +1,174 @@
+# Backlog
+
+## Mode D'Emploi
+
+- chaque US a un identifiant stable
+- on garde des stories petites, testables et demonstrables
+- on peut enrichir les criteres d'acceptation avant implementation
+
+Colonnes recommandees :
+
+- `prio` : `P0`, `P1`, `P2`
+- `statut` : `todo`, `in_progress`, `blocked`, `done`
+
+## Stories Prioritaires
+
+| ID | Epic | User story | Prio | Statut |
+| --- | --- | --- | --- | --- |
+| US001 | Dashboard | En tant que conseiller, je peux acceder a un tableau de bord utile pour voir les points d'entree du CRM. | P0 | done |
+| US002 | Comptes | En tant que conseiller, je peux creer un compte afin de commencer le suivi d'un client. | P0 | done |
+| US003 | Comptes | En tant que conseiller, je peux consulter la fiche d'un compte afin de voir ses informations principales. | P0 | done |
+| US004 | Contacts | En tant que conseiller, je peux ajouter un contact a un compte afin de suivre les interlocuteurs associes. | P0 | done |
+| US005 | Leads | En tant que conseiller, je peux creer et suivre un lead afin de piloter une opportunite commerciale. | P0 | done |
+| US006 | Documents | En tant que conseiller, je peux deposer et telecharger des documents afin de centraliser les pieces d'un dossier. | P0 | done |
+| US007 | Produits | En tant que conseiller, je peux rattacher un produit bancaire a un compte afin de suivre l'equipement client. | P1 | done |
+| US008 | Utilisateurs | En tant qu'administrateur, je peux creer un utilisateur et lui attribuer un role afin de gerer l'acces a l'application. | P1 | done |
+| US009 | Portail | En tant que client, je peux acceder a mon portail afin de consulter et mettre a jour les informations autorisees. | P1 | done |
+| US010 | Onboarding | En tant que client, je peux demarrer un onboarding conversationnel afin de transmettre mon dossier progressivement. | P1 | todo |
+| US011 | Onboarding | En tant que conseiller, je peux revoir puis convertir une session d'onboarding en donnees CRM afin d'eviter une ressaisie manuelle. | P1 | todo |
+| US012 | Securite | En tant qu'utilisateur, je peux me connecter et gerer mon mot de passe afin d'acceder de facon securisee a mon espace. | P0 | done |
+| US013 | Contacts | En tant que conseiller, je peux associer une banque a une personne avec un interlocuteur bancaire specifique afin de rattacher le bon contexte bancaire a son dossier CRM. | P1 | todo |
+| US014 | Banque | En tant que conseiller, je peux envoyer le dossier d'un client a une banque via un lien securise et unique afin que son interlocuteur bancaire complete les produits detenus par ce client dans cette banque. | P1 | todo |
+| US015 | Portail | En tant que conseiller, je peux envoyer a la personne un lien securise a son adresse e-mail apres validation du dossier afin qu'elle consulte le resume de ses donnees et, si besoin, les informations de mot de passe. | P1 | done |
+
+## Details Des Premieres US
+
+## US002 - Creer Un Compte
+
+En tant que conseiller
+Je veux creer un compte
+Afin de commencer le suivi d'un client
+
+Criteres d'acceptation :
+
+- un formulaire permet de saisir les informations minimales du compte
+- les champs obligatoires sont valides cote serveur
+- apres creation, l'utilisateur est redirige vers la fiche du compte
+
+## US004 - Ajouter Un Contact
+
+En tant que conseiller
+Je veux ajouter un contact a un compte
+Afin de suivre les interlocuteurs associes
+
+Criteres d'acceptation :
+
+- un contact peut etre cree depuis le contexte d'un compte ou independamment
+- la relation avec le compte est visible sur la fiche
+- les erreurs de validation sont affichees clairement
+
+## US006 - Gerer Les Documents
+
+En tant que conseiller
+Je veux deposer et retrouver des documents
+Afin de centraliser les pieces d'un dossier
+
+Criteres d'acceptation :
+
+- un document peut etre televerse avec ses metadonnees
+- un document peut etre consulte et telecharge
+- les acces non autorises sont refuses
+
+## US010 - Demarrer Un Onboarding
+
+En tant que client
+Je veux demarrer un onboarding conversationnel
+Afin de transmettre mon dossier progressivement
+
+Criteres d'acceptation :
+
+- une session peut etre creee et reprise
+- le chat conserve l'historique des echanges
+- des documents peuvent etre ajoutes au parcours
+
+## US013 - Associer Une Banque Et Son Interlocuteur A Une Personne
+
+En tant que conseiller
+Je veux associer une banque a une personne avec un interlocuteur bancaire specifique
+Afin de rattacher le bon contexte bancaire a son dossier CRM
+
+Criteres d'acceptation :
+
+- une banque peut etre renseignee depuis la creation ou l'edition d'une personne ou d'un contact
+- pour une meme banque, l'interlocuteur bancaire associe peut etre different selon la personne suivie
+- la banque et l'interlocuteur associes sont visibles sur la fiche de la personne ou du contact
+- la banque et l'interlocuteur restent modifiables sans perdre les autres informations du dossier
+- si aucune banque n'est definie, le comportement de l'application reste coherent
+
+Point a clarifier avant implementation :
+
+- banque en texte libre ou selection dans un referentiel de banques
+- l'interlocuteur bancaire est-il un simple libelle, un contact dedie, ou une vraie entite relationnelle
+
+## US014 - Envoyer Un Dossier Client A Une Banque Via Un Lien Securise
+
+En tant que conseiller
+Je veux envoyer le dossier d'un client a une banque via un lien securise et unique
+Afin que son interlocuteur bancaire complete les produits detenus par ce client dans cette banque
+
+Criteres d'acceptation :
+
+- depuis le dossier d'un client, un conseiller peut generer un envoi vers une banque et son contact associe
+- l'envoi produit un lien unique, difficile a deviner, associe a un client et a un contexte bancaire precis
+- le lien permet a l'interlocuteur bancaire d'acceder uniquement au formulaire ou parcours prevu pour ce client et cette banque
+- l'interlocuteur bancaire peut renseigner ou completer les produits detenus par le client dans cette banque
+- les donnees soumises via ce lien sont rattachees au bon client et au bon contexte bancaire
+- le lien peut etre invalide apres usage, expiration, ou fermeture du dossier selon la regle retenue
+- l'application conserve une trace de l'envoi et de la reponse recue
+
+Dependances et liens :
+
+- depend de la clarification de `US013` sur le couple banque / interlocuteur
+- pourra reutiliser des mecanismes proches du portail ou de l'onboarding pour l'acces securise
+
+Points a clarifier avant implementation :
+
+- le lien est-il strictement a usage unique ou reutilisable jusqu'a expiration
+- l'interlocuteur bancaire doit-il seulement completer des produits ou aussi voir une partie du dossier client
+- l'envoi se fait-il par email depuis l'application ou le lien est-il seulement genere puis copie
+- faut-il une validation finale cote conseiller avant integration definitive dans le dossier client
+
+## US015 - Envoyer A La Personne Un Lien De Consultation Apres Validation
+
+En tant que conseiller
+Je veux envoyer a la personne un lien securise a son adresse e-mail apres validation du dossier
+Afin qu'elle consulte le resume de ses donnees et, si besoin, les informations de mot de passe
+
+Criteres d'acceptation :
+
+- quand le dossier est marque comme valide par le conseiller, un envoi a la personne peut etre prepare ou declenche
+- l'envoi est adresse a l'adresse e-mail de la bonne personne
+- l'envoi contient un lien securise associe a la bonne personne et a son dossier
+- via ce lien, la personne peut consulter un resume des donnees fournies dans son dossier
+- l'envoi peut inclure, selon la regle retenue, un guide de connexion ou de gestion du mot de passe
+- l'acces est limite au bon destinataire, avec une duree de validite ou une politique d'invalidation definie
+- l'application conserve une trace de l'envoi realise
+
+Dependances et liens :
+
+- s'appuie sur les donnees du dossier compte / contact une fois validees
+- peut reutiliser des mecanismes existants du portail client et des liens securises
+
+Points a clarifier avant implementation :
+
+- la personne consulte-t-elle uniquement un resume en lecture seule ou peut-elle encore corriger certaines donnees
+- le lien ouvre-t-il une page publique securisee ou un acces guide vers le portail client
+- le guide mot de passe parle-t-il d'un mot de passe existant, d'une creation initiale, ou d'une reinitialisation
+- l'envoi est-il automatique a la validation ou manuel depuis le conseiller
+
+Lot fonctionnel retenu :
+
+- `US009`, `US012` et `US015` sont traites ensemble car ils couvrent un meme parcours de gestion de la personne et de ses acces
+
+Hypothese d'implementation retenue :
+
+- faute de statut de validation de dossier existant dans le modele, l'envoi est declenche manuellement par un administrateur depuis la fiche contact
+
+## Idees De Backlog A Affiner
+
+- recherche et filtres sur les comptes, contacts et leads
+- timeline d'activite sur les fiches
+- statuts et pipeline des leads
+- notifications ou relances internes
+- historisation des changements critiques
+- tableaux de bord metier

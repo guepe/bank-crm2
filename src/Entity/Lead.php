@@ -61,9 +61,9 @@ class Lead
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
-        $this->name = trim($name);
+        $this->name = trim((string) $name);
 
         return $this;
     }

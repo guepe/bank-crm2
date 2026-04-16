@@ -1,0 +1,29 @@
+<h1>Votre acces portail est pret</h1>
+
+<p>Bonjour {{ contact }},</p>
+
+<p>Un acces securise a votre espace client a ete prepare.</p>
+
+<p>
+    Votre identifiant de connexion sera :
+    <strong>{{ user.username }}</strong>
+</p>
+
+<p>
+    Utilisez ce lien unique pour consulter le resume de votre dossier et definir votre mot de passe :
+    <br>
+    <a href="{{ access_url }}">{{ access_url }}</a>
+</p>
+
+<p>Ce lien expire le {{ expires_at|date('d/m/Y H:i') }}.</p>
+
+{% if summary.accounts is not empty %}
+    <p>Comptes associes :</p>
+    <ul>
+        {% for account in summary.accounts %}
+            <li>{{ account.name }}{% if account.type %} - {{ account.type }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<p>Une fois votre mot de passe defini, vous pourrez vous connecter au portail pour consulter et mettre a jour vos informations.</p>
