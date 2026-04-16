@@ -7,8 +7,6 @@ use App\Entity\BankProduct;
 use App\Entity\BankRelationship;
 use App\Repository\BankAccessLinkRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -17,7 +15,7 @@ class BankRelationshipManager
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly BankAccessLinkRepository $bankAccessLinkRepository,
-        private readonly MailerInterface $mailer,
+        private readonly BrevoMailer $mailer,
         private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
@@ -45,20 +43,19 @@ class BankRelationshipManager
             'token' => $accessLink->getToken(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $message = (new TemplatedEmail())
-            ->from(new Address('noreply@bank-crm.local', 'Bank CRM'))
-            ->to($email)
-            ->subject('Dossier client a completer')
-            ->htmlTemplate('emails/bank_access.html.twig')
-            ->context([
+        $this->mailer->sendTemplatedEmail(
+            $email,
+            'Dossier client a completer',
+            'emails/bank_access.html.twig',
+            [
                 'relationship' => $bankRelationship,
                 'contact' => $bankRelationship->getContact(),
                 'summary' => $accessLink->getSummarySnapshot(),
                 'access_url' => $accessUrl,
                 'expires_at' => $accessLink->getExpiresAt(),
-            ]);
-
-        $this->mailer->send($message);
+            ],
+            new Address($email, $bankRelationship->getBankContactName() ?? $bankRelationship->getBankName()),
+        );
 
         return $accessLink;
     }

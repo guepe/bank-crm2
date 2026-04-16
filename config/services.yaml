@@ -42,3 +42,11 @@ services:
         arguments:
             $openaiApiKey: "%env(OPENAI_API_KEY)%"
             $timeout: "%llm_timeout%"
+
+    App\Service\BrevoMailer:
+        arguments:
+            $enabled: "%env(bool:BREVO_ENABLED)%"
+            $apiKey: "%env(BREVO_API_KEY)%"
+            $senderEmail: "%env(BREVO_SENDER_EMAIL)%"
+            $senderName: "%env(BREVO_SENDER_NAME)%"
+            $baseUrl: "%env(BREVO_API_BASE_URL)%"

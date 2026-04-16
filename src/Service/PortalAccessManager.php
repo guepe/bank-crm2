@@ -8,8 +8,6 @@ use App\Entity\User;
 use App\Repository\PortalAccessLinkRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +20,7 @@ class PortalAccessManager
         private readonly UserRepository $userRepository,
         private readonly PortalAccessLinkRepository $portalAccessLinkRepository,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly MailerInterface $mailer,
+        private readonly BrevoMailer $mailer,
         private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
@@ -52,20 +50,19 @@ class PortalAccessManager
             'token' => $link->getToken(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $emailMessage = (new TemplatedEmail())
-            ->from(new Address('noreply@bank-crm.local', 'Bank CRM'))
-            ->to($email)
-            ->subject('Votre acces portail est pret')
-            ->htmlTemplate('emails/portal_access.html.twig')
-            ->context([
+        $this->mailer->sendTemplatedEmail(
+            $email,
+            'Votre acces portail est pret',
+            'emails/portal_access.html.twig',
+            [
                 'contact' => $contact,
                 'user' => $user,
                 'access_url' => $accessUrl,
                 'expires_at' => $link->getExpiresAt(),
                 'summary' => $link->getSummarySnapshot(),
-            ]);
-
-        $this->mailer->send($emailMessage);
+            ],
+            new Address($email, (string) $contact),
+        );
 
         return $link;
     }

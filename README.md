@@ -65,6 +65,20 @@ To use the AI-powered onboarding module with ChatGPT:
 
 See [CHATGPT_SETUP.md](CHATGPT_SETUP.md) for detailed instructions.
 
+### Brevo Transactional Emails
+
+The application sends portal-access and bank-request emails through the Brevo HTTP API when enabled.
+
+Set these environment variables in production:
+
+- `BREVO_ENABLED=1`
+- `BREVO_API_KEY=your-brevo-api-key`
+- `BREVO_SENDER_EMAIL=your-verified-sender@example.com`
+- `BREVO_SENDER_NAME=Bank CRM`
+- `BREVO_API_BASE_URL=https://api.brevo.com/v3`
+
+When `BREVO_ENABLED=0`, email sends are skipped. This is the default for local and test environments.
+
 ## Legacy Code
 
 The original Symfony 2 application and migration steps are preserved in the `legacy/` directory for reference.
