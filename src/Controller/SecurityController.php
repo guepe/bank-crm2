@@ -21,7 +21,7 @@ class SecurityController extends AbstractController
 {
     use TargetPathTrait;
 
-    #[Route('/login', name: 'app_login')]
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils, OnboardingSessionRepository $onboardingSessionRepository): Response
     {
         if ($this->getUser()) {
