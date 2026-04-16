@@ -124,6 +124,8 @@ class CrmCoreFlowTest extends WebTestCase
         $this->assertResponseContains('Luc Dupont');
         $this->assertResponseContains('Client historique');
         $this->assertResponseContains('Ajouter un contact');
+        $this->assertResponseContains('Timeline d\'activite');
+        $this->assertResponseContains('Compte cree');
     }
 
     public function testContactCanBeCreatedFromAnAccountContext(): void

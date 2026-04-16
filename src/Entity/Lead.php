@@ -10,6 +10,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'lead')]
 class Lead
 {
+    public const STATUS_NEW = 'new';
+    public const STATUS_QUALIFYING = 'qualifying';
+    public const STATUS_PROPOSAL = 'proposal';
+    public const STATUS_WON = 'won';
+    public const STATUS_LOST = 'lost';
+
+    public const STATUS_LABELS = [
+        self::STATUS_NEW => 'Nouveau',
+        self::STATUS_QUALIFYING => 'Qualification',
+        self::STATUS_PROPOSAL => 'Proposition',
+        self::STATUS_WON => 'Gagne',
+        self::STATUS_LOST => 'Perdu',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
@@ -42,6 +56,9 @@ class Lead
 
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $type = null;
+
+    #[ORM\Column(type: Types::STRING, length: 30, options: ['default' => self::STATUS_NEW])]
+    private string $status = self::STATUS_NEW;
 
     #[ORM\Column(name: 'starting_date', type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startingDate = null;
@@ -162,6 +179,24 @@ class Lead
         $this->type = $type;
 
         return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $status = $status !== null ? trim($status) : '';
+        $this->status = array_key_exists($status, self::STATUS_LABELS) ? $status : self::STATUS_NEW;
+
+        return $this;
+    }
+
+    public function getStatusLabel(): string
+    {
+        return self::STATUS_LABELS[$this->status] ?? self::STATUS_LABELS[self::STATUS_NEW];
     }
 
     public function getStartingDate(): ?\DateTimeInterface

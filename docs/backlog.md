@@ -30,6 +30,11 @@ Colonnes recommandees :
 | US013 | Contacts | En tant que conseiller, je peux associer une banque a une personne avec un interlocuteur bancaire specifique afin de rattacher le bon contexte bancaire a son dossier CRM. | P1 | done |
 | US014 | Banque | En tant que conseiller, je peux envoyer le dossier d'un client a une banque via un lien securise et unique afin que son interlocuteur bancaire complete les produits detenus par ce client dans cette banque. | P1 | done |
 | US015 | Portail | En tant que conseiller, je peux envoyer a la personne un lien securise a son adresse e-mail apres validation du dossier afin qu'elle consulte le resume de ses donnees et, si besoin, les informations de mot de passe. | P1 | done |
+| US016 | Recherche | En tant que conseiller, je peux rechercher rapidement un compte, un contact ou un lead afin d'acceder sans friction au bon dossier. | P0 | todo |
+| US017 | Recherche | En tant que conseiller, je peux filtrer les listes de comptes, contacts et leads afin de reduire le bruit et travailler sur un sous-ensemble pertinent. | P0 | todo |
+| US018 | Leads | En tant que conseiller, je peux visualiser et modifier le statut d'un lead afin de mieux suivre sa progression commerciale. | P1 | done |
+| US019 | Historique | En tant que conseiller, je peux consulter une timeline simple des actions importantes d'un dossier afin de comprendre rapidement ce qui s'est passe. | P1 | done |
+| US020 | Qualite | En tant qu'equipe produit, nous pouvons executer facilement les checks et tests critiques afin de securiser les evolutions du CRM. | P0 | todo |
 
 ## Details Des Premieres US
 
@@ -199,11 +204,131 @@ Hypothese d'implementation retenue :
 
 - faute de statut de validation de dossier existant dans le modele, l'envoi est declenche manuellement par un administrateur depuis la fiche contact
 
+## US016 - Rechercher Un Compte, Un Contact Ou Un Lead
+
+En tant que conseiller
+Je veux rechercher rapidement un compte, un contact ou un lead
+Afin d'acceder sans friction au bon dossier
+
+Criteres d'acceptation :
+
+- un champ de recherche est disponible sur les vues listes principales
+- la recherche fonctionne au minimum sur les champs les plus utiles de chaque objet
+- les resultats affiches correspondent au terme saisi sans comportement surprenant
+- en absence de resultat, l'interface affiche un etat vide clair
+
+Hypothese d'implementation retenue :
+
+- la recherche est d'abord textuelle avec un comportement simple et explicable
+- le perimetre initial couvre comptes, contacts et leads
+
+## US017 - Filtrer Les Listes Principales
+
+En tant que conseiller
+Je veux filtrer les listes de comptes, contacts et leads
+Afin de reduire le bruit et travailler sur un sous-ensemble pertinent
+
+Criteres d'acceptation :
+
+- chaque liste propose un petit ensemble de filtres utiles et comprehensibles
+- les filtres actifs sont visibles et faciles a reinitialiser
+- le resultat de la liste se met a jour de facon fiable selon les filtres selectionnes
+- la combinaison recherche + filtres reste coherente
+
+Point a clarifier avant implementation :
+
+- quels filtres sont prioritaires par objet dans la V1
+
+Hypothese d'implementation retenue :
+
+- on commence avec quelques filtres a forte valeur plutot qu'un moteur generique
+
+## US018 - Suivre Le Statut D'Un Lead
+
+En tant que conseiller
+Je veux visualiser et modifier le statut d'un lead
+Afin de mieux suivre sa progression commerciale
+
+Criteres d'acceptation :
+
+- un lead affiche un statut metier lisible
+- le statut peut etre modifie depuis la fiche et, si pertinent, depuis la liste
+- les statuts disponibles sont bornes et documentes
+- les listes et recherches peuvent exploiter ce statut
+
+Point a clarifier avant implementation :
+
+- liste cible des statuts et regles de transition a appliquer ou non
+
+Hypothese d'implementation retenue :
+
+- la V1 privilegie un workflow simple sans automatisme complexe
+
+## US019 - Consulter Une Timeline D'Activite
+
+En tant que conseiller
+Je veux consulter une timeline simple des actions importantes d'un dossier
+Afin de comprendre rapidement ce qui s'est passe
+
+Criteres d'acceptation :
+
+- une fiche affiche les evenements principaux lies au dossier
+- les evenements sont presentes dans l'ordre chronologique inverse
+- chaque entree de timeline expose au minimum le type d'action, la date et un contexte lisible
+- en absence d'historique, un etat vide clair est affiche
+
+Dependances et liens :
+
+- gagne en valeur si les actions de creation, edition et envoi sont deja tracees de facon fiable
+
+Hypothese d'implementation retenue :
+
+- la V1 peut se limiter a quelques evenements structurants plutot qu'a une historisation exhaustive
+
+## US020 - Securiser Les Checks Et Tests Critiques
+
+En tant qu'equipe produit
+Nous pouvons executer facilement les checks et tests critiques
+Afin de securiser les evolutions du CRM
+
+Criteres d'acceptation :
+
+- la documentation de dev liste clairement les commandes utiles au quotidien
+- un socle minimal de checks peut etre lance localement avant merge
+- les parcours critiques identifies sont couverts par des tests automatises ou des verifications explicites
+- les commandes en echec remontent un signal exploitable par l'equipe
+
+Hypothese d'implementation retenue :
+
+- on cible d'abord les parcours coeur deja livres plutot qu'une couverture exhaustive
+
+## Sprint Suivant Propose
+
+Lot recommande :
+
+- `US016`
+- `US017`
+- `US020`
+
+Lot optionnel si la capacite le permet :
+
+- `US018`
+- `US019`
+
+Objectif du sprint :
+
+- ameliorer la productivite immediate sur les listes CRM
+- reduire le risque sur les prochaines livraisons
+
+Definition of done du sprint :
+
+- recherche et filtres livrables sur le perimetre coeur retenu
+- checks de dev et tests critiques clarifies
+- au moins un sujet de pilotage commercial ou de visibilite dossier lance en complement si la capacite reste disponible
+
 ## Idees De Backlog A Affiner
 
-- recherche et filtres sur les comptes, contacts et leads
-- timeline d'activite sur les fiches
-- statuts et pipeline des leads
+- pipeline leads plus riche que le simple statut
 - notifications ou relances internes
-- historisation des changements critiques
+- historisation des changements critiques au-dela de la timeline V1
 - tableaux de bord metier

@@ -33,4 +33,10 @@ class PortalAccessLinkRepository extends ServiceEntityRepository
             static fn (PortalAccessLink $link): bool => $link->isActive()
         ));
     }
+
+    /** @return list<PortalAccessLink> */
+    public function findByContact(Contact $contact): array
+    {
+        return $this->findBy(['contact' => $contact], ['id' => 'DESC']);
+    }
 }

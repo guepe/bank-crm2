@@ -13,17 +13,65 @@
 
     <div class="section-card">
         <form method="get" class="stack compact">
-            <div class="field">
-                <label for="contact-search">Rechercher un contact</label>
-                <input id="contact-search" type="search" name="q" value="{{ search|default('') }}" placeholder="Nom, prenom, email, ville">
+            <div class="filter-grid">
+                <div class="field">
+                    <label for="contact-search">Rechercher un contact</label>
+                    <input id="contact-search" type="search" name="q" value="{{ search|default('') }}" placeholder="Nom, prenom, email, ville, telephone">
+                </div>
+                <div class="field">
+                    <label for="contact-city">Ville</label>
+                    <select id="contact-city" name="city">
+                        <option value="">Toutes les villes</option>
+                        {% for city in filter_options.cities %}
+                            <option value="{{ city }}" {% if filters.city == city %}selected{% endif %}>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="contact-account">Lien compte</label>
+                    <select id="contact-account" name="account">
+                        <option value="">Tous</option>
+                        <option value="linked" {% if filters.account == 'linked' %}selected{% endif %}>Avec compte</option>
+                        <option value="unlinked" {% if filters.account == 'unlinked' %}selected{% endif %}>Sans compte</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="contact-email">Email</label>
+                    <select id="contact-email" name="email">
+                        <option value="">Tous</option>
+                        <option value="with" {% if filters.email == 'with' %}selected{% endif %}>Avec email</option>
+                        <option value="without" {% if filters.email == 'without' %}selected{% endif %}>Sans email</option>
+                    </select>
+                </div>
             </div>
             <div class="actions">
                 <button type="submit">Rechercher</button>
-                {% if search is not empty %}
+                {% if search is not empty or filters.city is not empty or filters.account is not empty or filters.email is not empty %}
                     <a class="button-link secondary" href="{{ path('app_contact_index') }}">Effacer</a>
                 {% endif %}
             </div>
         </form>
+
+        {% if search is not empty or filters.city is not empty or filters.account is not empty or filters.email is not empty %}
+            <div class="active-filters">
+                {% if search is not empty %}
+                    <span class="filter-pill">Recherche : {{ search }}</span>
+                {% endif %}
+                {% if filters.city is not empty %}
+                    <span class="filter-pill">Ville : {{ filters.city }}</span>
+                {% endif %}
+                {% if filters.account == 'linked' %}
+                    <span class="filter-pill">Avec compte</span>
+                {% elseif filters.account == 'unlinked' %}
+                    <span class="filter-pill">Sans compte</span>
+                {% endif %}
+                {% if filters.email == 'with' %}
+                    <span class="filter-pill">Avec email</span>
+                {% elseif filters.email == 'without' %}
+                    <span class="filter-pill">Sans email</span>
+                {% endif %}
+            </div>
+        {% endif %}
 
         <table class="data-table">
             <thead>
@@ -44,7 +92,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="4" class="muted">Aucun contact.</td>
+                        <td colspan="4" class="muted">Aucun contact ne correspond a la recherche ou aux filtres actifs.</td>
                     </tr>
                 {% endfor %}
             </tbody>

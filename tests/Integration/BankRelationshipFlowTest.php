@@ -61,6 +61,9 @@ class BankRelationshipFlowTest extends WebTestCase
 
         $this->client->submitForm('Envoyer le dossier a la banque');
         self::assertResponseRedirects(sprintf('/contacts/%d', $contact->getId()));
+        $this->client->followRedirect();
+        $this->assertResponseContains('Timeline d\'activite');
+        $this->assertResponseContains('Dossier envoye a la banque');
         $this->entityManager->clear();
 
         /** @var BankAccessLink $accessLink */
@@ -122,6 +125,10 @@ class BankRelationshipFlowTest extends WebTestCase
         self::assertNotNull($product);
         self::assertSame('Banque Atlas', $product->getCompany());
         self::assertStringContainsString('Produit confirme par la banque', (string) $product->getNotes());
+
+        $this->client->loginUser($this->createUser('advisor-review', ['ROLE_USER']));
+        $this->client->request('GET', sprintf('/contacts/%d', $contact->getId()));
+        $this->assertResponseContains('Retour banque recu');
     }
 
     private function createUser(string $username, array $roles): User

@@ -58,6 +58,7 @@ class PortalAccessFlowTest extends WebTestCase
         self::assertResponseRedirects(sprintf('/contacts/%d', $contact->getId()));
         $this->client->followRedirect();
         $this->assertResponseContains('Acces portail envoye');
+        $this->assertResponseContains('Timeline d\'activite');
 
         /** @var User $clientUser */
         $clientUser = $this->entityManager->getRepository(User::class)->findOneBy(['email' => 'nina.vermeulen@example.test']);
@@ -96,6 +97,11 @@ class PortalAccessFlowTest extends WebTestCase
         self::assertNotNull($usedLink->getUsedAt());
         self::assertNotSame('MonMotdepasse123!', $reloadedUser->getPassword());
 
+        $this->client->loginUser($admin);
+        $this->client->request('GET', sprintf('/contacts/%d', $contact->getId()));
+        $this->assertResponseContains('Acces portail active');
+
+        $this->client->request('GET', '/logout');
         $this->client->request('GET', '/login');
         $this->client->submitForm('Se connecter', [
             'username' => $reloadedUser->getUsername(),

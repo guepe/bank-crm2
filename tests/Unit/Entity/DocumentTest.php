@@ -13,6 +13,7 @@ class DocumentTest extends EntityTestCase
         $document = new Document();
 
         self::assertSame('Document', (string) $document);
+        self::assertInstanceOf(\DateTimeImmutable::class, $document->getCreatedAt());
 
         $document->setPath('  /tmp/file.pdf  ');
         self::assertSame('/tmp/file.pdf', $document->getPath());

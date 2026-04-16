@@ -13,17 +13,64 @@
 
     <div class="section-card">
         <form method="get" class="stack compact">
-            <div class="field">
-                <label for="account-search">Rechercher un compte</label>
-                <input id="account-search" type="search" name="q" value="{{ search|default('') }}" placeholder="Nom, ville, type">
+            <div class="filter-grid">
+                <div class="field">
+                    <label for="account-search">Rechercher un compte</label>
+                    <input id="account-search" type="search" name="q" value="{{ search|default('') }}" placeholder="Nom, ville, type, banque">
+                </div>
+                <div class="field">
+                    <label for="account-city">Ville</label>
+                    <select id="account-city" name="city">
+                        <option value="">Toutes les villes</option>
+                        {% for city in filter_options.cities %}
+                            <option value="{{ city }}" {% if filters.city == city %}selected{% endif %}>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="account-type">Type</label>
+                    <select id="account-type" name="type">
+                        <option value="">Tous les types</option>
+                        {% for type in filter_options.types %}
+                            <option value="{{ type }}" {% if filters.type == type %}selected{% endif %}>{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="account-contacts">Contacts lies</label>
+                    <select id="account-contacts" name="contacts">
+                        <option value="">Tous</option>
+                        <option value="with" {% if filters.contacts == 'with' %}selected{% endif %}>Avec contacts</option>
+                        <option value="without" {% if filters.contacts == 'without' %}selected{% endif %}>Sans contact</option>
+                    </select>
+                </div>
             </div>
             <div class="actions">
                 <button type="submit">Rechercher</button>
-                {% if search is not empty %}
+                {% if search is not empty or filters.city is not empty or filters.type is not empty or filters.contacts is not empty %}
                     <a class="button-link secondary" href="{{ path('app_account_index') }}">Effacer</a>
                 {% endif %}
             </div>
         </form>
+
+        {% if search is not empty or filters.city is not empty or filters.type is not empty or filters.contacts is not empty %}
+            <div class="active-filters">
+                {% if search is not empty %}
+                    <span class="filter-pill">Recherche : {{ search }}</span>
+                {% endif %}
+                {% if filters.city is not empty %}
+                    <span class="filter-pill">Ville : {{ filters.city }}</span>
+                {% endif %}
+                {% if filters.type is not empty %}
+                    <span class="filter-pill">Type : {{ filters.type }}</span>
+                {% endif %}
+                {% if filters.contacts == 'with' %}
+                    <span class="filter-pill">Avec contacts</span>
+                {% elseif filters.contacts == 'without' %}
+                    <span class="filter-pill">Sans contact</span>
+                {% endif %}
+            </div>
+        {% endif %}
 
         <table class="data-table">
             <thead>
@@ -46,7 +93,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5" class="muted">Aucun compte.</td>
+                        <td colspan="5" class="muted">Aucun compte ne correspond a la recherche ou aux filtres actifs.</td>
                     </tr>
                 {% endfor %}
             </tbody>

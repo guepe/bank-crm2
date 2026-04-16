@@ -40,9 +40,18 @@ A modern CRM application for banking built with Symfony 8, featuring account man
 
 ## Development
 
-- Run tests: `php bin/console test` or `phpunit`
-- Code analysis: `php bin/console phpstan`
+- Run all tests: `composer test`
+- Run integration tests only: `composer test:integration`
+- Run local pre-merge checks: `composer check`
+- Lint Twig templates only: `composer lint:twig`
+- Lint the Symfony container only: `composer lint:container`
 - Debug toolbar available in dev environment
+
+Recommended daily loop:
+
+1. implement a small coherent story
+2. run `composer check`
+3. fix regressions before opening a PR
 
 ## Configuration
 

@@ -28,6 +28,9 @@ class Document
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $size = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $createdAt;
+
     /** @var Collection<int, Account> */
     #[ORM\ManyToMany(targetEntity: Account::class, mappedBy: 'documents')]
     private Collection $accounts;
@@ -38,6 +41,7 @@ class Document
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->accounts = new ArrayCollection();
         $this->contacts = new ArrayCollection();
     }
@@ -98,6 +102,11 @@ class Document
         $this->size = $size;
 
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     /** @return Collection<int, Account> */

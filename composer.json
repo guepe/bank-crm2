@@ -85,6 +85,15 @@
         "symfony/polyfill-php84": "*"
     },
     "scripts": {
+        "test": "php bin/phpunit",
+        "test:integration": "php bin/phpunit tests/Integration",
+        "lint:twig": "php bin/console lint:twig templates --env=test",
+        "lint:container": "php bin/console lint:container --env=test",
+        "check": [
+            "@lint:twig",
+            "@lint:container",
+            "@test:integration"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",

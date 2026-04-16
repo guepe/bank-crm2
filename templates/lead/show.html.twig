@@ -27,6 +27,7 @@
         <section class="section-card">
             <h2>Qualification</h2>
             <dl class="info-list">
+                <div><dt>Statut du lead</dt><dd><span class="status-pill status-{{ lead.status }}">{{ lead.statusLabel }}</span></dd></div>
                 <div><dt>Statut</dt><dd>{{ lead.companyStatut ?: '—' }}</dd></div>
                 <div><dt>Type</dt><dd>{{ lead.type ?: '—' }}</dd></div>
                 <div><dt>Autre banque</dt><dd>{{ lead.otherBank ?: '—' }}</dd></div>

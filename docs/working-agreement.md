@@ -47,8 +47,16 @@ Option plus structuree :
 1. on choisit la prochaine US
 2. on precise les criteres d'acceptation si besoin
 3. j'implemente le changement
-4. je lance les checks utiles
+4. je lance les checks utiles, idealement `composer check`
 5. on ajuste le backlog et on passe a la suite
+
+Commandes de dev recommandees :
+
+- `composer test`
+- `composer test:integration`
+- `composer lint:twig`
+- `composer lint:container`
+- `composer check`
 
 ## Quand On Ouvre Une Discussion
 

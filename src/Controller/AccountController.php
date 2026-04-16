@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Form\AccountType;
+use App\Service\ListFilterOptions;
+use App\Service\TimelineBuilder;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,41 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AccountController extends AbstractController
 {
     #[Route('', name: 'app_account_index', methods: ['GET'])]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, ListFilterOptions $filterOptions): Response
     {
         $search = trim((string) $request->query->get('q', ''));
+        $city = trim((string) $request->query->get('city', ''));
+        $type = trim((string) $request->query->get('type', ''));
+        $contacts = (string) $request->query->get('contacts', '');
         $queryBuilder = $entityManager->getRepository(Account::class)->createQueryBuilder('a');
+        $queryBuilder->distinct();
 
         if ($search !== '') {
             $queryBuilder
-                ->andWhere('a.name LIKE :search OR a.city LIKE :search OR a.type LIKE :search')
+                ->andWhere('a.name LIKE :search OR a.city LIKE :search OR a.type LIKE :search OR a.otherBank LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
+        }
+
+        if ($city !== '') {
+            $queryBuilder
+                ->andWhere('a.city = :city')
+                ->setParameter('city', $city);
+        }
+
+        if ($type !== '') {
+            $queryBuilder
+                ->andWhere('a.type = :type')
+                ->setParameter('type', $type);
+        }
+
+        if ($contacts === 'with') {
+            $queryBuilder
+                ->leftJoin('a.contacts', 'contact')
+                ->andWhere('contact.id IS NOT NULL');
+        } elseif ($contacts === 'without') {
+            $queryBuilder
+                ->leftJoin('a.contacts', 'contact')
+                ->andWhere('contact.id IS NULL');
         }
 
         return $this->render('account/index.html.twig', [
@@ -34,6 +61,15 @@ class AccountController extends AbstractController
                 ->getQuery()
                 ->getResult(),
             'search' => $search,
+            'filters' => [
+                'city' => $city,
+                'type' => $type,
+                'contacts' => $contacts,
+            ],
+            'filter_options' => [
+                'cities' => $filterOptions->distinctNonEmptyValues(Account::class, 'a', 'city'),
+                'types' => $filterOptions->distinctNonEmptyValues(Account::class, 'a', 'type'),
+            ],
         ]);
     }
 
@@ -60,10 +96,11 @@ class AccountController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
-    public function show(Account $account): Response
+    public function show(Account $account, TimelineBuilder $timelineBuilder): Response
     {
         return $this->render('account/show.html.twig', [
             'account' => $account,
+            'timeline' => $timelineBuilder->buildForAccount($account),
         ]);
     }
 

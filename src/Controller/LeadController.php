@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Lead;
 use App\Form\LeadType;
+use App\Service\ListFilterOptions;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,15 +17,36 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class LeadController extends AbstractController
 {
     #[Route('', name: 'app_lead_index', methods: ['GET'])]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, ListFilterOptions $filterOptions): Response
     {
         $search = trim((string) $request->query->get('q', ''));
+        $city = trim((string) $request->query->get('city', ''));
+        $type = trim((string) $request->query->get('type', ''));
+        $status = trim((string) $request->query->get('status', ''));
         $queryBuilder = $entityManager->getRepository(Lead::class)->createQueryBuilder('l');
 
         if ($search !== '') {
             $queryBuilder
-                ->andWhere('l.name LIKE :search OR l.city LIKE :search OR l.type LIKE :search')
+                ->andWhere('l.name LIKE :search OR l.city LIKE :search OR l.type LIKE :search OR l.otherBank LIKE :search OR l.status LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
+        }
+
+        if ($city !== '') {
+            $queryBuilder
+                ->andWhere('l.city = :city')
+                ->setParameter('city', $city);
+        }
+
+        if ($type !== '') {
+            $queryBuilder
+                ->andWhere('l.type = :type')
+                ->setParameter('type', $type);
+        }
+
+        if ($status !== '') {
+            $queryBuilder
+                ->andWhere('l.status = :status')
+                ->setParameter('status', $status);
         }
 
         return $this->render('lead/index.html.twig', [
@@ -33,6 +55,16 @@ class LeadController extends AbstractController
                 ->getQuery()
                 ->getResult(),
             'search' => $search,
+            'filters' => [
+                'city' => $city,
+                'type' => $type,
+                'status' => $status,
+            ],
+            'filter_options' => [
+                'cities' => $filterOptions->distinctNonEmptyValues(Lead::class, 'l', 'city'),
+                'types' => $filterOptions->distinctNonEmptyValues(Lead::class, 'l', 'type'),
+                'statuses' => Lead::STATUS_LABELS,
+            ],
         ]);
     }
 

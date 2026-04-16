@@ -28,6 +28,7 @@ class LeadTest extends EntityTestCase
             ->setOtherBank('Other Bank')
             ->setNotes('Important lead')
             ->setType('professional')
+            ->setStatus(Lead::STATUS_PROPOSAL)
             ->setStartingDate($date);
 
         self::assertSame('12A', $lead->getStreetNum());
@@ -38,6 +39,16 @@ class LeadTest extends EntityTestCase
         self::assertSame('Other Bank', $lead->getOtherBank());
         self::assertSame('Important lead', $lead->getNotes());
         self::assertSame('professional', $lead->getType());
+        self::assertSame(Lead::STATUS_PROPOSAL, $lead->getStatus());
+        self::assertSame('Proposition', $lead->getStatusLabel());
         self::assertSame($date, $lead->getStartingDate());
+    }
+
+    public function testInvalidStatusFallsBackToDefault(): void
+    {
+        $lead = (new Lead())->setStatus('unknown');
+
+        self::assertSame(Lead::STATUS_NEW, $lead->getStatus());
+        self::assertSame('Nouveau', $lead->getStatusLabel());
     }
 }

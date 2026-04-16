@@ -129,6 +129,30 @@ Definition of done :
 - commandes et checks de dev clairs
 - socle plus sur pour les evolutions suivantes
 
+## Prochain Sprint Recommande
+
+Objectif : consolider l'existant tout en livrant un gain visible de productivite pour les conseillers.
+
+Lot retenu :
+
+- industrialisation legere sur les parcours critiques
+- recherche et filtres sur les objets coeur du CRM
+
+Stories candidates pour ce sprint :
+
+- `US016`
+- `US017`
+- `US018`
+- `US019`
+- `US020`
+
+Resultat attendu en fin de sprint :
+
+- un conseiller retrouve plus vite un compte, un contact ou un lead
+- les vues listes deviennent exploitables quand le volume de donnees augmente
+- les parcours coeur ont une couverture de tests plus rassurante
+- l'equipe dispose de checks de dev plus explicites pour securiser les prochaines evolutions
+
 ## Suivi
 
 Statuts utilises dans `docs/backlog.md` :

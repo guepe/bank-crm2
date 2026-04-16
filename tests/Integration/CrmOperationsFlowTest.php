@@ -43,6 +43,7 @@ class CrmOperationsFlowTest extends WebTestCase
             'lead[name]' => 'Prospect Orion',
             'lead[city]' => 'Namur',
             'lead[type]' => 'Potentiel',
+            'lead[status]' => Lead::STATUS_QUALIFYING,
             'lead[otherBank]' => 'Banque Regionale',
             'lead[notes]' => 'A relancer en priorite',
         ]);
@@ -53,6 +54,7 @@ class CrmOperationsFlowTest extends WebTestCase
         self::assertSelectorTextContains('h1', 'Prospect Orion');
         $this->assertResponseContains('Banque Regionale');
         $this->assertResponseContains('A relancer en priorite');
+        $this->assertResponseContains('Qualification');
         self::assertSame(1, $this->entityManager->getRepository(Lead::class)->count([]));
     }
 

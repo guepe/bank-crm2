@@ -48,6 +48,9 @@ class Account
     #[ORM\Column(name: 'starting_date', type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startingDate = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $createdAt;
+
     /** @var Collection<int, Contact> */
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'accounts')]
     #[ORM\JoinTable(name: 'accounts_contacts')]
@@ -64,6 +67,7 @@ class Account
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->contacts = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->products = new ArrayCollection();
@@ -197,6 +201,11 @@ class Account
         $this->startingDate = $startingDate;
 
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     /** @return Collection<int, Contact> */

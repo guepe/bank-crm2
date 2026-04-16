@@ -198,6 +198,65 @@
                 gap: 10px;
             }
 
+            .filter-grid {
+                display: grid;
+                gap: 12px;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+
+            .active-filters {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 16px 0 6px;
+            }
+
+            .filter-pill {
+                display: inline-flex;
+                align-items: center;
+                border-radius: 999px;
+                padding: 8px 12px;
+                background: rgba(31, 111, 95, 0.1);
+                color: var(--accent-strong);
+                font-size: 0.95rem;
+            }
+
+            .status-pill {
+                display: inline-flex;
+                align-items: center;
+                border-radius: 999px;
+                padding: 6px 10px;
+                font-size: 0.9rem;
+                font-weight: 700;
+                background: rgba(86, 100, 93, 0.12);
+                color: var(--text-main);
+            }
+
+            .status-new {
+                background: rgba(31, 111, 95, 0.12);
+                color: var(--accent-strong);
+            }
+
+            .status-qualifying {
+                background: rgba(187, 134, 0, 0.16);
+                color: #7c5b00;
+            }
+
+            .status-proposal {
+                background: rgba(30, 87, 153, 0.14);
+                color: #1f4f86;
+            }
+
+            .status-won {
+                background: rgba(24, 132, 73, 0.16);
+                color: #16653c;
+            }
+
+            .status-lost {
+                background: rgba(157, 46, 46, 0.14);
+                color: #8a2525;
+            }
+
             .secondary {
                 background: #3f5f54;
             }
@@ -239,6 +298,37 @@
                 margin: 0;
             }
 
+            .timeline-list {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: grid;
+                gap: 12px;
+            }
+
+            .timeline-item {
+                display: grid;
+                grid-template-columns: minmax(130px, 180px) 1fr;
+                gap: 14px;
+                padding-top: 12px;
+                border-top: 1px solid var(--panel-border);
+            }
+
+            .timeline-item:first-child {
+                padding-top: 0;
+                border-top: none;
+            }
+
+            .timeline-date {
+                font-size: 0.95rem;
+                color: var(--text-muted);
+            }
+
+            .timeline-content {
+                display: grid;
+                gap: 4px;
+            }
+
             .form-shell form {
                 display: grid;
                 gap: 14px;
@@ -270,6 +360,11 @@
             @media (max-width: 720px) {
                 .panel {
                     padding: 20px;
+                }
+
+                .timeline-item {
+                    grid-template-columns: 1fr;
+                    gap: 6px;
                 }
             }
         </style>

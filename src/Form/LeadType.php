@@ -13,6 +13,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LeadType extends AbstractType
 {
+    private const STATUS_CHOICES = [
+        'Nouveau' => Lead::STATUS_NEW,
+        'Qualification' => Lead::STATUS_QUALIFYING,
+        'Proposition' => Lead::STATUS_PROPOSAL,
+        'Gagne' => Lead::STATUS_WON,
+        'Perdu' => Lead::STATUS_LOST,
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -37,6 +45,10 @@ class LeadType extends AbstractType
                     'Potentiel' => 'Potentiel',
                     'Standard' => 'Standard',
                 ],
+            ])
+            ->add('status', ChoiceType::class, [
+                'label' => 'Statut du lead',
+                'choices' => self::STATUS_CHOICES,
             ])
             ->add('startingDate', DateType::class, [
                 'required' => false,

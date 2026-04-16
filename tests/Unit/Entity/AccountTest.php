@@ -20,6 +20,7 @@ class AccountTest extends EntityTestCase
         $account->addContact($contact)->addContact($contact);
 
         self::assertSame('ACME Corp', $account->getName());
+        self::assertInstanceOf(\DateTimeImmutable::class, $account->getCreatedAt());
         self::assertCount(1, $account->getContacts());
         self::assertTrue($account->getContacts()->contains($contact));
     }

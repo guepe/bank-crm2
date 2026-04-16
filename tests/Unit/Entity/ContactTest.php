@@ -15,6 +15,7 @@ class ContactTest extends EntityTestCase
 
         self::assertSame('Jane Doe', (string) $contact);
         self::assertSame('Doe', $contact->getLastname());
+        self::assertInstanceOf(\DateTimeImmutable::class, $contact->getCreatedAt());
     }
 
     public function testEmailIsNormalized(): void

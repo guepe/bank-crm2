@@ -82,6 +82,9 @@ class Contact
     #[ORM\Column(name: 'charged_people', type: Types::INTEGER, nullable: true)]
     private ?int $chargedPeople = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $createdAt;
+
     /** @var Collection<int, Account> */
     #[ORM\ManyToMany(targetEntity: Account::class, mappedBy: 'contacts')]
     private Collection $accounts;
@@ -100,6 +103,7 @@ class Contact
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->accounts = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->bankRelationships = new ArrayCollection();
@@ -365,6 +369,11 @@ class Contact
         $this->chargedPeople = $chargedPeople;
 
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     /** @return Collection<int, Account> */

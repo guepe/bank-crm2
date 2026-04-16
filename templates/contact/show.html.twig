@@ -116,6 +116,23 @@
         {% endif %}
     </section>
 
+    <section class="section-card">
+        <h2>Timeline d'activite</h2>
+        <ul class="timeline-list">
+            {% for event in timeline %}
+                <li class="timeline-item">
+                    <div class="timeline-date">{{ event.date|date('d/m/Y H:i') }}</div>
+                    <div class="timeline-content">
+                        <strong>{{ event.label }}</strong>
+                        <div class="muted">{{ event.context }}</div>
+                    </div>
+                </li>
+            {% else %}
+                <li class="muted">Aucun historique disponible.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
     <form method="post" action="{{ path('app_contact_delete', {id: contact.id}) }}" onsubmit="return confirm('Supprimer ce contact ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete-contact-' ~ contact.id) }}">
         <button type="submit" class="danger">Supprimer</button>
