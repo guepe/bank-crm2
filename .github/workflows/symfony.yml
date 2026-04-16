@@ -45,7 +45,7 @@ jobs:
                   APP_ENV: test
                   DATABASE_URL: sqlite:///%kernel.project_dir%/var/test.db
               run: |
-                  php bin/console doctrine:database:create --if-not-exists --env=test
+                  rm -f var/test.db
                   php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
             - name: Run PHPUnit
