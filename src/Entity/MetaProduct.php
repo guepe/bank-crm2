@@ -56,6 +56,8 @@ abstract class MetaProduct
     /** @var Collection<int, Document> */
     #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: 'metaproduct_document')]
+    #[ORM\JoinColumn(name: 'metaproduct_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'document_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $documents;
 
     public function __construct()
