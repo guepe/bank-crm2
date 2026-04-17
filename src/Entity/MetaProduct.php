@@ -53,10 +53,16 @@ abstract class MetaProduct
     #[ORM\ManyToMany(targetEntity: Account::class, mappedBy: 'products')]
     private Collection $accounts;
 
+    /** @var Collection<int, Document> */
+    #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'products')]
+    #[ORM\JoinTable(name: 'metaproduct_document')]
+    private Collection $documents;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->accounts = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -172,6 +178,12 @@ abstract class MetaProduct
         return $this->accounts;
     }
 
+    /** @return Collection<int, Document> */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
     public function addCategory(Category $category): self
     {
         if (!$this->categories->contains($category)) {
@@ -208,6 +220,25 @@ abstract class MetaProduct
     {
         foreach ($this->accounts->toArray() as $account) {
             $this->removeAccount($account);
+        }
+
+        return $this;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            $document->removeProduct($this);
         }
 
         return $this;

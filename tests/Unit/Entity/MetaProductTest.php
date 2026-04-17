@@ -6,6 +6,7 @@ use App\Entity\Account;
 use App\Entity\BankProduct;
 use App\Entity\Category;
 use App\Entity\CreditProduct;
+use App\Entity\Document;
 use App\Entity\FiscalProduct;
 use App\Entity\MetaProduct;
 use App\Entity\SavingsProduct;
@@ -18,6 +19,7 @@ class MetaProductTest extends EntityTestCase
     {
         $category = (new Category())->setName('Retail');
         $account = new Account();
+        $document = (new Document())->setName('Contrat');
 
         $product
             ->setNumber('ACC-001')
@@ -28,7 +30,8 @@ class MetaProductTest extends EntityTestCase
             ->setCompany('Acme')
             ->setTauxInteret('2.50')
             ->addCategory($category)
-            ->addAccount($account);
+            ->addAccount($account)
+            ->addDocument($document);
 
         self::assertSame($expectedLabel.' ACC-001', (string) $product);
         self::assertSame('ACC-001', $product->getNumber());
@@ -40,11 +43,14 @@ class MetaProductTest extends EntityTestCase
         self::assertSame('2.50', $product->getTauxInteret());
         self::assertTrue($product->getCategories()->contains($category));
         self::assertTrue($product->getAccounts()->contains($account));
+        self::assertTrue($product->getDocuments()->contains($document));
+        self::assertTrue($document->getProducts()->contains($product));
 
-        $product->clearAccounts()->removeCategory($category);
+        $product->clearAccounts()->removeCategory($category)->removeDocument($document);
 
         self::assertFalse($product->getAccounts()->contains($account));
         self::assertFalse($product->getCategories()->contains($category));
+        self::assertFalse($product->getDocuments()->contains($document));
     }
 
     public static function productProvider(): iterable

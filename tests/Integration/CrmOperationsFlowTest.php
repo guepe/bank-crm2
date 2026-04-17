@@ -153,6 +153,57 @@ class CrmOperationsFlowTest extends WebTestCase
         $this->assertResponseContains('Produit principal');
     }
 
+    public function testProductDocumentCanBeUploadedAndLinkedToTheProduct(): void
+    {
+        $this->client->loginUser($this->createUser('product-doc-user', ['ROLE_USER']));
+
+        $account = (new Account())
+            ->setName('Compte Support Produit')
+            ->setCity('Bruxelles');
+
+        $product = (new BankProduct())
+            ->setNumber('BE-PROD-001')
+            ->setType('Compte courant');
+
+        $account->addProduct($product);
+
+        $this->entityManager->persist($account);
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+
+        $crawler = $this->client->request('GET', sprintf('/products/bank/%d', $product->getId()));
+        self::assertResponseIsSuccessful();
+        $this->assertResponseContains('Ajouter un document');
+
+        $tempFile = tempnam(sys_get_temp_dir(), 'crm-product-doc-');
+        file_put_contents($tempFile, "Numero de compte: BE-PROD-001\nMontant: 1250.50");
+
+        $uploadedFile = new UploadedFile(
+            $tempFile,
+            'fiche-produit.txt',
+            'text/plain',
+            null,
+            true
+        );
+
+        $form = $crawler->selectButton('Televerser et analyser')->form([
+            'product_document_upload[name]' => 'Fiche produit',
+        ]);
+        $form['product_document_upload[uploadedFile]']->upload($uploadedFile);
+
+        $this->client->submit($form);
+
+        self::assertResponseRedirects(sprintf('/products/bank/%d', $product->getId()));
+        $this->client->followRedirect();
+
+        $this->entityManager->clear();
+        /** @var BankProduct $reloadedProduct */
+        $reloadedProduct = $this->entityManager->getRepository(BankProduct::class)->find($product->getId());
+
+        self::assertCount(1, $reloadedProduct->getDocuments());
+        $this->assertResponseContains('Fiche produit');
+    }
+
     public function testAdministratorCanCreateAClientUserLinkedToAContact(): void
     {
         $contact = (new Contact())

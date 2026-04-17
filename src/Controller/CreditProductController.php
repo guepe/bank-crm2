@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Entity\CreditProduct;
 use App\Form\CreditProductType;
+use App\Form\ProductDocumentUploadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +58,9 @@ class CreditProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'product_type' => 'credit',
+            'document_upload_form' => $this->createForm(ProductDocumentUploadType::class, null, [
+                'action' => $this->generateUrl('app_product_document_upload', ['id' => $product->getId()]),
+            ])->createView(),
         ]);
     }
 

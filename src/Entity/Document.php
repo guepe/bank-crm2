@@ -39,11 +39,16 @@ class Document
     #[ORM\ManyToMany(targetEntity: Contact::class, mappedBy: 'documents')]
     private Collection $contacts;
 
+    /** @var Collection<int, MetaProduct> */
+    #[ORM\ManyToMany(targetEntity: MetaProduct::class, mappedBy: 'documents')]
+    private Collection $products;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->accounts = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -121,6 +126,12 @@ class Document
         return $this->contacts;
     }
 
+    /** @return Collection<int, MetaProduct> */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
     public function addAccount(Account $account): self
     {
         if (!$this->accounts->contains($account)) {
@@ -154,6 +165,25 @@ class Document
     {
         if ($this->contacts->removeElement($contact)) {
             $contact->removeDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function addProduct(MetaProduct $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->addDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(MetaProduct $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeDocument($this);
         }
 
         return $this;

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Entity\BankProduct;
 use App\Form\BankProductType;
+use App\Form\ProductDocumentUploadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +58,9 @@ class BankProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'product_type' => 'bank',
+            'document_upload_form' => $this->createForm(ProductDocumentUploadType::class, null, [
+                'action' => $this->generateUrl('app_product_document_upload', ['id' => $product->getId()]),
+            ])->createView(),
         ]);
     }
 

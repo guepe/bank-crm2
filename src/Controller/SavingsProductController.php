@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\SavingsProduct;
+use App\Form\ProductDocumentUploadType;
 use App\Form\SavingsProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,6 +58,9 @@ class SavingsProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'product_type' => 'savings',
+            'document_upload_form' => $this->createForm(ProductDocumentUploadType::class, null, [
+                'action' => $this->generateUrl('app_product_document_upload', ['id' => $product->getId()]),
+            ])->createView(),
         ]);
     }
 

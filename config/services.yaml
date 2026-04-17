@@ -43,6 +43,11 @@ services:
             $openaiApiKey: "%env(OPENAI_API_KEY)%"
             $timeout: "%llm_timeout%"
 
+    App\Service\ProductDocumentAnalyzer:
+        arguments:
+            $openaiApiKey: "%env(OPENAI_API_KEY)%"
+            $timeout: "%llm_timeout%"
+
     App\Service\BrevoMailer:
         arguments:
             $enabled: "%env(bool:BREVO_ENABLED)%"
