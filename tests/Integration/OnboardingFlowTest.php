@@ -178,6 +178,11 @@ class OnboardingFlowTest extends WebTestCase
             ->setRoles($roles)
             ->setPassword('not-used-in-webtest');
 
+        if (in_array('ROLE_CLIENT', $roles, true)) {
+            $user->markEmailVerified();
+            $user->acceptConsent('planilife-beta-2026-05');
+        }
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

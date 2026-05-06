@@ -1,0 +1,14 @@
+<h1>Confirmez votre adresse e-mail</h1>
+
+<p>Bonjour {{ user.displayName }},</p>
+
+<p>
+    Votre compte Planilife est cree. Confirmez votre adresse e-mail pour activer
+    l'acces complet a votre espace client et a l'entretien.
+</p>
+
+<p>
+    <a href="{{ verification_url }}">Verifier mon e-mail</a>
+</p>
+
+<p>Ce lien expire le {{ expires_at|date('d/m/Y a H:i') }}.</p>

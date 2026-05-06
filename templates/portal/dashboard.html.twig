@@ -19,7 +19,21 @@
             <div class="actions">
                 <a class="button-link" href="{{ path('app_portal_contact_edit') }}">Mettre a jour mon dossier</a>
                 <a class="button-link secondary" href="{{ path('app_portal_password') }}">Changer mon mot de passe</a>
+                <a class="button-link secondary" href="{{ path('app_portal_data') }}">Mes donnees</a>
             </div>
+        </section>
+
+        <section class="section-card">
+            <h2>Confiance</h2>
+            <dl class="info-list">
+                <div><dt>E-mail verifie</dt><dd>{{ portal_user.emailVerifiedAt ? portal_user.emailVerifiedAt|date('d/m/Y H:i') : 'A verifier' }}</dd></div>
+                <div><dt>Consentement</dt><dd>{{ portal_user.consentAcceptedAt ? portal_user.consentAcceptedAt|date('d/m/Y H:i') : 'A valider' }}</dd></div>
+            </dl>
+            {% if not portal_user.consentAcceptedAt %}
+                <div class="actions">
+                    <a class="button-link" href="{{ path('app_portal_consent') }}">Valider le consentement</a>
+                </div>
+            {% endif %}
         </section>
 
         <section class="section-card">

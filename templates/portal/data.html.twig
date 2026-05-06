@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes donnees{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Portail client</p>
+        <h1>Mes donnees</h1>
+        <p class="muted">Consultez les informations principales conservees dans votre espace Planilife.</p>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <h2>Compte</h2>
+            <dl class="info-list">
+                <div><dt>Login</dt><dd>{{ portal_user.username }}</dd></div>
+                <div><dt>Email</dt><dd>{{ portal_user.email ?: '-' }}</dd></div>
+                <div><dt>Email verifie</dt><dd>{{ portal_user.emailVerifiedAt ? portal_user.emailVerifiedAt|date('d/m/Y H:i') : 'Non' }}</dd></div>
+                <div><dt>Consentement</dt><dd>{{ portal_user.consentAcceptedAt ? portal_user.consentAcceptedAt|date('d/m/Y H:i') : 'Non valide' }}</dd></div>
+                <div><dt>Version consentement</dt><dd>{{ portal_user.consentVersion ?: '-' }}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Dossier</h2>
+            {% if contact %}
+                <dl class="info-list">
+                    <div><dt>Nom</dt><dd>{{ contact }}</dd></div>
+                    <div><dt>Email</dt><dd>{{ contact.email ?: '-' }}</dd></div>
+                    <div><dt>Telephone</dt><dd>{{ contact.phone ?: '-' }}</dd></div>
+                    <div><dt>Ville</dt><dd>{{ contact.city ?: '-' }}</dd></div>
+                </dl>
+            {% else %}
+                <p class="muted">Aucun contact lie a ce compte.</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <section class="section-card">
+        <h2>Entretiens</h2>
+        <ul class="plain-list">
+            {% for session in sessions %}
+                <li>Dossier #{{ session.id }} - {{ session.status }} - phase {{ session.phase }}</li>
+            {% else %}
+                <li class="muted">Aucun entretien enregistre.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-card">
+        <h2>Droits RGPD</h2>
+        <div class="actions">
+            <a class="button-link" href="{{ path('app_portal_data_export') }}">Exporter mes donnees JSON</a>
+            <a class="button-link secondary" href="{{ path('app_portal_dashboard') }}">Retour au portail</a>
+        </div>
+
+        {% if portal_user.dataDeletionRequestedAt %}
+            <p class="muted">Demande de suppression enregistree le {{ portal_user.dataDeletionRequestedAt|date('d/m/Y H:i') }}.</p>
+        {% else %}
+            <form method="post" action="{{ path('app_portal_data_delete_request') }}" onsubmit="return confirm('Demander la suppression de vos donnees Planilife ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('portal-delete-data-' ~ portal_user.id) }}">
+                <button type="submit" class="secondary">Demander la suppression</button>
+            </form>
+        {% endif %}
+    </section>
+{% endblock %}

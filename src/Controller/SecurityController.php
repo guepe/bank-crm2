@@ -4,23 +4,23 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Entity\User;
+use App\Entity\UserSecurityToken;
+use App\Form\ChangePasswordType;
 use App\Form\RegistrationType;
 use App\Repository\OnboardingSessionRepository;
+use App\Service\UserAccountSecurityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class SecurityController extends AbstractController
 {
-    use TargetPathTrait;
-
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils, OnboardingSessionRepository $onboardingSessionRepository): Response
     {
@@ -28,6 +28,10 @@ class SecurityController extends AbstractController
             if ($this->isGranted('ROLE_CLIENT') && !$this->isGranted('ROLE_USER')) {
                 /** @var User $user */
                 $user = $this->getUser();
+                if (!$user->isEmailVerified()) {
+                    return $this->redirectToRoute('app_email_verification_notice');
+                }
+
                 $inProgressSession = $onboardingSessionRepository->findInProgressByUser($user);
 
                 if ($inProgressSession !== null) {
@@ -51,8 +55,7 @@ class SecurityController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
-        UserAuthenticatorInterface $userAuthenticator,
-        \App\Security\LoginFormAuthenticator $loginFormAuthenticator,
+        UserAccountSecurityManager $accountSecurityManager,
         OnboardingSessionRepository $onboardingSessionRepository,
     ): Response {
         if ($this->getUser()) {
@@ -109,15 +112,96 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $request->getSession()->set('_security.main.target_path', $this->generateUrl('app_onboarding_new'));
-            $this->addFlash('success', 'Compte cree. Commencons votre onboarding.');
+            $accountSecurityManager->sendEmailVerification($user);
+            $this->addFlash('success', 'Compte cree. Verifiez votre e-mail pour activer l acces complet.');
 
-            return $userAuthenticator->authenticateUser($user, $loginFormAuthenticator, $request);
+            return $this->redirectToRoute('app_email_verification_notice');
         }
 
         return $this->render('security/register.html.twig', [
             'form' => $form,
             'page_title' => 'Créer un compte',
+        ]);
+    }
+
+    #[Route('/verify-email', name: 'app_email_verification_notice', methods: ['GET'])]
+    public function emailVerificationNotice(): Response
+    {
+        return $this->render('security/email_verification_notice.html.twig', [
+            'page_title' => 'Verification e-mail',
+        ]);
+    }
+
+    #[Route('/verify-email/{token}', name: 'app_verify_email', methods: ['GET'])]
+    public function verifyEmail(string $token, UserAccountSecurityManager $accountSecurityManager): Response
+    {
+        $user = $accountSecurityManager->verifyEmailToken($token);
+        if (!$user instanceof User) {
+            $this->addFlash('error', 'Ce lien de verification est invalide ou expire.');
+
+            return $this->redirectToRoute('app_email_verification_notice');
+        }
+
+        $this->addFlash('success', 'Adresse e-mail verifiee. Vous pouvez maintenant vous connecter.');
+
+        return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/forgot-password', name: 'app_forgot_password', methods: ['GET', 'POST'])]
+    public function forgotPassword(Request $request, UserAccountSecurityManager $accountSecurityManager): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('identifier', TextType::class, [
+                'label' => 'E-mail ou nom d utilisateur',
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $accountSecurityManager->sendPasswordResetForIdentifier((string) $form->get('identifier')->getData());
+            $this->addFlash('success', 'Si un compte correspond, un e-mail de reinitialisation a ete envoye.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/forgot_password.html.twig', [
+            'form' => $form,
+            'page_title' => 'Mot de passe oublie',
+        ]);
+    }
+
+    #[Route('/reset-password/{token}', name: 'app_password_reset', methods: ['GET', 'POST'])]
+    public function resetPassword(
+        string $token,
+        Request $request,
+        UserAccountSecurityManager $accountSecurityManager,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        $securityToken = $accountSecurityManager->consumePasswordResetToken($token);
+        if (!$securityToken instanceof UserSecurityToken) {
+            $this->addFlash('error', 'Ce lien de reinitialisation est invalide ou expire.');
+
+            return $this->redirectToRoute('app_forgot_password');
+        }
+
+        $form = $this->createForm(ChangePasswordType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $securityToken->getUser();
+            $user->setPassword($passwordHasher->hashPassword($user, (string) $form->get('plainPassword')->getData()));
+            $accountSecurityManager->markPasswordResetUsed($securityToken);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Mot de passe reinitialise. Vous pouvez vous connecter.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/reset_password.html.twig', [
+            'form' => $form,
+            'page_title' => 'Nouveau mot de passe',
         ]);
     }
 

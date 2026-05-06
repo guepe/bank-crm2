@@ -58,6 +58,7 @@ class PortalAccessController extends AbstractController
             $plainPassword = (string) $form->get('plainPassword')->getData();
             $user = $accessLink->getUser();
             $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
+            $user->markEmailVerified();
             $accessLink->markUsed();
             $entityManager->flush();
 

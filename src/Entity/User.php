@@ -35,6 +35,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
     private bool $enabled = true;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $emailVerifiedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $consentAcceptedAt = null;
+
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    private ?string $consentVersion = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dataExportRequestedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dataDeletionRequestedAt = null;
+
     #[ORM\OneToOne(inversedBy: 'userAccount', targetEntity: Contact::class)]
     #[ORM\JoinColumn(name: 'contact_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Contact $contact = null;
@@ -111,6 +126,70 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getEmailVerifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->emailVerifiedAt;
+    }
+
+    public function markEmailVerified(): self
+    {
+        $this->emailVerifiedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function isEmailVerified(): bool
+    {
+        return $this->emailVerifiedAt !== null;
+    }
+
+    public function getConsentAcceptedAt(): ?\DateTimeImmutable
+    {
+        return $this->consentAcceptedAt;
+    }
+
+    public function getConsentVersion(): ?string
+    {
+        return $this->consentVersion;
+    }
+
+    public function acceptConsent(string $version): self
+    {
+        $this->consentAcceptedAt = new \DateTimeImmutable();
+        $this->consentVersion = trim($version);
+
+        return $this;
+    }
+
+    public function hasAcceptedConsent(): bool
+    {
+        return $this->consentAcceptedAt !== null;
+    }
+
+    public function getDataExportRequestedAt(): ?\DateTimeImmutable
+    {
+        return $this->dataExportRequestedAt;
+    }
+
+    public function markDataExportRequested(): self
+    {
+        $this->dataExportRequestedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function getDataDeletionRequestedAt(): ?\DateTimeImmutable
+    {
+        return $this->dataDeletionRequestedAt;
+    }
+
+    public function requestDataDeletion(): self
+    {
+        $this->dataDeletionRequestedAt = new \DateTimeImmutable();
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OnboardingSession;
+use App\Entity\User;
 use App\Repository\OnboardingSessionRepository;
 use App\Service\AiChatServiceInterface;
 use App\Service\DocumentStorage;
@@ -61,6 +62,9 @@ class OnboardingController extends AbstractController
     public function new(): Response
     {
         $user = $this->getUser();
+        if ($this->requiresClientConsent($user)) {
+            return $this->redirectToRoute('app_portal_consent');
+        }
 
         if ($inProgressSession = $this->sessionRepository->findInProgressByUser($user)) {
             return $this->redirectToRoute('app_onboarding_chat', ['id' => $inProgressSession->getId()]);
@@ -78,6 +82,9 @@ class OnboardingController extends AbstractController
     public function chat(OnboardingSession $session): Response
     {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return $this->redirectToRoute('app_portal_consent');
+        }
 
         $session->setCompleteness($this->onboardingService->calculateCompleteness($session));
 
@@ -97,6 +104,9 @@ class OnboardingController extends AbstractController
     public function sendMessage(OnboardingSession $session, Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return new JsonResponse(['error' => 'Consentement requis.'], Response::HTTP_FORBIDDEN);
+        }
 
         $message = $this->extractMessageFromRequest($request);
         if ($message === null) {
@@ -137,6 +147,9 @@ class OnboardingController extends AbstractController
     public function streamMessage(OnboardingSession $session, Request $request): StreamedResponse
     {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return $this->createSseErrorResponse('Consentement requis.', Response::HTTP_FORBIDDEN);
+        }
 
         $message = $this->extractMessageFromRequest($request);
         if ($message === null) {
@@ -207,6 +220,9 @@ class OnboardingController extends AbstractController
         OnboardingDocumentAnalyzer $documentAnalyzer,
     ): JsonResponse {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return new JsonResponse(['error' => 'Consentement requis.'], Response::HTTP_FORBIDDEN);
+        }
 
         $uploadedFile = $request->files->get('document');
         if (!$uploadedFile instanceof UploadedFile) {
@@ -283,6 +299,9 @@ class OnboardingController extends AbstractController
     public function review(OnboardingSession $session): Response
     {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return $this->redirectToRoute('app_portal_consent');
+        }
 
         return $this->render('onboarding/review.html.twig', [
             'session' => $session,
@@ -298,6 +317,9 @@ class OnboardingController extends AbstractController
     public function save(OnboardingSession $session): JsonResponse
     {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return new JsonResponse(['success' => false, 'error' => 'Consentement requis.'], Response::HTTP_FORBIDDEN);
+        }
 
         try {
             $this->onboardingService->saveSessionData($session);
@@ -336,6 +358,9 @@ class OnboardingController extends AbstractController
     public function show(OnboardingSession $session): Response
     {
         $this->denyAccessUnlessGranted('view', $session);
+        if ($this->requiresClientConsent($this->getUser())) {
+            return $this->redirectToRoute('app_portal_consent');
+        }
 
         return $this->render('onboarding/show.html.twig', [
             'session' => $session,
@@ -403,6 +428,14 @@ class OnboardingController extends AbstractController
         $message = trim((string) ($data['message'] ?? ''));
 
         return $message !== '' ? $message : null;
+    }
+
+    private function requiresClientConsent(mixed $user): bool
+    {
+        return $user instanceof User
+            && $user->isClientUser()
+            && !$user->isInternalUser()
+            && !$user->hasAcceptedConsent();
     }
 
     private function sendSseEvent(string $event, array $payload): void

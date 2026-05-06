@@ -64,6 +64,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             $user = $token->getUser();
 
             if ($user instanceof \App\Entity\User) {
+                if (!$user->isEmailVerified()) {
+                    return new RedirectResponse($this->urlGenerator->generate('app_email_verification_notice'));
+                }
+
                 $inProgressSession = $this->onboardingSessionRepository->findInProgressByUser($user);
                 if ($inProgressSession !== null) {
                     return new RedirectResponse($this->urlGenerator->generate('app_onboarding_chat', [

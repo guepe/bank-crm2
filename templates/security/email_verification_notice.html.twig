@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+    <div class="topline">
+        <p class="muted">Compte client</p>
+        <h1>{{ page_title }}</h1>
+        <p class="muted">Un lien de verification vient d'etre envoye a l'adresse e-mail du compte.</p>
+    </div>
+
+    <section class="section-card">
+        <h2>Derniere etape avant l'entretien</h2>
+        <p>
+            Ouvrez le lien recu par e-mail pour confirmer votre adresse. Apres verification,
+            vous pourrez vous connecter et continuer vers l'onboarding Planilife.
+        </p>
+        <div class="actions">
+            <a class="button-link" href="{{ path('app_login') }}">Retour a la connexion</a>
+            <a class="button-link secondary" href="{{ path('app_forgot_password') }}">Mot de passe oublie</a>
+        </div>
+    </section>
+{% endblock %}
