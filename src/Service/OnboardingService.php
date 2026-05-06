@@ -6,10 +6,12 @@ use App\Entity\Account;
 use App\Entity\BankProduct;
 use App\Entity\Contact;
 use App\Entity\CreditProduct;
+use App\Entity\FieldEdit;
 use App\Entity\FiscalProduct;
 use App\Entity\MetaProduct;
 use App\Entity\OnboardingSession;
 use App\Entity\SavingsProduct;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -34,11 +36,12 @@ class OnboardingService
         private readonly EntityManagerInterface $entityManager,
         private readonly DataExtractionService $dataExtraction,
         private readonly OnboardingServiceRequiredFields $requiredFieldsHelper,
-    ) {
-    }
+        private readonly FieldProvenanceService $provenanceService,
+    ) {}
 
     /**
      * Process the structured LLM payload, persist entities, and return the live state snapshot.
+     * Now with field provenance tracking for collaborative documents (EP03).
      */
     public function processLlmResponse(OnboardingSession $session, array $llmJson): array
     {
@@ -46,8 +49,13 @@ class OnboardingService
         $extractedFields = is_array($llmJson['extractedFields'] ?? null) ? $llmJson['extractedFields'] : [];
 
         if ($extractedFields !== []) {
+            // Track each field update with provenance
             $nested = $this->convertDotNotationToNestedArray($extractedFields);
-            $session->setExtractedData($this->mergeRecursive($session->getExtractedData(), $nested));
+            $this->trackFieldUpdates($session, $nested, FieldEdit::SOURCE_DETECTED);
+
+            // Merge with existing data
+            $merged = $this->mergeRecursive($session->getExtractedData(), $nested);
+            $session->setExtractedData($merged);
         } else {
             $this->updateSessionFromConversation($session);
         }
@@ -160,105 +168,94 @@ class OnboardingService
     public function createContactFromSession(OnboardingSession $session): Contact
     {
         $contact = $session->getContact() ?? new Contact();
-        $data = $session->getExtractedData();
-        $client = $data['client'] ?? [];
+        $data = $this->getCurrentExtractedData($session);
 
-        if (is_string($client['prenom'] ?? null)) {
-            $contact->setFirstname($client['prenom']);
-        } elseif (is_string($data['firstname'] ?? null)) {
-            $contact->setFirstname($data['firstname']);
+        // Use getStringValue() to handle provenance format transparently
+        $firstname = $this->getStringValue($data, 'client.prenom') ?? $this->getStringValue($data, 'firstname');
+        if ($firstname !== null) {
+            $contact->setFirstname($firstname);
         }
 
-        if (is_string($client['nom'] ?? null)) {
-            $contact->setLastname($client['nom']);
-        } elseif (is_string($data['lastname'] ?? null)) {
-            $contact->setLastname($data['lastname']);
+        $lastname = $this->getStringValue($data, 'client.nom') ?? $this->getStringValue($data, 'lastname');
+        if ($lastname !== null) {
+            $contact->setLastname($lastname);
         } elseif ($contact->getLastname() === '' && $contact->getFirstname() !== null) {
             $contact->setLastname('A completer');
         }
 
-        if (is_string($client['email'] ?? null)) {
-            $contact->setEmail($client['email']);
-        } elseif (is_string($data['email'] ?? null)) {
-            $contact->setEmail($data['email']);
+        $email = $this->getStringValue($data, 'client.email') ?? $this->getStringValue($data, 'email');
+        if ($email !== null) {
+            $contact->setEmail($email);
         }
 
-        if (is_string($client['phone'] ?? null)) {
-            $contact->setPhone($client['phone']);
-        } elseif (is_string($data['phone'] ?? null)) {
-            $contact->setPhone($data['phone']);
+        $phone = $this->getStringValue($data, 'client.phone') ?? $this->getStringValue($data, 'phone');
+        if ($phone !== null) {
+            $contact->setPhone($phone);
         }
 
-        if (is_string($client['gsm'] ?? null)) {
-            $contact->setGsm($client['gsm']);
+        $gsm = $this->getStringValue($data, 'client.gsm');
+        if ($gsm !== null) {
+            $contact->setGsm($gsm);
         }
 
-        if (is_string($client['profession'] ?? null)) {
-            $contact->setProfession($client['profession']);
-        } elseif (is_string($client['pro'] ?? null)) {
-            $contact->setProfession($client['pro']);
-        } elseif (is_string($data['profession'] ?? null)) {
-            $contact->setProfession($data['profession']);
+        $profession = $this->getStringValue($data, 'client.profession')
+            ?? $this->getStringValue($data, 'client.pro')
+            ?? $this->getStringValue($data, 'profession');
+        if ($profession !== null) {
+            $contact->setProfession($profession);
         }
 
-        if (is_numeric($client['income'] ?? null)) {
-            $contact->setIncomeAmount((int) $client['income']);
-        } elseif (is_numeric($data['incomeAmount'] ?? null)) {
-            $contact->setIncomeAmount((int) $data['incomeAmount']);
+        $income = $this->getNumericValue($data, 'client.income') ?? $this->getNumericValue($data, 'incomeAmount');
+        if ($income !== null) {
+            $contact->setIncomeAmount($income);
         }
 
-        if (is_string($client['eid'] ?? null)) {
-            $contact->setEid($client['eid']);
-        } elseif (is_string($data['eid'] ?? null)) {
-            $contact->setEid($data['eid']);
+        $eid = $this->getStringValue($data, 'client.eid') ?? $this->getStringValue($data, 'eid');
+        if ($eid !== null) {
+            $contact->setEid($eid);
         }
 
-        if (is_string($client['niss'] ?? null)) {
-            $contact->setNiss($client['niss']);
-        } elseif (is_string($data['niss'] ?? null)) {
-            $contact->setNiss($data['niss']);
+        $niss = $this->getStringValue($data, 'client.niss') ?? $this->getStringValue($data, 'niss');
+        if ($niss !== null) {
+            $contact->setNiss($niss);
         }
 
-        if (is_string($client['birthplace'] ?? null)) {
-            $contact->setBirthplace($client['birthplace']);
-        } elseif (is_string($data['birthplace'] ?? null)) {
-            $contact->setBirthplace($data['birthplace']);
+        $birthplace = $this->getStringValue($data, 'client.birthplace') ?? $this->getStringValue($data, 'birthplace');
+        if ($birthplace !== null) {
+            $contact->setBirthplace($birthplace);
         }
 
-        if (is_string($client['birthdate'] ?? null)) {
+        $birthdate = $this->getStringValue($data, 'client.birthdate') ?? $this->getStringValue($data, 'birthdate');
+        if ($birthdate !== null) {
             try {
-                $contact->setBirthdate(new \DateTimeImmutable($client['birthdate']));
-            } catch (\Throwable) {
-            }
-        } elseif (is_string($data['birthdate'] ?? null)) {
-            try {
-                $contact->setBirthdate(new \DateTimeImmutable($data['birthdate']));
+                $contact->setBirthdate(new \DateTimeImmutable($birthdate));
             } catch (\Throwable) {
             }
         }
 
-        if (is_string($client['adresse'] ?? null)) {
-            $contact->setStreetNum($client['adresse']);
-        } elseif (is_string($data['address'] ?? null)) {
-            $contact->setStreetNum($data['address']);
+        $address = $this->getStringValue($data, 'client.adresse') ?? $this->getStringValue($data, 'address');
+        if ($address !== null) {
+            $contact->setStreetNum($address);
         }
 
-        if (is_string($client['ville'] ?? null)) {
-            $contact->setCity($client['ville']);
+        $city = $this->getStringValue($data, 'client.ville');
+        if ($city !== null) {
+            $contact->setCity($city);
         }
 
-        if (is_string($client['code_postal'] ?? null)) {
-            $contact->setZip($client['code_postal']);
+        $postalCode = $this->getStringValue($data, 'client.code_postal');
+        if ($postalCode !== null) {
+            $contact->setZip($postalCode);
         }
 
-        if (is_string($client['pays'] ?? null)) {
-            $contact->setCountry($client['pays']);
+        $country = $this->getStringValue($data, 'client.pays');
+        if ($country !== null) {
+            $contact->setCountry($country);
         }
 
-        if (isset($client['statut'])) {
-            $contact->setMaritalStatus($this->normalizeMaritalStatus($client['statut']));
-        } elseif (isset($data['maritalStatus'])) {
-            $contact->setMaritalStatus($this->normalizeMaritalStatus($data['maritalStatus']));
+        $maritalStatus = $this->getStringValue($data, 'client.statut') ?? $this->getStringValue($data, 'maritalStatus');
+        if ($maritalStatus !== null) {
+            $contact->setMaritalStatus($this->normalizeMaritalStatus($maritalStatus));
         }
 
         $session->setContact($contact);
@@ -269,7 +266,7 @@ class OnboardingService
     public function createAccountFromSession(OnboardingSession $session): Account
     {
         $account = $session->getAccount() ?? new Account();
-        $data = $session->getExtractedData();
+        $data = $this->getCurrentExtractedData($session);
         $client = $data['client'] ?? [];
         $projects = $data['projets'] ?? [];
         $patrimoine = $data['patrimoine'] ?? [];
@@ -277,7 +274,7 @@ class OnboardingService
         if (is_string($data['account']['name'] ?? null)) {
             $account->setName($data['account']['name']);
         } elseif ($account->getName() === '' || $account->getName() === 'A completer') {
-            $displayName = trim((string) (($client['prenom'] ?? '').' '.($client['nom'] ?? '')));
+            $displayName = trim((string) (($client['prenom'] ?? '') . ' ' . ($client['nom'] ?? '')));
             $account->setName($displayName !== '' ? $displayName : 'A completer');
         }
 
@@ -295,16 +292,16 @@ class OnboardingService
 
         $noteChunks = [];
         if (is_string($client['attente'] ?? null)) {
-            $noteChunks[] = 'Attente: '.$client['attente'];
+            $noteChunks[] = 'Attente: ' . $client['attente'];
         }
         if (is_string($projects['vision'] ?? null)) {
-            $noteChunks[] = 'Vision: '.$projects['vision'];
+            $noteChunks[] = 'Vision: ' . $projects['vision'];
         }
         if (is_array($projects['objectifs'] ?? null) && $projects['objectifs'] !== []) {
-            $noteChunks[] = 'Objectifs: '.implode(', ', array_map('strval', $projects['objectifs']));
+            $noteChunks[] = 'Objectifs: ' . implode(', ', array_map('strval', $projects['objectifs']));
         }
         if (is_array($patrimoine['dettes'] ?? null) && $patrimoine['dettes'] !== []) {
-            $noteChunks[] = 'Dettes: '.json_encode($patrimoine['dettes'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $noteChunks[] = 'Dettes: ' . json_encode($patrimoine['dettes'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
         if ($noteChunks !== []) {
@@ -369,8 +366,43 @@ class OnboardingService
             ],
         ];
 
-        $session->setExtractedData($this->mergeRecursive($session->getExtractedData(), $this->filterNestedNulls($fallback)));
+        $fallback = $this->filterNestedNulls($fallback);
+        if ($fallback !== []) {
+            $this->trackFieldUpdates($session, $fallback, FieldEdit::SOURCE_DETECTED);
+            $session->setExtractedData($this->mergeRecursive($session->getExtractedData(), $fallback));
+        }
+
         $this->hydrateEntitiesFromSession($session);
+    }
+
+    public function updateSessionField(
+        OnboardingSession $session,
+        string $fieldPath,
+        mixed $value,
+        string $source = FieldEdit::SOURCE_UPDATED,
+        ?User $author = null,
+        ?string $reason = null,
+        ?string $role = null,
+    ): array {
+        $effectiveAuthor = $source === FieldEdit::SOURCE_DETECTED ? null : ($author ?? $session->getUser());
+        $provenance = $this->provenanceService->trackFieldUpdate(
+            $session,
+            $fieldPath,
+            $value,
+            $source,
+            $effectiveAuthor,
+            $reason,
+            $role,
+        );
+
+        $data = $session->getExtractedData();
+        $this->provenanceService->setValueByPath($data, $fieldPath, $value);
+        $session->setExtractedData($data);
+
+        $this->hydrateEntitiesFromSession($session);
+        $this->persistSession($session);
+
+        return $provenance;
     }
 
     public function saveSessionData(OnboardingSession $session): void
@@ -545,7 +577,7 @@ class OnboardingService
             return;
         }
 
-        $patrimoine = $session->getExtractedData()['patrimoine'] ?? null;
+        $patrimoine = $this->getCurrentExtractedData($session)['patrimoine'] ?? null;
         if (!is_array($patrimoine)) {
             return;
         }
@@ -844,5 +876,99 @@ class OnboardingService
         } catch (\Throwable) {
             return null;
         }
+    }
+
+    /**
+     * Track field updates with provenance (EP03).
+     * Recursively walks through new data and creates FieldEdit entries for each change.
+     */
+    private function trackFieldUpdates(
+        OnboardingSession $session,
+        array $newData,
+        string $source = FieldEdit::SOURCE_DECLARED,
+        string $prefix = '',
+    ): void {
+        foreach ($newData as $key => $value) {
+            $path = $prefix ? "{$prefix}.{$key}" : $key;
+
+            if (is_array($value) && !empty($value)) {
+                // Recurse into nested structures
+                $this->trackFieldUpdates($session, $value, $source, $path);
+            } else {
+                // Track this field update
+                $this->provenanceService->trackFieldUpdate(
+                    $session,
+                    $path,
+                    $value,
+                    $source,
+                    $source === FieldEdit::SOURCE_DETECTED ? null : $session->getUser(),
+                );
+            }
+        }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getCurrentExtractedData(OnboardingSession $session): array
+    {
+        return $this->provenanceService->extractCurrentValues($session->getExtractedData());
+    }
+
+    /**
+     * Get current values from extractedData, handling both old format and new provenance format.
+     * Transparently reads from 'current' key if present, otherwise uses value directly.
+     */
+    private function getCurrentValue(mixed $data): mixed
+    {
+        if (
+            is_array($data)
+            && array_key_exists('current', $data)
+            && array_key_exists('source', $data)
+            && array_key_exists('history', $data)
+        ) {
+            return $data['current'];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Extract a string value by dot-notation path, handling provenance format transparently.
+     * e.g., "client.prenom" from { "client": { "prenom": { current: "Jean", ... } } }
+     */
+    private function getStringValue(array $data, string $path): ?string
+    {
+        $keys = explode('.', $path);
+        $current = $data;
+
+        foreach ($keys as $key) {
+            if (!is_array($current) || !array_key_exists($key, $current)) {
+                return null;
+            }
+            $current = $current[$key];
+        }
+
+        $value = $this->getCurrentValue($current);
+        return is_string($value) ? $value : null;
+    }
+
+    /**
+     * Extract a numeric value by dot-notation path, handling provenance format transparently.
+     */
+    private function getNumericValue(array $data, string $path): ?int
+    {
+        $keys = explode('.', $path);
+        $current = $data;
+
+        foreach ($keys as $key) {
+            if (!is_array($current) || !array_key_exists($key, $current)) {
+                return null;
+            }
+            $current = $current[$key];
+        }
+
+        $value = $this->getCurrentValue($current);
+        return is_numeric($value) ? (int) $value : null;
     }
 }

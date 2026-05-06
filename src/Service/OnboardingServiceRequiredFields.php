@@ -108,6 +108,8 @@ class OnboardingServiceRequiredFields
             $current = $current[$segment];
         }
 
+        $current = $this->getCurrentValue($current);
+
         if (is_string($current)) {
             return trim($current) !== '';
         }
@@ -117,5 +119,19 @@ class OnboardingServiceRequiredFields
         }
 
         return $current !== null;
+    }
+
+    private function getCurrentValue(mixed $value): mixed
+    {
+        if (
+            is_array($value)
+            && array_key_exists('current', $value)
+            && array_key_exists('source', $value)
+            && array_key_exists('history', $value)
+        ) {
+            return $value['current'];
+        }
+
+        return $value;
     }
 }

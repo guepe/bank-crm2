@@ -59,9 +59,9 @@ Les epics ci-dessous reprennent le briefing et le cahier des charges en privileg
 | US027 | EP02 Entretien | En tant que client, je peux ordonner mes etapes de vie et leurs horizons afin de construire une timeline exploitable. | P0 | in_progress |
 | US028 | EP02 Entretien | En tant que client, je peux estimer mon patrimoine, mes credits, mes revenus et mes flux par fourchettes afin de preparer un rendez-vous sans devoir fournir des montants exacts. | P0 | in_progress |
 | US029 | EP02 Entretien | En tant que client, je peux quitter et reprendre l'entretien exactement ou je l'avais laisse afin de completer mon dossier en plusieurs fois. | P0 | done |
-| US030 | EP03 Dossier | En tant qu'equipe produit, nous pouvons representer le dossier comme source de verite collaborative afin que les donnees declarees, detectees, modifiees et corrigees coexistent sans ecrasement. | P0 | todo |
+| US030 | EP03 Dossier | En tant qu'equipe produit, nous pouvons representer le dossier comme source de verite collaborative afin que les donnees declarees, detectees, modifiees et corrigees coexistent sans ecrasement. | P0 | done |
 | US031 | EP03 Dossier | En tant que client, je peux voir la provenance d'un champ sensible afin de distinguer ce que j'ai declare, ce qui a ete detecte et ce qui a ete corrige. | P0 | todo |
-| US032 | EP03 Dossier | En tant qu'equipe produit, nous pouvons tracer chaque modification de champ afin d'expliquer qui a change quoi, quand, et pourquoi. | P0 | todo |
+| US032 | EP03 Dossier | En tant qu'equipe produit, nous pouvons tracer chaque modification de champ afin d'expliquer qui a change quoi, quand, et pourquoi. | P0 | in_progress |
 | US033 | EP04 Dashboard | En tant que client, je peux consulter un dashboard en 6 onglets afin de comprendre mon profil, mes projets, mes valeurs, mon timing, mon patrimoine et mes flux. | P0 | todo |
 | US034 | EP04 Dashboard | En tant que client, je peux modifier mes donnees directement dans le dashboard afin de corriger mon dossier sans relancer tout l'entretien. | P0 | in_progress |
 | US035 | EP04 Dashboard | En tant que client, je peux visualiser et ajuster les evenements de ma timeline afin de fiabiliser les etapes cles de mon plan de vie. | P1 | in_progress |
@@ -91,9 +91,9 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US027 | in_progress | Phase `etapes` existante. Il manque le registre timeline structure exploitable comme dossier de vie. |
 | US028 | in_progress | Phase `patrimoine` et extraction de produits existent. La couverture exacte des blocs patrimoine/flux reste incomplete. |
 | US029 | done | Une session en cours est retrouvee et reprise, avec messages, phase et donnees persistees. |
-| US030 | todo | Le dossier source existe via `OnboardingSession.extractedData`, mais pas encore comme document collaboratif avec sources coexistantes. |
+| US030 | done | Le dossier source conserve la valeur courante dans `OnboardingSession.extractedData` et l'historique collaboratif dans `field_edit`, avec sources declaree, detectee, mise a jour et corrigee. |
 | US031 | todo | Aucun badge ou champ de provenance visible par valeur sensible. |
-| US032 | todo | Pas de journal `field_edits` ou equivalent pour tracer chaque modification de champ. |
+| US032 | in_progress | Le journal `field_edit` trace les changements issus de l'onboarding et du service de mise a jour de champ. Il reste a brancher les futures interfaces inline/prescripteur sur ce point d'entree. |
 | US033 | todo | Pas de dashboard client Planilife en 6 onglets ; seulement portail client simple et panneau de donnees dans le chat. |
 | US034 | in_progress | Le client peut modifier certaines donnees de contact via le portail, mais pas encore en edition inline du dashboard Planilife. |
 | US035 | in_progress | Timeline CRM simple existe sur contacts/comptes. Elle n'est pas la timeline de vie Planilife et n'est pas ajustable inline. |
@@ -407,6 +407,12 @@ Criteres d'acceptation business :
 - toute correction sensible laisse une trace lisible pour le client et l'equipe produit
 - ce socle est traite avant les interfaces riches, car il conditionne le partage et le rapport
 
+Etat code :
+
+- `US030` done : `OnboardingSession.extractedData` reste la valeur courante exploitable par le CRM, et `field_edit` conserve les valeurs precedentes, la source, le role, l'auteur, la raison et l'horodatage.
+- `US031` todo : pas encore d'affichage client des badges ou details de provenance par champ.
+- `US032` in_progress : le journal technique existe et couvre le flux onboarding, mais les futures editions inline/prescripteur doivent utiliser le meme point d'entree.
+
 ## EP04 - Synthese Client Et Dashboard 6 Onglets
 
 US couvertes : `US033`, `US034`, `US035`
@@ -467,7 +473,6 @@ Criteres d'acceptation business :
 
 Lot recommande :
 
-- `US030`
 - `US031`
 - `US032`
 - `US023`
