@@ -107,16 +107,32 @@ class FieldProvenanceIntegrationTest extends KernelTestCase
 
         // Create edits with different sources
         $provenanceService->trackFieldUpdate(
-            $session, 'client.prenom', 'Jean', FieldEdit::SOURCE_DECLARED, $user
+            $session,
+            'client.prenom',
+            'Jean',
+            FieldEdit::SOURCE_DECLARED,
+            $user
         );
         $provenanceService->trackFieldUpdate(
-            $session, 'client.nom', 'Dupont', FieldEdit::SOURCE_DECLARED, $user
+            $session,
+            'client.nom',
+            'Dupont',
+            FieldEdit::SOURCE_DECLARED,
+            $user
         );
         $provenanceService->trackFieldUpdate(
-            $session, 'client.email', 'jean@example.com', FieldEdit::SOURCE_DETECTED, $user
+            $session,
+            'client.email',
+            'jean@example.com',
+            FieldEdit::SOURCE_DETECTED,
+            $user
         );
         $provenanceService->trackFieldUpdate(
-            $session, 'client.prenom', 'Jean-Pierre', FieldEdit::SOURCE_UPDATED, $user
+            $session,
+            'client.prenom',
+            'Jean-Pierre',
+            FieldEdit::SOURCE_UPDATED,
+            $user
         );
         $this->entityManager->flush();
 
