@@ -329,6 +329,205 @@
                 gap: 4px;
             }
 
+            .dashboard-hero {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 18px;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
+
+            .dashboard-summary {
+                display: grid;
+                grid-template-columns: minmax(140px, 180px) 1fr minmax(220px, 280px);
+                gap: 18px;
+                align-items: stretch;
+                margin-bottom: 22px;
+                padding: 18px;
+                border: 1px solid var(--panel-border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.72);
+            }
+
+            .score-block {
+                display: grid;
+                place-items: center;
+                align-content: center;
+                min-height: 128px;
+                border-radius: 16px;
+                background: #e8f2ec;
+                text-align: center;
+            }
+
+            .score-value {
+                display: block;
+                font-size: 2.4rem;
+                font-weight: 700;
+                line-height: 1;
+                color: var(--accent-strong);
+            }
+
+            .summary-copy {
+                display: grid;
+                align-content: center;
+                gap: 10px;
+            }
+
+            .missing-fields {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .source-summary {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+                margin: 0;
+            }
+
+            .source-summary div {
+                padding: 12px;
+                border: 1px solid var(--panel-border);
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.74);
+            }
+
+            .source-summary dt {
+                color: var(--text-muted);
+                font-size: 0.9rem;
+            }
+
+            .source-summary dd {
+                margin: 4px 0 0;
+                font-size: 1.35rem;
+                font-weight: 700;
+            }
+
+            .dashboard-tabs {
+                position: sticky;
+                top: 0;
+                z-index: 2;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin: 22px 0;
+                padding: 10px;
+                border: 1px solid var(--panel-border);
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.9);
+            }
+
+            .dashboard-tabs a {
+                display: inline-flex;
+                align-items: center;
+                min-height: 40px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                color: var(--accent-strong);
+                text-decoration: none;
+                font-weight: 700;
+            }
+
+            .dashboard-tabs a:hover {
+                background: rgba(31, 111, 95, 0.1);
+            }
+
+            .dashboard-sections {
+                display: grid;
+                gap: 22px;
+            }
+
+            .dashboard-tab {
+                scroll-margin-top: 90px;
+                border: 1px solid var(--panel-border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.7);
+                padding: 18px;
+            }
+
+            .dashboard-field-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 14px;
+            }
+
+            .dashboard-field {
+                display: grid;
+                gap: 8px;
+                min-width: 0;
+                padding: 14px;
+                border: 1px solid rgba(33, 58, 45, 0.1);
+                border-radius: 14px;
+                background: rgba(255, 255, 255, 0.78);
+            }
+
+            .dashboard-field label {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                justify-content: space-between;
+                font-weight: 700;
+            }
+
+            .source-badge {
+                display: inline-flex;
+                align-items: center;
+                min-height: 26px;
+                padding: 4px 8px;
+                border-radius: 999px;
+                background: rgba(30, 87, 153, 0.12);
+                color: #1f4f86;
+                font-size: 0.82rem;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            .field-footer {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .field-footer button {
+                min-height: 38px;
+                padding: 9px 14px;
+            }
+
+            .timeline-dashboard {
+                display: grid;
+                gap: 14px;
+                margin-top: 18px;
+                padding-top: 18px;
+                border-top: 1px solid var(--panel-border);
+            }
+
+            .timeline-editor-list {
+                display: grid;
+                gap: 12px;
+            }
+
+            .timeline-editor-item {
+                display: grid;
+                gap: 10px;
+                padding: 14px;
+                border: 1px solid rgba(33, 58, 45, 0.1);
+                border-radius: 14px;
+                background: rgba(255, 255, 255, 0.78);
+            }
+
+            .timeline-editor-main {
+                display: grid;
+                grid-template-columns: minmax(180px, 1.4fr) minmax(140px, 0.8fr) minmax(120px, 0.8fr) minmax(150px, 0.8fr);
+                gap: 10px;
+            }
+
+            .timeline-editor-new {
+                background: rgba(232, 242, 236, 0.72);
+            }
+
             .form-shell form {
                 display: grid;
                 gap: 14px;
@@ -360,6 +559,18 @@
             @media (max-width: 720px) {
                 .panel {
                     padding: 20px;
+                }
+
+                .dashboard-summary {
+                    grid-template-columns: 1fr;
+                }
+
+                .dashboard-tabs {
+                    position: static;
+                }
+
+                .timeline-editor-main {
+                    grid-template-columns: 1fr;
                 }
 
                 .timeline-item {

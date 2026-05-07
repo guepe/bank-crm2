@@ -62,9 +62,9 @@ Les epics ci-dessous reprennent le briefing et le cahier des charges en privileg
 | US030 | EP03 Dossier | En tant qu'equipe produit, nous pouvons representer le dossier comme source de verite collaborative afin que les donnees declarees, detectees, modifiees et corrigees coexistent sans ecrasement. | P0 | done |
 | US031 | EP03 Dossier | En tant que client, je peux voir la provenance d'un champ sensible afin de distinguer ce que j'ai declare, ce qui a ete detecte et ce qui a ete corrige. | P0 | todo |
 | US032 | EP03 Dossier | En tant qu'equipe produit, nous pouvons tracer chaque modification de champ afin d'expliquer qui a change quoi, quand, et pourquoi. | P0 | in_progress |
-| US033 | EP04 Dashboard | En tant que client, je peux consulter un dashboard en 6 onglets afin de comprendre mon profil, mes projets, mes valeurs, mon timing, mon patrimoine et mes flux. | P0 | todo |
-| US034 | EP04 Dashboard | En tant que client, je peux modifier mes donnees directement dans le dashboard afin de corriger mon dossier sans relancer tout l'entretien. | P0 | in_progress |
-| US035 | EP04 Dashboard | En tant que client, je peux visualiser et ajuster les evenements de ma timeline afin de fiabiliser les etapes cles de mon plan de vie. | P1 | in_progress |
+| US033 | EP04 Dashboard | En tant que client, je peux consulter un dashboard en 6 onglets afin de comprendre mon profil, mes projets, mes valeurs, mon timing, mon patrimoine et mes flux. | P0 | done |
+| US034 | EP04 Dashboard | En tant que client, je peux modifier mes donnees directement dans le dashboard afin de corriger mon dossier sans relancer tout l'entretien. | P0 | done |
+| US035 | EP04 Dashboard | En tant que client, je peux visualiser et ajuster les evenements de ma timeline afin de fiabiliser les etapes cles de mon plan de vie. | P1 | done |
 | US036 | EP05 Partage | En tant que client, je peux generer une invitation pour un prescripteur avec un role et des blocs autorises afin de partager seulement ce que j'ai valide. | P0 | in_progress |
 | US037 | EP05 Partage | En tant que prescripteur, je peux consulter uniquement les blocs autorises et corriger les champs relevant de mon role afin d'enrichir le dossier client. | P0 | in_progress |
 | US038 | EP05 Partage | En tant que client, je peux etre notifie des modifications faites par un prescripteur et les retrouver dans l'historique afin de conserver la maitrise du dossier. | P1 | in_progress |
@@ -94,9 +94,9 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US030 | done | Le dossier source conserve la valeur courante dans `OnboardingSession.extractedData` et l'historique collaboratif dans `field_edit`, avec sources declaree, detectee, mise a jour et corrigee. |
 | US031 | todo | Aucun badge ou champ de provenance visible par valeur sensible. |
 | US032 | in_progress | Le journal `field_edit` trace les changements issus de l'onboarding et du service de mise a jour de champ. Il reste a brancher les futures interfaces inline/prescripteur sur ce point d'entree. |
-| US033 | todo | Pas de dashboard client Planilife en 6 onglets ; seulement portail client simple et panneau de donnees dans le chat. |
-| US034 | in_progress | Le client peut modifier certaines donnees de contact via le portail, mais pas encore en edition inline du dashboard Planilife. |
-| US035 | in_progress | Timeline CRM simple existe sur contacts/comptes. Elle n'est pas la timeline de vie Planilife et n'est pas ajustable inline. |
+| US033 | done | Le portail client expose maintenant un dashboard Planilife en 6 onglets avec score de completude, sources et synthese dossier. |
+| US034 | done | Les champs du dashboard sont editables inline et passent par `OnboardingService::updateSessionField`, avec provenance et historique `field_edit`. |
+| US035 | done | La timeline de vie est visualisee et ajustable depuis le dashboard, puis synchronisee avec `etapes.timeline` et `etapes.etapes`. |
 | US036 | in_progress | Des liens securises existent pour portail et banque, mais le client ne genere pas encore une invitation par role et blocs autorises. |
 | US037 | in_progress | Un interlocuteur bancaire peut completer des produits via lien. La matrice multi-roles prescripteur reste a faire. |
 | US038 | in_progress | L'historique interne trace l'envoi/retour banque. La notification client et l'historique client des corrections restent a faire. |
@@ -481,8 +481,8 @@ Lot recommande :
 Lot optionnel si la capacite le permet :
 
 - `US025`
-- `US033`
-- `US034`
+- `US026`
+- `US036`
 
 Objectif du sprint :
 

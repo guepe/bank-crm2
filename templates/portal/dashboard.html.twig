@@ -1,77 +1,216 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon espace{% endblock %}
+{% block title %}Dashboard Planilife{% endblock %}
 
 {% block body %}
-    <div class="topline">
-        <p class="muted">Portail client</p>
-        <h1>Mon espace</h1>
-        <p class="muted">Vous accedez a votre dossier client avec un acces limite.</p>
+    {% set completion = dashboard.completion %}
+
+    <div class="topline dashboard-hero">
+        <div>
+            <p class="muted">Portail client</p>
+            <h1>Dashboard Planilife</h1>
+            <p class="muted">Votre dossier de vie, vos projets, vos valeurs, votre timing, votre patrimoine et vos flux.</p>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_onboarding_new') }}">Reprendre l'entretien</a>
+            <a class="button-link secondary" href="{{ path('app_portal_data') }}">Mes donnees</a>
+        </div>
     </div>
 
-    <div class="grid two-cols">
-        <section class="section-card">
-            <h2>Mon acces</h2>
-            <dl class="info-list">
-                <div><dt>Login</dt><dd>{{ portal_user.username }}</dd></div>
-                <div><dt>Email</dt><dd>{{ portal_user.email ?: '—' }}</dd></div>
-            </dl>
-            <div class="actions">
-                <a class="button-link" href="{{ path('app_portal_contact_edit') }}">Mettre a jour mon dossier</a>
-                <a class="button-link secondary" href="{{ path('app_portal_password') }}">Changer mon mot de passe</a>
-                <a class="button-link secondary" href="{{ path('app_portal_data') }}">Mes donnees</a>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2>Confiance</h2>
-            <dl class="info-list">
-                <div><dt>E-mail verifie</dt><dd>{{ portal_user.emailVerifiedAt ? portal_user.emailVerifiedAt|date('d/m/Y H:i') : 'A verifier' }}</dd></div>
-                <div><dt>Consentement</dt><dd>{{ portal_user.consentAcceptedAt ? portal_user.consentAcceptedAt|date('d/m/Y H:i') : 'A valider' }}</dd></div>
-            </dl>
-            {% if not portal_user.consentAcceptedAt %}
-                <div class="actions">
-                    <a class="button-link" href="{{ path('app_portal_consent') }}">Valider le consentement</a>
+    <section class="dashboard-summary" aria-label="Synthese du dossier">
+        <div class="score-block">
+            <span class="score-value">{{ completion.score }}%</span>
+            <span class="muted">Score de completude</span>
+        </div>
+        <div class="summary-copy">
+            <h2>{{ completion.report_ready ? 'Rapport utile possible' : 'Dossier a completer' }}</h2>
+            <p class="muted">
+                {{ completion.completed }}/{{ completion.total }} champs structurants sont renseignes.
+                {% if completion.report_ready %}
+                    Le dossier contient assez de matiere pour produire une premiere synthese beta.
+                {% else %}
+                    Les champs manquants ci-dessous amelioreront la qualite de la synthese.
+                {% endif %}
+            </p>
+            {% if completion.missing_labels is not empty %}
+                <div class="missing-fields">
+                    {% for label in completion.missing_labels %}
+                        <span class="filter-pill">{{ label }}</span>
+                    {% endfor %}
                 </div>
             {% endif %}
-        </section>
+        </div>
+        <dl class="source-summary">
+            <div><dt>Declare</dt><dd>{{ dashboard.source_report.declared }}</dd></div>
+            <div><dt>Detecte</dt><dd>{{ dashboard.source_report.detected }}</dd></div>
+            <div><dt>Mis a jour</dt><dd>{{ dashboard.source_report.updated }}</dd></div>
+            <div><dt>Corrige</dt><dd>{{ dashboard.source_report.corrected }}</dd></div>
+        </dl>
+    </section>
 
+    {% if dashboard.session is null %}
         <section class="section-card">
-            <h2>Mon contact</h2>
-            {% if contact %}
-                <dl class="info-list">
-                    <div><dt>Nom</dt><dd>{{ contact }}</dd></div>
-                    <div><dt>Email</dt><dd>{{ contact.email ?: '—' }}</dd></div>
-                    <div><dt>Telephone</dt><dd>{{ contact.phone ?: '—' }}</dd></div>
-                    <div><dt>GSM</dt><dd>{{ contact.gsm ?: '—' }}</dd></div>
-                </dl>
-            {% else %}
-                <p class="muted">Aucun contact lie.</p>
-            {% endif %}
+            <h2>Dossier en attente</h2>
+            <p class="muted">Aucun entretien Planilife n'est encore rattache a votre compte. Vous pouvez demarrer l'entretien ou completer un champ ci-dessous pour creer le dossier.</p>
         </section>
+    {% endif %}
+
+    <nav class="dashboard-tabs" aria-label="Onglets du dashboard Planilife">
+        {% for tab in dashboard.tabs %}
+            <a href="#{{ tab.key }}">{{ tab.label }}</a>
+        {% endfor %}
+    </nav>
+
+    <div class="dashboard-sections">
+        {% for tab in dashboard.tabs %}
+            <section id="{{ tab.key }}" class="dashboard-tab">
+                <div class="section-head">
+                    <div>
+                        <h2>{{ tab.label }}</h2>
+                        <p class="muted">{{ tab.subtitle }}</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-field-grid">
+                    {% for field in tab.fields %}
+                        <form method="post" action="{{ path('app_portal_dashboard_field_update') }}" class="dashboard-field">
+                            <input type="hidden" name="_token" value="{{ csrf_token('portal-dashboard-field-' ~ portal_user.id) }}">
+                            <input type="hidden" name="field_path" value="{{ field.path }}">
+
+                            <label for="{{ field.dom_id }}">
+                                <span>{{ field.label }}{% if field.required %} *{% endif %}</span>
+                                <span class="source-badge">{{ field.source_label }}</span>
+                            </label>
+
+                            {% if field.type == 'textarea' %}
+                                <textarea id="{{ field.dom_id }}" name="value" rows="4">{{ field.form_value }}</textarea>
+                            {% else %}
+                                <input id="{{ field.dom_id }}" type="{{ field.type }}" name="value" value="{{ field.form_value }}">
+                            {% endif %}
+
+                            <div class="field-footer">
+                                <span class="muted">{{ field.history_count }} modification{{ field.history_count > 1 ? 's' : '' }}</span>
+                                <button type="submit">Enregistrer</button>
+                            </div>
+                        </form>
+                    {% endfor %}
+                </div>
+
+                {% if tab.key == 'timing' %}
+                    <div class="timeline-dashboard">
+                        <div class="section-head">
+                            <div>
+                                <h3>Timeline de vie</h3>
+                                <p class="muted">Ajoutez ou ajustez les evenements familiaux, professionnels, patrimoniaux et financiers.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-editor-list">
+                            {% for event in dashboard.timeline %}
+                                <form method="post" action="{{ path('app_portal_dashboard_timeline_update') }}" class="timeline-editor-item">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('portal-dashboard-timeline-' ~ portal_user.id) }}">
+                                    <input type="hidden" name="event_id" value="{{ event.id }}">
+
+                                    <div class="timeline-editor-main">
+                                        <input name="title" value="{{ event.title }}" aria-label="Titre de l evenement">
+                                        <select name="category" aria-label="Categorie">
+                                            {% for category in ['vie', 'famille', 'professionnel', 'patrimoine', 'financier', 'prioritaire'] %}
+                                                <option value="{{ category }}" {{ event.category == category ? 'selected' : '' }}>{{ category|capitalize }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input name="horizon" value="{{ event.horizon }}" placeholder="Horizon" aria-label="Horizon">
+                                        <input type="date" name="date" value="{{ event.date }}" aria-label="Date">
+                                    </div>
+                                    <textarea name="notes" rows="2" placeholder="Notes">{{ event.notes }}</textarea>
+                                    <div class="field-footer">
+                                        <button type="submit" name="timeline_action" value="update">Mettre a jour</button>
+                                        <button type="submit" name="timeline_action" value="delete" class="danger">Supprimer</button>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <p class="muted">Aucun evenement de vie n'est encore renseigne.</p>
+                            {% endfor %}
+                        </div>
+
+                        <form method="post" action="{{ path('app_portal_dashboard_timeline_update') }}" class="timeline-editor-item timeline-editor-new">
+                            <input type="hidden" name="_token" value="{{ csrf_token('portal-dashboard-timeline-' ~ portal_user.id) }}">
+                            <div class="timeline-editor-main">
+                                <input name="title" placeholder="Nouvelle etape" aria-label="Nouvelle etape">
+                                <select name="category" aria-label="Categorie">
+                                    <option value="vie">Vie</option>
+                                    <option value="famille">Famille</option>
+                                    <option value="professionnel">Professionnel</option>
+                                    <option value="patrimoine">Patrimoine</option>
+                                    <option value="financier">Financier</option>
+                                </select>
+                                <input name="horizon" placeholder="Horizon" aria-label="Horizon">
+                                <input type="date" name="date" aria-label="Date">
+                            </div>
+                            <textarea name="notes" rows="2" placeholder="Notes"></textarea>
+                            <div class="field-footer">
+                                <span class="muted">Nouvel evenement</span>
+                                <button type="submit" name="timeline_action" value="add">Ajouter</button>
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
+            </section>
+        {% endfor %}
     </div>
 
     {% if contact %}
-        <section class="section-card">
-            <h2>Mes comptes</h2>
-            <ul class="plain-list">
-                {% for account in contact.accounts %}
-                    <li>{{ account.name }}</li>
-                {% else %}
-                    <li class="muted">Aucun compte associe.</li>
-                {% endfor %}
-            </ul>
-        </section>
+        <section class="dashboard-tab">
+            <div class="section-head">
+                <div>
+                    <h2>Dossier CRM rattache</h2>
+                    <p class="muted">Les comptes et documents deja relies a votre contact restent visibles depuis votre espace.</p>
+                </div>
+            </div>
 
-        <section class="section-card">
-            <h2>Mes documents</h2>
-            <ul class="plain-list">
-                {% for document in contact.documents %}
-                    <li>{{ document }}</li>
-                {% else %}
-                    <li class="muted">Aucun document associe.</li>
-                {% endfor %}
-            </ul>
+            <div class="grid two-cols">
+                <div>
+                    <h3>Mes comptes</h3>
+                    <ul class="plain-list">
+                        {% for account in contact.accounts %}
+                            <li>{{ account.name }}</li>
+                        {% else %}
+                            <li class="muted">Aucun compte associe.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h3>Mes documents</h3>
+                    <ul class="plain-list">
+                        {% for document in contact.documents %}
+                            <li>{{ document }}</li>
+                        {% else %}
+                            <li class="muted">Aucun document associe.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </section>
     {% endif %}
+
+    <section class="dashboard-tab">
+        <div class="section-head">
+            <div>
+                <h2>Historique recent</h2>
+                <p class="muted">Les corrections inline et ajustements de timeline sont traces dans le dossier.</p>
+            </div>
+        </div>
+        <ul class="timeline-list">
+            {% for edit in dashboard.recent_edits %}
+                <li class="timeline-item">
+                    <span class="timeline-date">{{ edit.timestamp|date('d/m/Y H:i') }}</span>
+                    <span class="timeline-content">
+                        <strong>{{ edit.fieldPath }}</strong>
+                        <span class="muted">{{ edit.source }} - {{ edit.role }}</span>
+                    </span>
+                </li>
+            {% else %}
+                <li class="muted">Aucune modification tracee pour le moment.</li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}

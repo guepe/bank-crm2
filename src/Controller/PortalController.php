@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\FieldEdit;
+use App\Entity\OnboardingSession;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use App\Form\PortalContactType;
 use App\Repository\OnboardingSessionRepository;
+use App\Service\OnboardingService;
+use App\Service\PlanilifeDashboardBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,15 +24,114 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PortalController extends AbstractController
 {
     #[Route('', name: 'app_portal_dashboard', methods: ['GET'])]
-    public function dashboard(): Response
+    public function dashboard(
+        OnboardingSessionRepository $sessionRepository,
+        PlanilifeDashboardBuilder $dashboardBuilder,
+    ): Response
     {
         /** @var User $user */
         $user = $this->getUser();
         $contact = $user->getContact();
+        $session = $sessionRepository->findLatestByUser($user);
 
         return $this->render('portal/dashboard.html.twig', [
             'portal_user' => $user,
             'contact' => $contact,
+            'dashboard' => $dashboardBuilder->build($session),
+        ]);
+    }
+
+    #[Route('/dashboard/champ', name: 'app_portal_dashboard_field_update', methods: ['POST'])]
+    public function updateDashboardField(
+        Request $request,
+        OnboardingSessionRepository $sessionRepository,
+        EntityManagerInterface $entityManager,
+        OnboardingService $onboardingService,
+        PlanilifeDashboardBuilder $dashboardBuilder,
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!$this->isCsrfTokenValid('portal-dashboard-field-'.$user->getId(), (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        $fieldPath = (string) $request->request->get('field_path');
+        if (!$dashboardBuilder->isAllowedFieldPath($fieldPath)) {
+            throw $this->createAccessDeniedException('Champ non autorise.');
+        }
+
+        $session = $this->findOrCreateDashboardSession($user, $sessionRepository, $entityManager);
+        $value = $dashboardBuilder->normalizeSubmittedField($fieldPath, (string) $request->request->get('value', ''));
+
+        $onboardingService->updateSessionField(
+            $session,
+            $fieldPath,
+            $value,
+            FieldEdit::SOURCE_UPDATED,
+            $user,
+            'Edition inline dashboard Planilife',
+            FieldEdit::ROLE_CLIENT,
+        );
+
+        if ($fieldPath === 'client.email' && is_string($value) && $value !== '') {
+            $user->setEmail($value);
+            $entityManager->flush();
+        }
+
+        $this->addFlash('success', 'Champ mis a jour dans votre dashboard.');
+
+        return $this->redirectToRoute('app_portal_dashboard', [
+            '_fragment' => $dashboardBuilder->getTabForField($fieldPath),
+        ]);
+    }
+
+    #[Route('/dashboard/timeline', name: 'app_portal_dashboard_timeline_update', methods: ['POST'])]
+    public function updateDashboardTimeline(
+        Request $request,
+        OnboardingSessionRepository $sessionRepository,
+        EntityManagerInterface $entityManager,
+        OnboardingService $onboardingService,
+        PlanilifeDashboardBuilder $dashboardBuilder,
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!$this->isCsrfTokenValid('portal-dashboard-timeline-'.$user->getId(), (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        $session = $this->findOrCreateDashboardSession($user, $sessionRepository, $entityManager);
+        $currentDashboard = $dashboardBuilder->build($session);
+        $events = $dashboardBuilder->updateTimelineEvents(
+            $currentDashboard['timeline'],
+            (string) $request->request->get('timeline_action', 'add'),
+            $request->request->all(),
+        );
+
+        $onboardingService->updateSessionField(
+            $session,
+            PlanilifeDashboardBuilder::TIMELINE_PATH,
+            $events,
+            FieldEdit::SOURCE_UPDATED,
+            $user,
+            'Ajustement timeline dashboard Planilife',
+            FieldEdit::ROLE_CLIENT,
+        );
+        $onboardingService->updateSessionField(
+            $session,
+            'etapes.etapes',
+            $dashboardBuilder->summarizeTimelineForRequiredField($events),
+            FieldEdit::SOURCE_UPDATED,
+            $user,
+            'Synchronisation des etapes depuis la timeline dashboard',
+            FieldEdit::ROLE_CLIENT,
+        );
+
+        $this->addFlash('success', 'Timeline mise a jour.');
+
+        return $this->redirectToRoute('app_portal_dashboard', [
+            '_fragment' => 'timing',
         ]);
     }
 
@@ -193,5 +296,23 @@ class PortalController extends AbstractController
         return $this->render('portal/password.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    private function findOrCreateDashboardSession(
+        User $user,
+        OnboardingSessionRepository $sessionRepository,
+        EntityManagerInterface $entityManager,
+    ): OnboardingSession {
+        $session = $sessionRepository->findLatestByUser($user);
+        if ($session instanceof OnboardingSession) {
+            return $session;
+        }
+
+        $session = new OnboardingSession($user);
+        $session->setContact($user->getContact());
+        $entityManager->persist($session);
+        $entityManager->flush();
+
+        return $session;
     }
 }
