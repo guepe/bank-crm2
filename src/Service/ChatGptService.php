@@ -189,7 +189,9 @@ Règles d'extraction:
   - patrimoine.credit_products
   - patrimoine.savings_products
   - patrimoine.fiscal_products
+  - flux.revenus, flux.charges, flux.epargne_mensuelle (montants mensuels nets)
 - chaque produit doit idéalement contenir: banque, type, libelle, numero, montant, taux, mensualite, duree, debut, fin, garantie, objet, reserve selon ce qui est connu
+- pour la phase etapes, produire etapes.timeline comme tableau JSON: [{titre, categorie, annee, horizon, notes}]
 - si une valeur n'est pas certaine, ne pas l'inventer
 PROMPT;
     }
@@ -271,12 +273,40 @@ PROMPT;
     private function getPhaseInstructions(string $phase): string
     {
         return match ($phase) {
-            OnboardingSession::PHASE_DISCOVERY => 'Comprendre qui est le client: identité simple, situation familiale, profession, attente principale.',
-            OnboardingSession::PHASE_QUALIFICATION => 'Faire émerger la vision à long terme, l’âge de retraite visé, les objectifs prioritaires et les freins.',
-            OnboardingSession::PHASE_RISK_ANALYSIS => 'Explorer le profil de risque, la sensibilité aux variations, et les enjeux de transmission.',
-            OnboardingSession::PHASE_ETAPES => 'Lister les grandes étapes de vie ou projets à venir, leurs délais, leur certitude, et l’étape clé.',
-            OnboardingSession::PHASE_PATRIMOINE => "Cartographier le patrimoine global: immobilier, société, trésorerie, financier, dettes, flux futurs.\nQuand les bases sont connues, terminer la phase en demandant les informations bancaires exploitables pour alimenter les produits: banques utilisées, comptes, épargnes, crédits, assurances épargne, produits fiscaux.\nPose une seule question à la fois mais cherche progressivement pour chaque produit: banque, libellé, numéro/référence si connu, montant, mensualité ou versement, taux, durée, dates, garantie, finalité.\nSi le client n'a pas un type de produit, fais-le préciser naturellement et accepte un tableau vide pour ce type.",
-            default => 'Poursuivre l’entretien de manière naturelle.',
+            OnboardingSession::PHASE_DISCOVERY =>
+                "Comprendre qui est le client : identite simple, situation familiale, profession et attente principale.\n"
+                ."Champs a capturer : client.prenom, client.age, client.statut (celibataire/marie/pacse/divorce/veuf), client.pro, client.attente (formulation libre de l’attente principale).\n"
+                ."Si l’occasion se presente naturellement, noter egalement client.nb_enfants.",
+
+            OnboardingSession::PHASE_QUALIFICATION =>
+                "Faire emerger la vision a long terme, l’age de retraite vise, les objectifs prioritaires et les priorites classees.\n"
+                ."Champs a capturer : projets.vision, projets.retraite_age, projets.objectifs (liste), projets.priorites "
+                ."(liste ordonnee du plus au moins important - demander explicitement ‘Si vous deviez classer vos priorites, dans quel ordre les mettriez-vous ?’).",
+
+            OnboardingSession::PHASE_RISK_ANALYSIS =>
+                "Explorer le profil de risque, la sensibilite aux variations, les enjeux de transmission et les valeurs d’investissement.\n"
+                ."Champs a capturer : risque.profil (conservateur/modere/dynamique/agressif), risque.transmission, "
+                ."risque.valeurs (convictions d’investissement : ESG, immobilier, exclure secteurs, preferences ethiques ou geographiques).",
+
+            OnboardingSession::PHASE_ETAPES =>
+                "Lister les grandes etapes de vie ou projets a venir, leurs delais, leur certitude, et l’etape cle.\n"
+                ."Champs a capturer : etapes.etapes (liste libre), etapes.etape_cle (formulation libre).\n"
+                ."En plus, produire etapes.timeline : un tableau JSON structure avec pour chaque etape un objet "
+                ."{titre, categorie (vie|famille|professionnel|patrimoine|financier|prioritaire), annee (nombre ou null), horizon (texte), notes}.\n"
+                ."Ce tableau sera utilise directement dans la timeline interactive - le remplir meme partiellement.",
+
+            OnboardingSession::PHASE_PATRIMOINE =>
+                "Cartographier le patrimoine global : immobilier, societe, tresorerie, financier, dettes, et flux mensuels.\n"
+                ."Champs a capturer : patrimoine.immo, patrimoine.tresorerie, patrimoine.financier, "
+                ."ainsi que flux.revenus (revenus nets mensuels totaux), flux.charges (charges fixes mensuelles), "
+                ."flux.epargne_mensuelle (capacite d’epargne mensuelle disponible).\n"
+                ."Quand les bases sont connues, terminer la phase en demandant les informations bancaires pour alimenter les produits : "
+                ."banques utilisees, comptes, epargnes, credits, assurances epargne, produits fiscaux.\n"
+                ."Pose une seule question a la fois mais cherche progressivement pour chaque produit : banque, libelle, "
+                ."numero/reference si connu, montant, mensualite ou versement, taux, duree, dates, garantie, finalite.\n"
+                ."Si le client n’a pas un type de produit, fais-le preciser naturellement et accepte un tableau vide pour ce type.",
+
+            default => "Poursuivre l’entretien de maniere naturelle.",
         };
     }
 }

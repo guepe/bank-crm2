@@ -413,9 +413,32 @@
             <div class="chat-actions">
                 {% if session.status == 'in_progress' %}
                     <button id="save-btn" type="button" class="warning">Sauvegarder</button>
+                    <button id="form-mode-toggle" type="button" class="secondary">Mode formulaire</button>
                     <a href="{{ path('app_onboarding_review', {id: session.id}) }}" class="button-link secondary">Valider le profil</a>
                 {% endif %}
             </div>
+
+            {% if phaseFields is not empty %}
+            <section id="form-mode-panel" style="display:none;margin-top:18px;padding:18px;border:1px solid var(--panel-border);border-radius:18px;background:rgba(246,244,238,.72);">
+                <h3 style="margin:0 0 14px;">Remplissage rapide — phase {{ session.phase|replace({'_': ' '})|upper }}</h3>
+                <div style="display:grid;gap:12px;">
+                {% for field in phaseFields %}
+                    <form class="field-update-form" data-field-path="{{ field.path }}" style="display:grid;gap:6px;">
+                        <label style="font-size:.9rem;font-weight:600;">{{ field.label }}</label>
+                        {% if field.type == 'textarea' %}
+                            <textarea name="value" rows="2" style="resize:vertical;">{{ field.value }}</textarea>
+                        {% else %}
+                            <input type="{{ field.type }}" name="value" value="{{ field.value }}">
+                        {% endif %}
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <button type="submit" class="secondary" style="min-height:34px;padding:6px 14px;font-size:.88rem;">Enregistrer</button>
+                            <span class="field-saved-notice" style="display:none;color:var(--accent);font-size:.88rem;">Enregistré ✓</span>
+                        </div>
+                    </form>
+                {% endfor %}
+                </div>
+            </section>
+            {% endif %}
         </section>
 
         <aside class="onboarding-data-shell">
@@ -662,14 +685,18 @@
     }
 
         function applyLiveState(payload) {
-            completenessValue.textContent = `${Math.round(payload.completeness || 0)}%`;
-            progressBar.style.width = `${payload.completeness || 0}%`;
-            renderMissingFields(payload.missingFields || []);
-            renderPhaseState(payload.phase);
-            renderSummary(contactData, payload.contactSummary || {}, 'Aucune donnée contact.');
-            renderSummary(accountData, payload.accountSummary || {}, 'Aucune donnée compte.');
-            renderExtractedSummary(payload.extractedData || {});
-            extractedDataBlock.textContent = JSON.stringify(payload.extractedData || {}, null, 2);
+            if (payload.completeness !== undefined) {
+                completenessValue.textContent = `${Math.round(payload.completeness)}%`;
+                progressBar.style.width = `${payload.completeness}%`;
+            }
+            if (payload.missingFields !== undefined) renderMissingFields(payload.missingFields);
+            if (payload.phase !== undefined) renderPhaseState(payload.phase);
+            if (payload.contactSummary !== undefined) renderSummary(contactData, payload.contactSummary, 'Aucune donnée contact.');
+            if (payload.accountSummary !== undefined) renderSummary(accountData, payload.accountSummary, 'Aucune donnée compte.');
+            if (payload.extractedData !== undefined) {
+                renderExtractedSummary(payload.extractedData);
+                extractedDataBlock.textContent = JSON.stringify(payload.extractedData, null, 2);
+            }
         }
 
         function renderMissingFields(fields) {
@@ -724,6 +751,7 @@
                 ['risque', 'Risque'],
                 ['etapes', 'Étapes'],
                 ['patrimoine', 'Patrimoine'],
+                ['flux', 'Flux'],
             ];
 
             let hasContent = false;
@@ -850,5 +878,53 @@
         }
 
         renderExtractedSummary(initialExtractedData || {});
+
+        const formModeToggle = document.getElementById('form-mode-toggle');
+        const formModePanel = document.getElementById('form-mode-panel');
+
+        if (formModeToggle && formModePanel) {
+            let formModeActive = false;
+
+            formModeToggle.addEventListener('click', () => {
+                formModeActive = !formModeActive;
+                formModePanel.style.display = formModeActive ? 'block' : 'none';
+                formModeToggle.textContent = formModeActive ? 'Mode chat' : 'Mode formulaire';
+            });
+
+            document.querySelectorAll('.field-update-form').forEach((form) => {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const fieldPath = form.dataset.fieldPath;
+                    const valueEl = form.querySelector('[name="value"]');
+                    const notice = form.querySelector('.field-saved-notice');
+                    const btn = form.querySelector('button[type="submit"]');
+
+                    btn.disabled = true;
+                    btn.textContent = '…';
+
+                    try {
+                        const resp = await fetch(`/onboarding/${sessionId}/field`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ field_path: fieldPath, value: valueEl.value }),
+                        });
+
+                        const data = await resp.json();
+                        if (data.success) {
+                            notice.style.display = 'inline';
+                            setTimeout(() => { notice.style.display = 'none'; }, 2000);
+                            applyLiveState(data);
+                        } else {
+                            alert(data.error || 'Erreur lors de la sauvegarde.');
+                        }
+                    } catch (err) {
+                        alert(`Erreur réseau: ${err.message}`);
+                    } finally {
+                        btn.disabled = false;
+                        btn.textContent = 'Enregistrer';
+                    }
+                });
+            });
+        }
     </script>
 {% endblock %}

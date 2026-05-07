@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\OnboardingSession;
 use App\Entity\User;
 use App\Repository\OnboardingSessionRepository;
+use App\Entity\FieldEdit;
 use App\Service\AiChatServiceInterface;
 use App\Service\DocumentStorage;
 use App\Service\FieldProvenanceService;
 use App\Service\OnboardingService;
 use App\Service\OnboardingDocumentAnalyzer;
+use App\Service\OnboardingServiceRequiredFields;
 use App\Entity\Document;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +31,7 @@ class OnboardingController extends AbstractController
         private readonly OnboardingService $onboardingService,
         private readonly AiChatServiceInterface $aiChat,
         private readonly EntityManagerInterface $entityManager,
+        private readonly OnboardingServiceRequiredFields $requiredFieldsHelper,
     ) {
     }
 
@@ -89,14 +92,34 @@ class OnboardingController extends AbstractController
 
         $session->setCompleteness($this->onboardingService->calculateCompleteness($session));
 
+        $currentPhase = $session->getPhase();
+        $fieldLabels = $this->requiredFieldsHelper->getFieldLabels();
+        $fieldTypes = $this->requiredFieldsHelper->getFieldTypes();
+        $currentValues = $this->requiredFieldsHelper->getPhaseCurrentValues($session->getExtractedData(), $currentPhase);
+
+        $phaseFields = [];
+        foreach ($this->requiredFieldsHelper->getRequiredFields()[$currentPhase] ?? [] as $path) {
+            if (($fieldTypes[$path] ?? 'text') === 'json') {
+                continue;
+            }
+
+            $phaseFields[] = [
+                'path'  => $path,
+                'label' => $fieldLabels[$path] ?? $path,
+                'type'  => $fieldTypes[$path] ?? 'text',
+                'value' => $currentValues[$path] ?? '',
+            ];
+        }
+
         return $this->render('onboarding/chat.html.twig', [
-            'session' => $session,
+            'session'        => $session,
             'displayMessages' => $this->buildDisplayMessages($session),
-            'phaseSequence' => $this->onboardingService->getPhaseSequence(),
-            'completeness' => $session->getCompleteness(),
-            'missingFields' => $this->onboardingService->getMissingFieldLabels($session),
+            'phaseSequence'  => $this->onboardingService->getPhaseSequence(),
+            'completeness'   => $session->getCompleteness(),
+            'missingFields'  => $this->onboardingService->getMissingFieldLabels($session),
             'entitySummaries' => $this->onboardingService->buildEntitySummaries($session),
-            'page_title' => 'Onboarding Client',
+            'phaseFields'    => $phaseFields,
+            'page_title'     => 'Onboarding Client',
         ]);
     }
 
@@ -292,6 +315,38 @@ class OnboardingController extends AbstractController
             'contactSummary' => $state['contactSummary'],
             'accountSummary' => $state['accountSummary'],
             'documentName' => $document->getName() ?: $uploadedFile->getClientOriginalName(),
+        ]);
+    }
+
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/{id}/field', name: 'app_onboarding_field_update', methods: ['POST'])]
+    public function updateField(OnboardingSession $session, Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('edit', $session);
+
+        $fieldPath = trim((string) $request->request->get('field_path'));
+        $value     = trim((string) $request->request->get('value', ''));
+        $reason    = trim((string) $request->request->get('reason', ''));
+
+        if (!preg_match('/^(client|projets|risque|etapes|patrimoine|flux)\.[a-z_]+(\.[a-z_]+)*$/', $fieldPath)) {
+            return new JsonResponse(['error' => 'Chemin de champ invalide.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        /** @var \App\Entity\User $author */
+        $author = $this->getUser();
+        $this->onboardingService->updateSessionField(
+            $session, $fieldPath, $value,
+            FieldEdit::SOURCE_UPDATED, $author,
+            $reason !== '' ? $reason : 'Saisie directe via formulaire',
+            FieldEdit::ROLE_CLIENT,
+        );
+
+        return new JsonResponse([
+            'success'       => true,
+            'completeness'  => $this->onboardingService->calculateCompleteness($session),
+            'missingFields' => $this->onboardingService->getMissingFieldLabels($session),
+            'extractedData' => $session->getExtractedData(),
+            'phase'         => $session->getPhase(),
         ]);
     }
 

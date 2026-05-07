@@ -30,29 +30,38 @@ class PortalDashboardFlowTest extends WebTestCase
         $user = $this->createClientUser('dashboard-client', 'dashboard@example.test');
         $this->createSession($user, [
             'client' => [
-                'prenom' => 'Nina',
-                'nom' => 'Vermeulen',
-                'age' => 42,
-                'statut' => 'mariee',
-                'pro' => 'architecte',
+                'prenom'  => 'Nina',
+                'nom'     => 'Vermeulen',
+                'age'     => 42,
+                'statut'  => 'mariee',
+                'pro'     => 'architecte',
+                'attente' => 'Preparer sa retraite et financer les etudes des enfants.',
             ],
             'projets' => [
-                'vision' => 'Financer les etudes et preparer une transition professionnelle.',
+                'vision'       => 'Financer les etudes et preparer une transition professionnelle.',
                 'retraite_age' => 62,
-                'objectifs' => ['Etudes enfants', 'Residence secondaire'],
+                'objectifs'    => ['Etudes enfants', 'Residence secondaire'],
+                'priorites'    => ['Retraite', 'Etudes', 'Immobilier'],
             ],
             'risque' => [
-                'profil' => 'equilibre',
+                'profil'       => 'equilibre',
                 'transmission' => 'Anticiper la donation aux enfants.',
+                'valeurs'      => 'Preference pour les placements responsables ESG.',
             ],
             'etapes' => [
                 'etape_cle' => 'Changer de statut professionnel',
-                'etapes' => ['2027 - transition professionnelle'],
+                'etapes'    => ['2027 - transition professionnelle'],
+                'timeline'  => [['titre' => 'Transition pro', 'categorie' => 'professionnel', 'annee' => 2027, 'horizon' => '3 ans', 'notes' => '']],
             ],
             'patrimoine' => [
-                'immo' => [['type' => 'maison', 'valeur' => 420000]],
+                'immo'      => [['type' => 'maison', 'valeur' => 420000]],
                 'tresorerie' => 35000,
                 'financier' => [['type' => 'assurance vie', 'montant' => 80000]],
+            ],
+            'flux' => [
+                'revenus'           => '4500',
+                'charges'           => '2200',
+                'epargne_mensuelle' => '800',
             ],
         ]);
 

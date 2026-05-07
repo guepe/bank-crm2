@@ -52,12 +52,12 @@ Les epics ci-dessous reprennent le briefing et le cahier des charges en privileg
 | US020 | Qualite | En tant qu'equipe produit, nous pouvons executer facilement les checks et tests critiques afin de securiser les evolutions du CRM. | P0 | done |
 | US021 | EP01 Confiance | En tant que client, je peux creer mon compte, verifier mon email, me connecter et gerer mon mot de passe afin d'acceder a mon espace Planilife de facon fiable. | P0 | done |
 | US022 | EP01 Confiance | En tant que client, je peux comprendre et valider les usages de mes donnees avant de commencer afin de garder le controle sur mon dossier. | P0 | done |
-| US023 | EP02 Entretien | En tant que client, je peux demarrer l'entretien en mode conversationnel ou formulaire et basculer entre les deux sans perte de donnees afin de choisir l'experience qui me convient. | P0 | in_progress |
-| US024 | EP02 Entretien | En tant que client, je peux completer la phase identite et vie afin de poser mon contexte personnel, familial et professionnel. | P0 | in_progress |
-| US025 | EP02 Entretien | En tant que client, je peux formuler mes projets et priorites afin que mon dossier reflete mes objectifs de vie. | P0 | in_progress |
-| US026 | EP02 Entretien | En tant que client, je peux exprimer mon rapport au risque, mes valeurs et mes intentions de transmission afin de cadrer les arbitrages futurs. | P0 | in_progress |
-| US027 | EP02 Entretien | En tant que client, je peux ordonner mes etapes de vie et leurs horizons afin de construire une timeline exploitable. | P0 | in_progress |
-| US028 | EP02 Entretien | En tant que client, je peux estimer mon patrimoine, mes credits, mes revenus et mes flux par fourchettes afin de preparer un rendez-vous sans devoir fournir des montants exacts. | P0 | in_progress |
+| US023 | EP02 Entretien | En tant que client, je peux demarrer l'entretien en mode conversationnel ou formulaire et basculer entre les deux sans perte de donnees afin de choisir l'experience qui me convient. | P0 | done |
+| US024 | EP02 Entretien | En tant que client, je peux completer la phase identite et vie afin de poser mon contexte personnel, familial et professionnel. | P0 | done |
+| US025 | EP02 Entretien | En tant que client, je peux formuler mes projets et priorites afin que mon dossier reflete mes objectifs de vie. | P0 | done |
+| US026 | EP02 Entretien | En tant que client, je peux exprimer mon rapport au risque, mes valeurs et mes intentions de transmission afin de cadrer les arbitrages futurs. | P0 | done |
+| US027 | EP02 Entretien | En tant que client, je peux ordonner mes etapes de vie et leurs horizons afin de construire une timeline exploitable. | P0 | done |
+| US028 | EP02 Entretien | En tant que client, je peux estimer mon patrimoine, mes credits, mes revenus et mes flux par fourchettes afin de preparer un rendez-vous sans devoir fournir des montants exacts. | P0 | done |
 | US029 | EP02 Entretien | En tant que client, je peux quitter et reprendre l'entretien exactement ou je l'avais laisse afin de completer mon dossier en plusieurs fois. | P0 | done |
 | US030 | EP03 Dossier | En tant qu'equipe produit, nous pouvons representer le dossier comme source de verite collaborative afin que les donnees declarees, detectees, modifiees et corrigees coexistent sans ecrasement. | P0 | done |
 | US031 | EP03 Dossier | En tant que client, je peux voir la provenance d'un champ sensible afin de distinguer ce que j'ai declare, ce qui a ete detecte et ce qui a ete corrige. | P0 | done |
@@ -84,12 +84,12 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US020 | done | `composer check`, lint Twig, lint container, tests integration et CI GitHub Actions sont documentes/configures. |
 | US021 | done | Inscription, verification e-mail explicite, login, portail client, activation par lien, changement et reset autonome de mot de passe sont couverts. |
 | US022 | done | Un ecran de consentement bloque l'onboarding tant que le client n'a pas valide les usages IA, rapport et partage. |
-| US023 | in_progress | Entretien conversationnel demarrable et persiste. Le mode formulaire et le toggle conversation/formulaire ne sont pas presents. |
-| US024 | in_progress | Phase `discovery` existante avec prenom, age, situation familiale et pro. Enfants et attente principale restent a cadrer/forcer. |
-| US025 | in_progress | Phase `qualification` existante pour vision, retraite et objectifs. Le ranked choice produit n'est pas encore une experience dediee. |
-| US026 | in_progress | Phase `risk_analysis` existante pour profil risque et transmission. La profondeur "valeurs" reste a enrichir. |
-| US027 | in_progress | Phase `etapes` existante. Il manque le registre timeline structure exploitable comme dossier de vie. |
-| US028 | in_progress | Phase `patrimoine` et extraction de produits existent. La couverture exacte des blocs patrimoine/flux reste incomplete. |
+| US023 | done | Toggle "Mode formulaire" ajoute dans `chat.html.twig` avec panel de saisie directe par champ. Route `POST /onboarding/{id}/field` persistant via `updateSessionField` avec audit trail. |
+| US024 | done | `client.attente` ajoute aux champs requis de discovery. Prompt enrichi pour capturer attente principale et nb_enfants. |
+| US025 | done | `projets.priorites` ajoute aux champs requis de qualification. Prompt guide le classement ordonne des priorites. |
+| US026 | done | `risque.valeurs` ajoute aux champs requis de risk_analysis. Prompt enrichi pour convictions ESG, preferences ethiques et geographiques. |
+| US027 | done | `etapes.timeline` ajoute comme champ requis de la phase etapes. Prompt instruit l'IA de produire un tableau JSON structure par etape exploitable dans la timeline interactive. |
+| US028 | done | `flux.revenus`, `flux.charges`, `flux.epargne_mensuelle` ajoutes aux champs requis de patrimoine. Prompt et regles d'extraction enrichis. Section "Flux" apparait dans le resume du chat. |
 | US029 | done | Une session en cours est retrouvee et reprise, avec messages, phase et donnees persistees. |
 | US030 | done | Le dossier source conserve la valeur courante dans `OnboardingSession.extractedData` et l'historique collaboratif dans `field_edit`, avec sources declaree, detectee, mise a jour et corrigee. |
 | US031 | todo | Aucun badge ou champ de provenance visible par valeur sensible. |

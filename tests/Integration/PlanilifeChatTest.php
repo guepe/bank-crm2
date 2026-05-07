@@ -58,10 +58,11 @@ class PlanilifeChatTest extends KernelTestCase
 
         $session->setExtractedData([
             'client' => [
-                'prenom' => 'Jean',
-                'age' => 45,
-                'statut' => 'marié',
-                'pro' => 'Ingénieur',
+                'prenom'  => 'Jean',
+                'age'     => 45,
+                'statut'  => 'marié',
+                'pro'     => 'Ingénieur',
+                'attente' => 'Préparer sa retraite',
             ],
         ]);
 
