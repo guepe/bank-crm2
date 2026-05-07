@@ -40,6 +40,32 @@ class PrescriberController extends AbstractController
         ]);
     }
 
+    #[Route('/{token}/rapport', name: 'app_prescriber_rapport', methods: ['GET'])]
+    public function rapport(
+        string $token,
+        PrescriberInvitationRepository $invitationRepository,
+        PlanilifeDashboardBuilder $dashboardBuilder,
+    ): Response {
+        $invitation = $invitationRepository->findActiveByToken($token);
+        if ($invitation === null) {
+            return $this->render('prescriber/expired.html.twig', [], new Response('', Response::HTTP_GONE));
+        }
+
+        $dashboard = $dashboardBuilder->build($invitation->getSession());
+        $tabs      = array_values(array_filter(
+            $dashboard['tabs'],
+            static fn(array $tab): bool => in_array($tab['key'], $invitation->getAuthorizedBlocks(), true),
+        ));
+
+        return $this->render('portal/rapport.html.twig', [
+            'dashboard'    => array_merge($dashboard, ['tabs' => $tabs]),
+            'contact'      => $invitation->getSession()->getContact(),
+            'portal_user'  => null,
+            'generated_at' => new \DateTimeImmutable(),
+            'prescriber'   => $invitation,
+        ]);
+    }
+
     #[Route('/{token}/corriger', name: 'app_prescriber_correct', methods: ['POST'])]
     public function correct(
         string $token,

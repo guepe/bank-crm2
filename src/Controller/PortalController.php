@@ -300,6 +300,30 @@ class PortalController extends AbstractController
         ]);
     }
 
+    #[Route('/rapport', name: 'app_portal_rapport', methods: ['GET'])]
+    public function rapport(
+        OnboardingSessionRepository $sessionRepository,
+        PlanilifeDashboardBuilder $dashboardBuilder,
+    ): Response {
+        /** @var User $user */
+        $user      = $this->getUser();
+        $session   = $sessionRepository->findLatestByUser($user);
+        $dashboard = $dashboardBuilder->build($session);
+
+        if (!$dashboard['completion']['report_ready']) {
+            $this->addFlash('error', 'Votre dossier n\'est pas encore suffisamment complet pour generer un rapport (score minimum 80%).');
+
+            return $this->redirectToRoute('app_portal_dashboard');
+        }
+
+        return $this->render('portal/rapport.html.twig', [
+            'dashboard'   => $dashboard,
+            'contact'     => $user->getContact(),
+            'portal_user' => $user,
+            'generated_at' => new \DateTimeImmutable(),
+        ]);
+    }
+
     #[Route('/partage', name: 'app_portal_prescriber_share', methods: ['GET', 'POST'])]
     public function prescriberShare(
         Request $request,

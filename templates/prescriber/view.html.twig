@@ -79,4 +79,8 @@
     {{ invitation.correctionCount }} correction{{ invitation.correctionCount > 1 ? 's' : '' }} enregistree{{ invitation.correctionCount > 1 ? 's' : '' }} via ce lien.
 </p>
 {% endif %}
+
+<div style="text-align:center;margin-top:18px;">
+    <a class="button-link secondary" href="{{ path('app_prescriber_rapport', {token: invitation.token}) }}">Voir le rapport (blocs autorises)</a>
+</div>
 {% endblock %}

@@ -68,8 +68,8 @@ Les epics ci-dessous reprennent le briefing et le cahier des charges en privileg
 | US036 | EP05 Partage | En tant que client, je peux generer une invitation pour un prescripteur avec un role et des blocs autorises afin de partager seulement ce que j'ai valide. | P0 | done |
 | US037 | EP05 Partage | En tant que prescripteur, je peux consulter uniquement les blocs autorises et corriger les champs relevant de mon role afin d'enrichir le dossier client. | P0 | done |
 | US038 | EP05 Partage | En tant que client, je peux etre notifie des modifications faites par un prescripteur et les retrouver dans l'historique afin de conserver la maitrise du dossier. | P1 | in_progress |
-| US039 | EP06 Rapport | En tant que client, je peux generer un rapport beta universel lorsque mon dossier est suffisamment complet afin de disposer d'une synthese partageable. | P0 | todo |
-| US040 | EP06 Rapport | En tant que client ou prescripteur autorise, je peux voir dans le rapport les sources des champs corriges afin de comprendre la provenance des informations importantes. | P1 | todo |
+| US039 | EP06 Rapport | En tant que client, je peux generer un rapport beta universel lorsque mon dossier est suffisamment complet afin de disposer d'une synthese partageable. | P0 | done |
+| US040 | EP06 Rapport | En tant que client ou prescripteur autorise, je peux voir dans le rapport les sources des champs corriges afin de comprendre la provenance des informations importantes. | P1 | done |
 | US041 | EP07 Gouvernance | En tant que client, je peux consulter, exporter ou demander la suppression de mes donnees afin d'exercer mes droits RGPD. | P1 | done |
 | US042 | EP08 Pilotage | En tant qu'administrateur, je peux piloter tenants, utilisateurs, relances et indicateurs agreges sans lire les dossiers individuels afin d'operer la beta en confiance. | P1 | done |
 
@@ -100,8 +100,8 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US036 | done | `/portal/partage` : le client genere une invitation prescripteur avec role + blocs autorises. Token 64 chars, expiration 30 jours, revocation. Entite `PrescriberInvitation` + migration. |
 | US037 | done | `/prescripteur/{token}` : le prescripteur consulte les blocs autorises et corrige les champs via formulaire inline. Chaque correction cree un `FieldEdit SOURCE_CORRECTED / ROLE_PRESCRIBER`. |
 | US038 | in_progress | L'historique interne trace l'envoi/retour banque. La notification client et l'historique client des corrections restent a faire. |
-| US039 | todo | Pas de generation de rapport beta universel. |
-| US040 | todo | Pas de rapport, donc pas d'affichage des sources dans le rapport. |
+| US039 | done | `/portal/rapport` genere le rapport beta (acces conditionne a score >= 80%). 6 sections issues du dashboard. Bouton "Voir mon rapport" dans le dashboard. Imprimable via `window.print()`. |
+| US040 | done | Chaque champ du rapport affiche son badge source (declare/detecte/mis a jour/corrige prescripteur). Section "Corrections professionnelles" liste les FieldEdit SOURCE_CORRECTED avec raison et date. Accessible aussi au prescripteur via `/prescripteur/{token}/rapport` (blocs filtres). |
 | US041 | done | Le portail expose les donnees principales, fournit un export JSON et enregistre une demande de suppression a traiter sous 48h. |
 | US042 | done | Le back-office beta gere tenants, plans, rattachement utilisateurs, suspensions, incidents et indicateurs agreges de completude, relance, abandon et extraction sans afficher les contenus de dossier. |
 

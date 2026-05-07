@@ -14,6 +14,9 @@
         <div class="actions">
             <a class="button-link secondary" href="{{ path('app_onboarding_new') }}">Reprendre l'entretien</a>
             <a class="button-link secondary" href="{{ path('app_portal_data') }}">Mes donnees</a>
+            {% if dashboard.completion.report_ready %}
+                <a class="button-link" href="{{ path('app_portal_rapport') }}">Voir mon rapport</a>
+            {% endif %}
         </div>
     </div>
 

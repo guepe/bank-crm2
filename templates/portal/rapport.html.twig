@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapport Planilife Beta{% endblock %}
+
+{% block body %}
+{% set source_labels = {declared: 'Declare', detected: 'Detecte par IA', updated: 'Mis a jour', corrected: 'Corrige par prescripteur'} %}
+{% set completion = dashboard.completion %}
+{% set source_report = dashboard.source_report %}
+
+{# ── En-tete ─────────────────────────────────────────────────────── #}
+<div class="topline dashboard-hero rapport-header no-print-hide">
+    <div>
+        <p class="muted">Rapport Planilife Beta</p>
+        <h1>
+            {% if contact %}
+                {{ contact.firstname ?? '' }} {{ contact.lastname ?? '' }}
+            {% elseif portal_user %}
+                {{ portal_user.displayName ?? portal_user.userIdentifier }}
+            {% else %}
+                Dossier client
+            {% endif %}
+        </h1>
+        <p class="muted">
+            Genere le {{ generated_at|date('d/m/Y a H:i') }}
+            &nbsp;·&nbsp; Completude {{ completion.score }}%
+            {% if prescriber is defined and prescriber %}
+                &nbsp;·&nbsp; Acces prescripteur : {{ prescriber.prescriberRoleLabel }}
+                (blocs : {{ prescriber.authorizedBlocks|join(', ') }})
+            {% endif %}
+        </p>
+    </div>
+    <div class="actions no-print">
+        {% if portal_user %}
+            <a class="button-link secondary" href="{{ path('app_portal_dashboard') }}">← Dashboard</a>
+        {% endif %}
+        <button onclick="window.print()" class="button-link">Imprimer / PDF</button>
+    </div>
+</div>
+
+{# ── Avertissement beta ──────────────────────────────────────────── #}
+<div class="rapport-notice no-print">
+    <p>
+        Ce rapport est une synthese beta generee automatiquement a partir des donnees declarees et validees.
+        Les champs corriges par un prescripteur sont identifies par le badge
+        <span class="source-badge source-corrected">corrige</span>.
+    </p>
+</div>
+
+{# ── Compteurs de sources ────────────────────────────────────────── #}
+<dl class="source-summary rapport-sources">
+    <div>
+        <dt>Declare</dt>
+        <dd>{{ source_report.declared }}</dd>
+    </div>
+    <div>
+        <dt>Detecte IA</dt>
+        <dd>{{ source_report.detected }}</dd>
+    </div>
+    <div>
+        <dt>Mis a jour</dt>
+        <dd>{{ source_report.updated }}</dd>
+    </div>
+    <div>
+        <dt>Corrige</dt>
+        <dd>{{ source_report.corrected }}</dd>
+    </div>
+</dl>
+
+{# ── Sections du rapport ─────────────────────────────────────────── #}
+{% for tab in dashboard.tabs %}
+<section class="rapport-section">
+    <h2 class="rapport-section-title">{{ tab.label }}</h2>
+    {% if tab.subtitle %}
+        <p class="muted rapport-subtitle">{{ tab.subtitle }}</p>
+    {% endif %}
+
+    <dl class="rapport-fields">
+        {% for field in tab.fields %}
+            {% if field.display_value is not empty %}
+            <div class="rapport-field{% if field.source == 'corrected' %} rapport-field--corrected{% endif %}">
+                <dt>
+                    {{ field.label }}
+                    {% if field.source %}
+                        <span class="source-badge source-{{ field.source }}">{{ source_labels[field.source] ?? field.source_label }}</span>
+                    {% endif %}
+                    {% if field.history_count > 1 %}
+                        <span class="rapport-edits-count muted">{{ field.history_count }} modifications</span>
+                    {% endif %}
+                </dt>
+                <dd>{{ field.display_value }}</dd>
+            </div>
+            {% elseif field.required %}
+            <div class="rapport-field rapport-field--missing">
+                <dt>{{ field.label }} <span class="muted">(non renseigne)</span></dt>
+                <dd>—</dd>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </dl>
+
+    {# Timeline dans l'onglet timing #}
+    {% if tab.key == 'timing' and dashboard.timeline|length > 0 %}
+        <div class="rapport-timeline">
+            <h3>Evenements de vie</h3>
+            <ul class="timeline-list">
+                {% for event in dashboard.timeline %}
+                <li class="timeline-item">
+                    <span class="timeline-date">
+                        {% if event.date %}{{ event.date|date('d/m/Y') }}{% else %}{{ event.horizon ?? '—' }}{% endif %}
+                    </span>
+                    <span class="timeline-content">
+                        <strong>{{ event.title }}</strong>
+                        {% if event.category %}<span class="muted"> · {{ event.category }}</span>{% endif %}
+                        {% if event.notes %}<br><span class="muted">{{ event.notes }}</span>{% endif %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</section>
+{% else %}
+<p class="muted">Aucune section disponible dans ce rapport.</p>
+{% endfor %}
+
+{# ── Corrections prescripteur (US040) ────────────────────────────── #}
+{% set corrections = dashboard.recent_edits|filter(e => e.source == 'corrected') %}
+{% if corrections|length > 0 %}
+<section class="rapport-section rapport-corrections">
+    <h2 class="rapport-section-title">Corrections professionnelles</h2>
+    <p class="muted">Les champs suivants ont ete corriges par un professionnel apres verification.</p>
+    <ul class="timeline-list">
+        {% for edit in corrections %}
+        <li class="timeline-item">
+            <span class="timeline-date">{{ edit.timestamp|date('d/m/Y H:i') }}</span>
+            <span class="timeline-content">
+                <strong>{{ edit.fieldPath }}</strong>
+                <span class="source-badge source-corrected">corrige</span>
+                {% if edit.reason %}<br><span class="muted">{{ edit.reason }}</span>{% endif %}
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{# ── Pied de page ────────────────────────────────────────────────── #}
+<footer class="rapport-footer muted">
+    <p>Rapport Planilife Beta — {{ generated_at|date('d/m/Y') }} — Les donnees presentees sont celles declarees ou corrigees par le client et ses prescripteurs.</p>
+</footer>
+{% endblock %}
