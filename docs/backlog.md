@@ -92,7 +92,7 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US028 | done | `flux.revenus`, `flux.charges`, `flux.epargne_mensuelle` ajoutes aux champs requis de patrimoine. Prompt et regles d'extraction enrichis. Section "Flux" apparait dans le resume du chat. |
 | US029 | done | Une session en cours est retrouvee et reprise, avec messages, phase et donnees persistees. |
 | US030 | done | Le dossier source conserve la valeur courante dans `OnboardingSession.extractedData` et l'historique collaboratif dans `field_edit`, avec sources declaree, detectee, mise a jour et corrigee. |
-| US031 | todo | Aucun badge ou champ de provenance visible par valeur sensible. |
+| US031 | done | Badges couleur-codes par source sur chaque champ du dashboard client et de la vue prescripteur. Labels lisibles dans l'historique recent (declare, detecte par IA, mis a jour, corrige). |
 | US032 | done | Le journal `field_edit` couvre l'onboarding, le dashboard inline et la timeline. La finalisation de session est tracee. Le tableau d'audit est visible sur la page admin `/onboarding/{id}`. Les corrections prescripteur attendent US036/US037. |
 | US033 | done | Le portail client expose maintenant un dashboard Planilife en 6 onglets avec score de completude, sources et synthese dossier. |
 | US034 | done | Les champs du dashboard sont editables inline et passent par `OnboardingService::updateSessionField`, avec provenance et historique `field_edit`. |
@@ -474,33 +474,27 @@ Etat code :
 - `US042` done : `/pilotage` expose les indicateurs agreges beta, `/tenants` gere tenants/plans/statuts, les utilisateurs peuvent etre rattaches a un tenant et les suspensions de compte ou tenant bloquent la connexion.
 - La boucle d'amelioration beta passe par les incidents de pilotage, rattaches optionnellement a un tenant, sans reference aux contenus patrimoniaux individuels.
 
-## Sprint Suivant Propose
+## Statut Beta - Mai 2026
 
-Lot recommande :
+**Toutes les US P0 et P1 des EP01 a EP08 sont done (42/42).**
 
-- `US031`
-- `US032`
-- `US023`
-- `US024`
+Le perimetre beta est fonctionnellement complet. Les 8 epics couvrent le flux end-to-end :
+inscription → entretien 5 phases → dashboard → partage prescripteur → rapport → gouvernance RGPD → pilotage back-office.
 
-Lot optionnel si la capacite le permet :
+## Prochaines Evolutions Post-Beta
 
-- `US025`
-- `US026`
-- `US036`
+Axes identifies pour la V1 ou les lots suivants, a affiner selon retours beta :
 
-Objectif du sprint :
-
-- poser le socle du dossier de confiance avant de produire des interfaces avancees
-- livrer une tranche verticale simple : demarrage d'entretien, phase identite et vie, dossier structure, premiers badges de provenance
-- verifier que le mode conversationnel et le mode formulaire alimentent la meme source de verite
-
-Definition of done du sprint :
-
-- un client peut commencer l'entretien et sauvegarder les champs de la phase 1
-- les champs sensibles du dossier disposent d'une provenance et d'un historique minimal
-- une premiere vue de synthese montre les donnees collectees et leur source
-- les choix techno proposes dans les documents sources restent hors decision de backlog
+| Priorite suggeree | Theme | Description |
+| --- | --- | --- |
+| P1 | Entretien | Experience mobile optimisee (le parcours est utilisable mais non optimise petit ecran) |
+| P1 | Rapport | Export PDF natif (actuellement via window.print()) |
+| P1 | Prescripteur | Compte prescripteur permanent avec tableau de bord multi-clients |
+| P1 | Qualite IA | Scoring de confiance par champ extrait (metadonnee de certitude) |
+| P2 | Simulations | Calcul de capacite d'epargne, projection retraite simple |
+| P2 | Rapports partenaires | Rapports specialises par type de professionnel (notaire, comptable, CGP) |
+| P2 | Multi-tenant | Isolation complete par cabinet / espace partenaire |
+| P2 | RGPD | Traitement automatise des demandes de suppression (actuellement manuel sous 48h) |
 
 ## Idees De Backlog A Affiner
 
