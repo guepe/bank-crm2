@@ -141,6 +141,17 @@
                 align-items: center;
             }
 
+            .inline-form {
+                display: inline-flex;
+                margin-left: 8px;
+            }
+
+            .inline-form button {
+                min-height: 32px;
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+
             .grid {
                 display: grid;
                 gap: 18px;
@@ -596,6 +607,8 @@
                                 <a href="{{ path('app_product_index') }}">Produits</a>
                                 <a href="{{ path('app_document_index') }}">Documents</a>
                                 {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('app_pilotage_index') }}">Pilotage beta</a>
+                                    <a href="{{ path('app_tenant_index') }}">Tenants</a>
                                     <a href="{{ path('app_user_index') }}">Utilisateurs</a>
                                 {% endif %}
                                 <a href="{{ path('app_profile') }}">Profil</a>

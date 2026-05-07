@@ -17,6 +17,7 @@
                 <tr>
                     <th>Login</th>
                     <th>Email</th>
+                    <th>Tenant</th>
                     <th>Roles</th>
                     <th>Contact</th>
                     <th>Actif</th>
@@ -28,13 +29,14 @@
                     <tr>
                         <td>{{ user.username }}</td>
                         <td>{{ user.email ?: '—' }}</td>
+                        <td>{% if user.tenant %}<a href="{{ path('app_tenant_show', {id: user.tenant.id}) }}">{{ user.tenant.name }}</a>{% else %}—{% endif %}</td>
                         <td>{{ user.roleLabels|join(', ') ?: '—' }}</td>
                         <td>{% if user.contact %}<a href="{{ path('app_contact_show', {id: user.contact.id}) }}">{{ user.contact }}</a>{% else %}—{% endif %}</td>
                         <td>{{ user.enabled ? 'Oui' : 'Non' }}</td>
                         <td><a href="{{ path('app_user_show', {id: user.id}) }}">Ouvrir</a></td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="6" class="muted">Aucun utilisateur.</td></tr>
+                    <tr><td colspan="7" class="muted">Aucun utilisateur.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

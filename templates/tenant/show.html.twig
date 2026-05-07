@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ tenant.name }}{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Tenant beta</p>
+            <h1>{{ tenant.name }}</h1>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_tenant_index') }}">Retour</a>
+            <a class="button-link secondary" href="{{ path('app_tenant_edit', {id: tenant.id}) }}">Modifier</a>
+        </div>
+    </div>
+
+    <section class="section-card">
+        <dl class="info-list">
+            <div><dt>Code</dt><dd>{{ tenant.code }}</dd></div>
+            <div><dt>Plan</dt><dd>{{ tenant.planLabel }}</dd></div>
+            <div><dt>Statut</dt><dd>{{ tenant.statusLabel }}</dd></div>
+            <div><dt>Referent beta</dt><dd>{{ tenant.betaContactEmail ?: '—' }}</dd></div>
+            <div><dt>Notes internes</dt><dd>{{ tenant.notes ?: '—' }}</dd></div>
+        </dl>
+    </section>
+
+    <section class="section-card">
+        <div class="section-head">
+            <h2>Utilisateurs rattaches</h2>
+            <a class="button-link secondary" href="{{ path('app_user_new') }}">Nouvel utilisateur</a>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Actif</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in tenant.users %}
+                    <tr>
+                        <td><a href="{{ path('app_user_show', {id: user.id}) }}">{{ user.username }}</a></td>
+                        <td>{{ user.email ?: '—' }}</td>
+                        <td>{{ user.roleLabels|join(', ') ?: '—' }}</td>
+                        <td>{{ user.enabled ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="muted">Aucun utilisateur rattache.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <form method="post" action="{{ path('app_tenant_status', {id: tenant.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('tenant-status-' ~ tenant.id) }}">
+        <button type="submit" class="{{ tenant.active ? 'danger' : '' }}">{{ tenant.active ? 'Suspendre tenant' : 'Reactiver tenant' }}</button>
+    </form>
+{% endblock %}

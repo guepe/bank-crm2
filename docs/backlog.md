@@ -71,7 +71,7 @@ Les epics ci-dessous reprennent le briefing et le cahier des charges en privileg
 | US039 | EP06 Rapport | En tant que client, je peux generer un rapport beta universel lorsque mon dossier est suffisamment complet afin de disposer d'une synthese partageable. | P0 | todo |
 | US040 | EP06 Rapport | En tant que client ou prescripteur autorise, je peux voir dans le rapport les sources des champs corriges afin de comprendre la provenance des informations importantes. | P1 | todo |
 | US041 | EP07 Gouvernance | En tant que client, je peux consulter, exporter ou demander la suppression de mes donnees afin d'exercer mes droits RGPD. | P1 | done |
-| US042 | EP08 Pilotage | En tant qu'administrateur, je peux piloter tenants, utilisateurs, relances et indicateurs agreges sans lire les dossiers individuels afin d'operer la beta en confiance. | P1 | in_progress |
+| US042 | EP08 Pilotage | En tant qu'administrateur, je peux piloter tenants, utilisateurs, relances et indicateurs agreges sans lire les dossiers individuels afin d'operer la beta en confiance. | P1 | done |
 
 ## Audit Code Rapide - 2026-05-06
 
@@ -103,7 +103,7 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US039 | todo | Pas de generation de rapport beta universel. |
 | US040 | todo | Pas de rapport, donc pas d'affichage des sources dans le rapport. |
 | US041 | done | Le portail expose les donnees principales, fournit un export JSON et enregistre une demande de suppression a traiter sous 48h. |
-| US042 | in_progress | Gestion utilisateurs et dashboard de compteurs existent. Pas encore tenants, relances, indicateurs beta ni separation admin/dossiers au niveau attendu. |
+| US042 | done | Le back-office beta gere tenants, plans, rattachement utilisateurs, suspensions, incidents et indicateurs agreges de completude, relance, abandon et extraction sans afficher les contenus de dossier. |
 
 ## Details Des Premieres US
 
@@ -468,6 +468,11 @@ Criteres d'acceptation business :
 - l'administrateur voit des indicateurs agreges utiles a la beta, pas les dossiers individuels
 - l'equipe peut suivre les abandons, relances, taux de completude et qualite des extractions
 - les incidents et corrections de parcours alimentent une boucle d'amelioration avant V1
+
+Etat code :
+
+- `US042` done : `/pilotage` expose les indicateurs agreges beta, `/tenants` gere tenants/plans/statuts, les utilisateurs peuvent etre rattaches a un tenant et les suspensions de compte ou tenant bloquent la connexion.
+- La boucle d'amelioration beta passe par les incidents de pilotage, rattaches optionnellement a un tenant, sans reference aux contenus patrimoniaux individuels.
 
 ## Sprint Suivant Propose
 

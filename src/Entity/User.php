@@ -36,6 +36,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $enabled = true;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $suspendedAt = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $suspensionReason = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $emailVerifiedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
@@ -53,6 +59,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(inversedBy: 'userAccount', targetEntity: Contact::class)]
     #[ORM\JoinColumn(name: 'contact_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Contact $contact = null;
+
+    #[ORM\ManyToOne(targetEntity: Tenant::class, inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Tenant $tenant = null;
 
     public function getId(): ?int
     {
@@ -126,6 +136,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        if ($enabled) {
+            $this->suspendedAt = null;
+            $this->suspensionReason = null;
+        } elseif ($this->suspendedAt === null) {
+            $this->suspendedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    public function suspend(?string $reason = null): self
+    {
+        $this->enabled = false;
+        $this->suspendedAt = new \DateTimeImmutable();
+        $this->setSuspensionReason($reason);
+
+        return $this;
+    }
+
+    public function reactivate(): self
+    {
+        return $this->setEnabled(true);
+    }
+
+    public function getSuspendedAt(): ?\DateTimeImmutable
+    {
+        return $this->suspendedAt;
+    }
+
+    public function getSuspensionReason(): ?string
+    {
+        return $this->suspensionReason;
+    }
+
+    public function setSuspensionReason(?string $suspensionReason): self
+    {
+        $suspensionReason = $suspensionReason !== null ? trim($suspensionReason) : null;
+        $this->suspensionReason = $suspensionReason !== '' ? $suspensionReason : null;
 
         return $this;
     }
@@ -214,6 +263,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($contact instanceof Contact && $contact->getUserAccount() !== $this) {
             $contact->setUserAccount($this);
         }
+
+        return $this;
+    }
+
+    public function getTenant(): ?Tenant
+    {
+        return $this->tenant;
+    }
+
+    public function setTenant(?Tenant $tenant): self
+    {
+        $this->tenant = $tenant;
 
         return $this;
     }

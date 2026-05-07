@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Contact;
+use App\Entity\Tenant;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -10,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,6 +23,17 @@ class UserType extends AbstractType
             ->add('username')
             ->add('email', null, ['required' => false])
             ->add('enabled', CheckboxType::class, ['required' => false])
+            ->add('tenant', EntityType::class, [
+                'class' => Tenant::class,
+                'choice_label' => static fn(Tenant $tenant): string => sprintf('%s (%s)', $tenant->getName(), $tenant->getPlanLabel()),
+                'required' => false,
+                'placeholder' => 'Aucun tenant',
+            ])
+            ->add('suspensionReason', TextareaType::class, [
+                'required' => false,
+                'label' => 'Motif de suspension',
+                'help' => 'Visible uniquement dans le back-office.',
+            ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Utilisateur interne' => 'ROLE_USER',

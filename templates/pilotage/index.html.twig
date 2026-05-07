@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pilotage beta{% endblock %}
+
+{% block body %}
+    <div class="section-head">
+        <div>
+            <p class="muted">Back-office</p>
+            <h1>Pilotage beta</h1>
+            <p class="muted">Indicateurs agreges, tenants, relances et incidents sans lecture des dossiers individuels.</p>
+        </div>
+        <div class="actions">
+            <a class="button-link secondary" href="{{ path('app_tenant_index') }}">Tenants</a>
+            <a class="button-link" href="{{ path('app_pilotage_incident_new') }}">Nouvel incident</a>
+        </div>
+    </div>
+
+    <div class="stats">
+        <article class="stat-card">
+            <span class="stat-label">Tenants actifs</span>
+            <strong>{{ pilotage.tenants.active }}</strong>
+            <span class="muted">{{ pilotage.tenants.suspended }} suspendu{{ pilotage.tenants.suspended > 1 ? 's' : '' }}</span>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Utilisateurs clients</span>
+            <strong>{{ pilotage.users.clients }}</strong>
+            <span class="muted">{{ pilotage.users.suspended }} compte{{ pilotage.users.suspended > 1 ? 's' : '' }} suspendu{{ pilotage.users.suspended > 1 ? 's' : '' }}</span>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Completude moyenne</span>
+            <strong>{{ pilotage.onboarding.average_completion }}%</strong>
+            <span class="muted">{{ pilotage.onboarding.report_ready }} dossier{{ pilotage.onboarding.report_ready > 1 ? 's' : '' }} au seuil rapport</span>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Relances</span>
+            <strong>{{ pilotage.reminders.total }}</strong>
+            <span class="muted">Consentement, reprise ou abandon</span>
+        </article>
+    </div>
+
+    <div class="grid two-cols">
+        <section class="section-card">
+            <div class="section-head">
+                <h2>Tenants et plans</h2>
+                <a class="button-link secondary" href="{{ path('app_tenant_new') }}">Ajouter</a>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Tenant</th>
+                        <th>Plan</th>
+                        <th>Utilisateurs</th>
+                        <th>Sessions</th>
+                        <th>Completude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in pilotage.tenants.rows %}
+                        <tr>
+                            <td>{{ row.name }}</td>
+                            <td>{{ row.plan }}</td>
+                            <td>{{ row.users }} dont {{ row.clients }} clients</td>
+                            <td>{{ row.sessions }} dont {{ row.abandoned_sessions }} abandon{{ row.abandoned_sessions > 1 ? 's' : '' }}</td>
+                            <td>{{ row.average_completion }}%</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5" class="muted">Aucun tenant ou dossier a piloter.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section-card">
+            <h2>Entretien et completude</h2>
+            <dl class="info-list">
+                <div><dt>Sessions totales</dt><dd>{{ pilotage.onboarding.total }}</dd></div>
+                <div><dt>En cours</dt><dd>{{ pilotage.onboarding.status_counts.in_progress }}</dd></div>
+                <div><dt>Completes</dt><dd>{{ pilotage.onboarding.status_counts.completed }}</dd></div>
+                <div><dt>Abandonnees</dt><dd>{{ pilotage.onboarding.status_counts.abandoned }}</dd></div>
+                <div><dt>0-39%</dt><dd>{{ pilotage.onboarding.completion_buckets['0-39'] }}</dd></div>
+                <div><dt>40-79%</dt><dd>{{ pilotage.onboarding.completion_buckets['40-79'] }}</dd></div>
+                <div><dt>80-100%</dt><dd>{{ pilotage.onboarding.completion_buckets['80-100'] }}</dd></div>
+            </dl>
+        </section>
+
+        <section class="section-card">
+            <h2>Relances beta</h2>
+            <dl class="info-list">
+                <div><dt>Consentement manquant</dt><dd>{{ pilotage.reminders.reasons.consent }}</dd></div>
+                <div><dt>Entretien non demarre</dt><dd>{{ pilotage.reminders.reasons.not_started }}</dd></div>
+                <div><dt>En cours inactif</dt><dd>{{ pilotage.reminders.reasons.stale_in_progress }}</dd></div>
+                <div><dt>Abandon</dt><dd>{{ pilotage.reminders.reasons.abandoned }}</dd></div>
+            </dl>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Tenant</th>
+                        <th>Total</th>
+                        <th>Consent.</th>
+                        <th>Reprise</th>
+                        <th>Abandon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in pilotage.reminders.by_tenant %}
+                        <tr>
+                            <td>{{ row.tenant }}</td>
+                            <td>{{ row.total }}</td>
+                            <td>{{ row.consent }}</td>
+                            <td>{{ row.not_started + row.stale_in_progress }}</td>
+                            <td>{{ row.abandoned }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5" class="muted">Aucune relance prioritaire.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section-card">
+            <h2>Qualite extraction</h2>
+            <dl class="info-list">
+                <div><dt>Sessions avec donnees</dt><dd>{{ pilotage.extraction.sessions_with_data }}</dd></div>
+                <div><dt>Champs moyens captes</dt><dd>{{ pilotage.extraction.average_fields }}</dd></div>
+                <div><dt>Declare</dt><dd>{{ pilotage.extraction.sources.declared }}</dd></div>
+                <div><dt>Detecte</dt><dd>{{ pilotage.extraction.sources.detected }}</dd></div>
+                <div><dt>Mis a jour</dt><dd>{{ pilotage.extraction.sources.updated }}</dd></div>
+                <div><dt>Corrige</dt><dd>{{ pilotage.extraction.sources.corrected }}</dd></div>
+            </dl>
+        </section>
+    </div>
+
+    <section class="section-card">
+        <div class="section-head">
+            <div>
+                <h2>Incidents et boucle d'amelioration</h2>
+                <p class="muted">{{ pilotage.incidents.open }} ouverts, {{ pilotage.incidents.in_progress }} en cours, {{ pilotage.incidents.high }} haute severite.</p>
+            </div>
+            <a class="button-link secondary" href="{{ path('app_pilotage_incident_new') }}">Ajouter</a>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Incident</th>
+                    <th>Tenant</th>
+                    <th>Categorie</th>
+                    <th>Severite</th>
+                    <th>Statut</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incident in pilotage.incidents.recent %}
+                    <tr>
+                        <td>{{ incident.title }}</td>
+                        <td>{{ incident.tenant ? incident.tenant.name : 'Global' }}</td>
+                        <td>{{ incident.categoryLabel }}</td>
+                        <td>{{ incident.severityLabel }}</td>
+                        <td>{{ incident.statusLabel }}</td>
+                        <td>
+                            <a href="{{ path('app_pilotage_incident_edit', {id: incident.id}) }}">Modifier</a>
+                            {% if incident.status != 'resolved' %}
+                                <form method="post" action="{{ path('app_pilotage_incident_resolve', {id: incident.id}) }}" class="inline-form">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('resolve-incident-' ~ incident.id) }}">
+                                    <button type="submit" class="secondary">Resoudre</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="muted">Aucun incident beta enregistre.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
