@@ -37,6 +37,7 @@ security:
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/portal/access, roles: PUBLIC_ACCESS }
         - { path: ^/bank-access, roles: PUBLIC_ACCESS }
+        - { path: ^/prescripteur, roles: PUBLIC_ACCESS }
         - { path: ^/onboarding$, roles: PUBLIC_ACCESS }
         - { path: ^/onboarding, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/portal, roles: ROLE_CLIENT }
