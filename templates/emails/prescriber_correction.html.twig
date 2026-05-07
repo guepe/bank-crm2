@@ -1,0 +1,26 @@
+<h1>Correction apportee a votre dossier</h1>
+
+<p>Bonjour {{ client_name }},</p>
+
+<p>
+    Un <strong>{{ prescriber_role }}</strong> a apporte une correction a votre dossier Planilife
+    sur le champ <strong>{{ field_label }}</strong>.
+</p>
+
+{% if reason %}
+<p>Motif indique : <em>{{ reason }}</em></p>
+{% endif %}
+
+<p>
+    Vous pouvez consulter l'historique complet des modifications et verifier les informations
+    directement depuis votre espace client :
+</p>
+
+<p>
+    <a href="{{ dashboard_url }}">Consulter mon dossier</a>
+</p>
+
+<p style="color:#888;font-size:0.9em;">
+    Si vous n'etes pas a l'origine de ce partage ou si cette correction vous semble incorrecte,
+    vous pouvez revoquer l'acces du prescripteur depuis la page "Partager mon dossier" de votre espace.
+</p>

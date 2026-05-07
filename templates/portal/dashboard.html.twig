@@ -195,6 +195,35 @@
         </section>
     {% endif %}
 
+    {% if dashboard.prescriber_corrections is not empty %}
+    <section class="dashboard-tab" style="border-left:3px solid var(--accent);">
+        <div class="section-head">
+            <div>
+                <h2>Corrections prescripteurs <span class="source-badge source-corrected">{{ dashboard.prescriber_corrections|length }}</span></h2>
+                <p class="muted">Ces champs ont ete corriges par un professionnel auquel vous avez donne acces.</p>
+            </div>
+        </div>
+        <ul class="timeline-list">
+            {% for edit in dashboard.prescriber_corrections %}
+                <li class="timeline-item">
+                    <span class="timeline-date">{{ edit.timestamp|date('d/m/Y H:i') }}</span>
+                    <span class="timeline-content">
+                        <strong>{{ edit.fieldPath }}</strong>
+                        <span>
+                            <span class="source-badge source-corrected">Corrige</span>
+                            <span class="muted"> par un prescripteur</span>
+                            {% if edit.reason %}<span class="muted"> — {{ edit.reason }}</span>{% endif %}
+                        </span>
+                        {% if edit.oldValue is not null and edit.oldValue != '' %}
+                            <span class="muted" style="font-size:.85rem;">Ancienne valeur : {{ edit.oldValue }}</span>
+                        {% endif %}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
     <section class="dashboard-tab">
         <div class="section-head">
             <div>

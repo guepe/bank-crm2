@@ -119,6 +119,24 @@ class FieldProvenanceService
     /**
      * Get recent edits timeline for session.
      */
+    /**
+     * Returns only the corrections made by prescribers for this session.
+     */
+    public function getPrescriberCorrections(OnboardingSession $session, int $limit = 20): array
+    {
+        $edits = $this->fieldEditRepository->findBySessionAndRole($session, FieldEdit::ROLE_PRESCRIBER, $limit);
+
+        return array_map(fn(FieldEdit $e) => [
+            'fieldPath' => $e->getFieldPath(),
+            'oldValue'  => $e->getOldValue(),
+            'newValue'  => $e->getNewValue(),
+            'source'    => $e->getSource(),
+            'role'      => $e->getRole(),
+            'reason'    => $e->getReason(),
+            'timestamp' => $e->getCreatedAt()->format(\DateTimeInterface::ATOM),
+        ], $edits);
+    }
+
     public function getTimeline(OnboardingSession $session, int $limit = 50): array
     {
         $edits = $this->fieldEditRepository->findRecentBySession($session, $limit);

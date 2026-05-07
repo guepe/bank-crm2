@@ -94,7 +94,8 @@ class PlanilifeDashboardBuilder
             'completion' => $this->buildCompletion($data),
             'tabs' => $this->buildTabs($session, $data),
             'timeline' => $this->buildLifeTimeline($data),
-            'recent_edits' => $session instanceof OnboardingSession ? $this->provenanceService->getTimeline($session, 8) : [],
+            'recent_edits'           => $session instanceof OnboardingSession ? $this->provenanceService->getTimeline($session, 8) : [],
+            'prescriber_corrections' => $session instanceof OnboardingSession ? $this->provenanceService->getPrescriberCorrections($session) : [],
             'source_report' => $session instanceof OnboardingSession ? $this->provenanceService->getSourcingReport($session) : [
                 'declared' => 0,
                 'detected' => 0,

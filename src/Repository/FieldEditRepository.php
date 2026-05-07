@@ -62,6 +62,23 @@ class FieldEditRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get recent edits for a session filtered by role (e.g. prescriber).
+     */
+    public function findBySessionAndRole(OnboardingSession $session, string $role, int $limit = 20): array
+    {
+        return $this->createQueryBuilder('fe')
+            ->where('fe.session = :session')
+            ->andWhere('fe.role = :role')
+            ->setParameter('session', $session)
+            ->setParameter('role', $role)
+            ->orderBy('fe.createdAt', 'DESC')
+            ->addOrderBy('fe.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Get recent edits for reporting.
      */
     public function findRecentBySession(OnboardingSession $session, int $limit = 50): array

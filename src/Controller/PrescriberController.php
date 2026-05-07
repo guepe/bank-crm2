@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\FieldEdit;
 use App\Repository\PrescriberInvitationRepository;
+use App\Service\BrevoMailer;
 use App\Service\OnboardingService;
+use App\Service\OnboardingServiceRequiredFields;
 use App\Service\PlanilifeDashboardBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/prescripteur')]
 class PrescriberController extends AbstractController
@@ -74,6 +77,8 @@ class PrescriberController extends AbstractController
         PlanilifeDashboardBuilder $dashboardBuilder,
         OnboardingService $onboardingService,
         EntityManagerInterface $entityManager,
+        BrevoMailer $mailer,
+        OnboardingServiceRequiredFields $requiredFieldsHelper,
     ): Response {
         $invitation = $invitationRepository->findActiveByToken($token);
         if ($invitation === null) {
@@ -120,6 +125,30 @@ class PrescriberController extends AbstractController
         $invitation->markAccessed();
         $invitation->incrementCorrectionCount();
         $entityManager->flush();
+
+        $sessionUser = $session->getUser();
+        if ($sessionUser !== null && $sessionUser->getEmail() !== null) {
+            $labels     = $requiredFieldsHelper->getFieldLabels();
+            $fieldLabel = $labels[$fieldPath] ?? str_replace('.', ' > ', $fieldPath);
+            $clientName = $session->getContact()?->getFirstname() ?? $sessionUser->getUsername();
+
+            try {
+                $mailer->sendTemplatedEmail(
+                    $sessionUser->getEmail(),
+                    'Votre dossier Planilife a ete corrige',
+                    'emails/prescriber_correction.html.twig',
+                    [
+                        'client_name'     => $clientName,
+                        'prescriber_role' => $invitation->getPrescriberRoleLabel(),
+                        'field_label'     => $fieldLabel,
+                        'reason'          => $reason,
+                        'dashboard_url'   => $this->generateUrl('app_portal_dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    ],
+                );
+            } catch (\Throwable) {
+                // Email failure must never block the correction flow
+            }
+        }
 
         $this->addFlash('success', 'Correction enregistree.');
 
