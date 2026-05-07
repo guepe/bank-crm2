@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partager mon dossier{% endblock %}
+
+{% block body %}
+<div class="topline dashboard-hero">
+    <div>
+        <p class="muted">Portail client</p>
+        <h1>Partager mon dossier</h1>
+        <p class="muted">Generez un lien securise pour qu'un professionnel consulte et corrige uniquement les informations que vous choisissez.</p>
+    </div>
+    <div class="actions">
+        <a class="button-link secondary" href="{{ path('app_portal_dashboard') }}">← Dashboard</a>
+    </div>
+</div>
+
+{# — Invitations existantes ————————————————————————————————— #}
+{% if invitations|length > 0 %}
+<section class="section-card" style="margin-bottom:22px;">
+    <h2>Invitations en cours</h2>
+    <div class="stack">
+        {% for inv in invitations %}
+        <div class="dashboard-field" style="display:grid;gap:10px;">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;">
+                <div>
+                    <strong>{{ inv.prescriberRoleLabel }}</strong>
+                    <span class="muted" style="margin-left:8px;">
+                        Blocs : {{ inv.authorizedBlocks|join(', ') }}
+                    </span>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center;">
+                    {% if inv.isActive() %}
+                        <span class="source-badge source-declared">Actif</span>
+                        <span class="muted" style="font-size:.9rem;">expire le {{ inv.expiresAt|date('d/m/Y') }}</span>
+                    {% elseif inv.isExpired() %}
+                        <span class="source-badge">Expire</span>
+                    {% else %}
+                        <span class="source-badge" style="background:rgba(157,46,46,.14);color:#8a2525;">Revoque</span>
+                    {% endif %}
+                    {% if inv.correctionCount > 0 %}
+                        <span class="muted" style="font-size:.9rem;">{{ inv.correctionCount }} correction{{ inv.correctionCount > 1 ? 's' : '' }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if inv.isActive() %}
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+                <input
+                    type="text"
+                    readonly
+                    value="{{ url('app_prescriber_view', {token: inv.token}) }}"
+                    style="flex:1;min-width:260px;font-size:.88rem;"
+                    onclick="this.select();"
+                    aria-label="Lien prescripteur"
+                >
+                <form method="post" action="{{ path('app_portal_prescriber_revoke', {id: inv.id}) }}" class="inline-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('revoke-invitation-' ~ inv.id) }}">
+                    <button type="submit" class="danger" style="min-height:38px;padding:9px 14px;">Revoquer</button>
+                </form>
+            </div>
+            {% endif %}
+
+            {% if inv.note %}
+                <p class="muted" style="font-size:.9rem;">Note : {{ inv.note }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{# — Formulaire nouvelle invitation ————————————————————————— #}
+<section class="section-card">
+    <h2>Nouvelle invitation</h2>
+    <form method="post" action="{{ path('app_portal_prescriber_share') }}" class="stack">
+        <input type="hidden" name="_token" value="{{ csrf_token('portal-prescriber-share-' ~ portal_user.id) }}">
+
+        <div class="field">
+            <label for="prescriber_role">Role du prescripteur</label>
+            <select id="prescriber_role" name="prescriber_role" required>
+                <option value="">— Choisissez —</option>
+                {% for key, label in all_roles %}
+                    <option value="{{ key }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Blocs a partager <span class="muted">(au moins un)</span></label>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;">
+                {% set block_labels = {profil: 'Profil de vie', projets: 'Projets', valeurs: 'Valeurs & risque', timing: 'Timeline', patrimoine: 'Patrimoine', flux: 'Revenus & flux'} %}
+                {% for block in all_blocks %}
+                <label style="display:flex;align-items:center;gap:8px;font-weight:normal;cursor:pointer;">
+                    <input type="checkbox" name="authorized_blocks[]" value="{{ block }}">
+                    {{ block_labels[block] ?? block }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="note">Message pour le prescripteur <span class="muted">(optionnel)</span></label>
+            <textarea id="note" name="note" rows="3" placeholder="Ex. : Merci de verifier les informations patrimoniales"></textarea>
+        </div>
+
+        <div>
+            <button type="submit">Creer le lien d'invitation</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

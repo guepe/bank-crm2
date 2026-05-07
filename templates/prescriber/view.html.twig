@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier client — Espace prescripteur{% endblock %}
+
+{% block body %}
+<div class="topline dashboard-hero">
+    <div>
+        <p class="muted">Espace prescripteur</p>
+        <h1>Dossier client</h1>
+        <p class="muted">
+            Vous avez acces en tant que <strong>{{ invitation.prescriberRoleLabel }}</strong>
+            aux blocs : {{ invitation.authorizedBlocks|join(', ') }}.
+            Cet acces expire le {{ invitation.expiresAt|date('d/m/Y') }}.
+        </p>
+    </div>
+</div>
+
+{% if invitation.note %}
+<section class="section-card" style="margin-bottom:22px;">
+    <p><strong>Message du client :</strong> {{ invitation.note }}</p>
+</section>
+{% endif %}
+
+{% set source_labels = {declared: 'Declare', detected: 'Detecte par IA', updated: 'Mis a jour', corrected: 'Corrige'} %}
+
+{% for tab in tabs %}
+<section class="dashboard-tab" style="margin-bottom:18px;">
+    <div class="section-head">
+        <div>
+            <h2>{{ tab.label }}</h2>
+            <p class="muted">{{ tab.subtitle }}</p>
+        </div>
+    </div>
+
+    <div class="dashboard-field-grid">
+        {% for field in tab.fields %}
+        <div class="dashboard-field">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                <strong>{{ field.label }}</strong>
+                <span class="source-badge source-{{ field.source ?? 'none' }}">{{ source_labels[field.source] ?? 'non trace' }}</span>
+            </div>
+
+            <p style="margin:0;padding:8px 0;border-bottom:1px solid rgba(33,58,45,.1);">
+                {% if field.display_value %}{{ field.display_value }}{% else %}<span class="muted">Non renseigne</span>{% endif %}
+            </p>
+
+            <details style="margin-top:6px;">
+                <summary style="cursor:pointer;font-size:.88rem;color:var(--text-muted);">Corriger ce champ</summary>
+                <form method="post" action="{{ path('app_prescriber_correct', {token: invitation.token}) }}" class="stack" style="margin-top:10px;">
+                    <input type="hidden" name="_token"     value="{{ csrf_token('prescriber-correct-' ~ invitation.token) }}">
+                    <input type="hidden" name="field_path" value="{{ field.path }}">
+
+                    {% if field.type == 'textarea' %}
+                        <textarea name="value" rows="3">{{ field.form_value }}</textarea>
+                    {% else %}
+                        <input type="{{ field.type }}" name="value" value="{{ field.form_value }}">
+                    {% endif %}
+
+                    <div class="field">
+                        <label for="reason-{{ field.dom_id }}">Raison de la correction</label>
+                        <input type="text" id="reason-{{ field.dom_id }}" name="reason" placeholder="Ex. : Verification du titre de propriete">
+                    </div>
+
+                    <div>
+                        <button type="submit" class="secondary" style="min-height:36px;padding:8px 14px;font-size:.9rem;">Enregistrer la correction</button>
+                    </div>
+                </form>
+            </details>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% else %}
+<p class="muted">Aucun bloc partage.</p>
+{% endfor %}
+
+{% if invitation.correctionCount > 0 %}
+<p class="muted" style="text-align:center;margin-top:12px;">
+    {{ invitation.correctionCount }} correction{{ invitation.correctionCount > 1 ? 's' : '' }} enregistree{{ invitation.correctionCount > 1 ? 's' : '' }} via ce lien.
+</p>
+{% endif %}
+{% endblock %}

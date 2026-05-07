@@ -487,12 +487,17 @@
                 min-height: 26px;
                 padding: 4px 8px;
                 border-radius: 999px;
-                background: rgba(30, 87, 153, 0.12);
-                color: #1f4f86;
+                background: rgba(86, 100, 93, 0.12);
+                color: var(--text-muted);
                 font-size: 0.82rem;
                 font-weight: 700;
                 white-space: nowrap;
             }
+
+            .source-declared  { background: rgba(30,  87, 153, 0.12); color: #1f4f86; }
+            .source-detected  { background: rgba(113,  44, 142, 0.12); color: #5b1f86; }
+            .source-updated   { background: rgba(187, 134,   0, 0.16); color: #7c5b00; }
+            .source-corrected { background: rgba(24,  132,  73, 0.16); color: #16653c; }
 
             .field-footer {
                 display: flex;
@@ -615,6 +620,7 @@
                             {% elseif is_granted('ROLE_CLIENT') %}
                                 <a href="{{ path('app_portal_dashboard') }}">Mon espace</a>
                                 <a href="{{ path('app_portal_contact_edit') }}">Mon dossier</a>
+                                <a href="{{ path('app_portal_prescriber_share') }}">Partager</a>
                             {% endif %}
                         </div>
                         <div class="actions">

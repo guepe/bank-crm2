@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\OnboardingSessionRepository;
 use App\Service\AiChatServiceInterface;
 use App\Service\DocumentStorage;
+use App\Service\FieldProvenanceService;
 use App\Service\OnboardingService;
 use App\Service\OnboardingDocumentAnalyzer;
 use App\Entity\Document;
@@ -343,7 +344,9 @@ class OnboardingController extends AbstractController
     {
         $this->denyAccessUnlessGranted('edit', $session);
 
-        $this->onboardingService->completeSession($session);
+        /** @var \App\Entity\User $author */
+        $author = $this->getUser();
+        $this->onboardingService->completeSession($session, $author);
         $this->addFlash('success', 'Profil client créé avec succès!');
 
         if ($account = $session->getAccount()) {
@@ -355,7 +358,7 @@ class OnboardingController extends AbstractController
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/{id}', name: 'app_onboarding_show', methods: ['GET'])]
-    public function show(OnboardingSession $session): Response
+    public function show(OnboardingSession $session, FieldProvenanceService $provenanceService): Response
     {
         $this->denyAccessUnlessGranted('view', $session);
         if ($this->requiresClientConsent($this->getUser())) {
@@ -365,6 +368,8 @@ class OnboardingController extends AbstractController
         return $this->render('onboarding/show.html.twig', [
             'session' => $session,
             'displayMessages' => $this->buildDisplayMessages($session),
+            'field_edits' => $provenanceService->getTimeline($session, 100),
+            'sourcing_report' => $provenanceService->getSourcingReport($session),
             'page_title' => 'Onboarding: '.($session->getContact()?->getFirstname() ?? 'Nouveau'),
         ]);
     }

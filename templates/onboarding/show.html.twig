@@ -85,6 +85,71 @@
         </div>
     </div>
 
+    <!-- Field Edit Audit Trail -->
+    <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+        <h2 class="text-2xl font-bold mb-2 border-b pb-2">Audit des modifications de champs</h2>
+
+        {% if sourcing_report is defined %}
+        <div class="flex gap-4 mb-4 text-sm">
+            <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">Déclaré : {{ sourcing_report.declared }}</span>
+            <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded">Détecté IA : {{ sourcing_report.detected }}</span>
+            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Mis à jour : {{ sourcing_report.updated }}</span>
+            <span class="px-2 py-1 bg-green-100 text-green-800 rounded">Corrigé : {{ sourcing_report.corrected }}</span>
+        </div>
+        {% endif %}
+
+        {% if field_edits is defined and field_edits|length > 0 %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-3 py-2">Horodatage</th>
+                        <th class="px-3 py-2">Champ</th>
+                        <th class="px-3 py-2">Source</th>
+                        <th class="px-3 py-2">Rôle</th>
+                        <th class="px-3 py-2">Auteur</th>
+                        <th class="px-3 py-2">Ancienne valeur</th>
+                        <th class="px-3 py-2">Nouvelle valeur</th>
+                        <th class="px-3 py-2">Raison</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for edit in field_edits %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-3 py-2 text-gray-500 whitespace-nowrap">{{ edit.timestamp|date('d/m/Y H:i:s') }}</td>
+                        <td class="px-3 py-2 font-mono text-xs text-gray-800">{{ edit.fieldPath }}</td>
+                        <td class="px-3 py-2">
+                            {% if edit.source == 'declared' %}
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">déclaré</span>
+                            {% elseif edit.source == 'detected' %}
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">IA</span>
+                            {% elseif edit.source == 'updated' %}
+                                <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded text-xs">mis à jour</span>
+                            {% elseif edit.source == 'corrected' %}
+                                <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">corrigé</span>
+                            {% else %}
+                                <span class="text-gray-400 text-xs">{{ edit.source }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-3 py-2 text-xs text-gray-600">{{ edit.role }}</td>
+                        <td class="px-3 py-2 text-xs text-gray-600">{{ edit.author ?? '—' }}</td>
+                        <td class="px-3 py-2 text-xs text-gray-400 max-w-xs truncate" title="{{ edit.oldValue|json_encode }}">
+                            {% if edit.oldValue is not null %}{{ edit.oldValue|json_encode(constant('JSON_UNESCAPED_UNICODE')) }}{% else %}—{% endif %}
+                        </td>
+                        <td class="px-3 py-2 text-xs text-gray-800 max-w-xs truncate" title="{{ edit.newValue|json_encode }}">
+                            {{ edit.newValue|json_encode(constant('JSON_UNESCAPED_UNICODE')) }}
+                        </td>
+                        <td class="px-3 py-2 text-xs text-gray-500">{{ edit.reason ?? '' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-center py-6">Aucune modification de champ tracée.</p>
+        {% endif %}
+    </div>
+
     <!-- Action Buttons -->
     <div class="flex gap-4 mt-6">
         {% if session.status == 'in_progress' %}

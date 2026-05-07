@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php bin/console lint:container)",
+      "Bash(php bin/console lint:twig templates/onboarding/show.html.twig)"
+    ]
+  }
+}

@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\FieldEdit;
 use App\Entity\OnboardingSession;
+use App\Entity\PrescriberInvitation;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use App\Form\PortalContactType;
 use App\Repository\OnboardingSessionRepository;
+use App\Repository\PrescriberInvitationRepository;
 use App\Service\OnboardingService;
 use App\Service\PlanilifeDashboardBuilder;
 use Doctrine\ORM\EntityManagerInterface;
@@ -296,6 +298,80 @@ class PortalController extends AbstractController
         return $this->render('portal/password.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/partage', name: 'app_portal_prescriber_share', methods: ['GET', 'POST'])]
+    public function prescriberShare(
+        Request $request,
+        OnboardingSessionRepository $sessionRepository,
+        PrescriberInvitationRepository $invitationRepository,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        /** @var User $user */
+        $user    = $this->getUser();
+        $session = $sessionRepository->findLatestByUser($user);
+
+        if ($request->isMethod('POST')) {
+            if (!$this->isCsrfTokenValid('portal-prescriber-share-'.$user->getId(), (string) $request->request->get('_token'))) {
+                throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+            }
+
+            $role   = (string) $request->request->get('prescriber_role', '');
+            $blocks = $request->request->all('authorized_blocks');
+            $note   = (string) $request->request->get('note', '');
+
+            if (!array_key_exists($role, PrescriberInvitation::ALL_ROLES) || empty($blocks)) {
+                $this->addFlash('error', 'Veuillez choisir un role et au moins un bloc a partager.');
+
+                return $this->redirectToRoute('app_portal_prescriber_share');
+            }
+
+            $validBlocks = array_values(array_intersect($blocks, PrescriberInvitation::ALL_BLOCKS));
+            $session     = $this->findOrCreateDashboardSession($user, $sessionRepository, $entityManager);
+
+            $invitation = new PrescriberInvitation($session, $role, $validBlocks);
+            if ($note !== '') {
+                $invitation->setNote($note);
+            }
+            $entityManager->persist($invitation);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Invitation creee. Copiez le lien et transmettez-le a votre prescripteur.');
+
+            return $this->redirectToRoute('app_portal_prescriber_share');
+        }
+
+        return $this->render('portal/partage.html.twig', [
+            'portal_user' => $user,
+            'session'     => $session,
+            'invitations' => $session ? $invitationRepository->findBySession($session) : [],
+            'all_roles'   => PrescriberInvitation::ALL_ROLES,
+            'all_blocks'  => PrescriberInvitation::ALL_BLOCKS,
+        ]);
+    }
+
+    #[Route('/partage/{id}/revoquer', name: 'app_portal_prescriber_revoke', methods: ['POST'])]
+    public function revokeInvitation(
+        PrescriberInvitation $invitation,
+        Request $request,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($invitation->getSession()->getUser() !== $user) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('revoke-invitation-'.$invitation->getId(), (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        $invitation->revoke();
+        $entityManager->flush();
+        $this->addFlash('success', 'Invitation revoquee.');
+
+        return $this->redirectToRoute('app_portal_prescriber_share');
     }
 
     private function findOrCreateDashboardSession(

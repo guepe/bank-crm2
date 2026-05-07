@@ -60,13 +60,13 @@ Les epics ci-dessous reprennent le briefing et le cahier des charges en privileg
 | US028 | EP02 Entretien | En tant que client, je peux estimer mon patrimoine, mes credits, mes revenus et mes flux par fourchettes afin de preparer un rendez-vous sans devoir fournir des montants exacts. | P0 | in_progress |
 | US029 | EP02 Entretien | En tant que client, je peux quitter et reprendre l'entretien exactement ou je l'avais laisse afin de completer mon dossier en plusieurs fois. | P0 | done |
 | US030 | EP03 Dossier | En tant qu'equipe produit, nous pouvons representer le dossier comme source de verite collaborative afin que les donnees declarees, detectees, modifiees et corrigees coexistent sans ecrasement. | P0 | done |
-| US031 | EP03 Dossier | En tant que client, je peux voir la provenance d'un champ sensible afin de distinguer ce que j'ai declare, ce qui a ete detecte et ce qui a ete corrige. | P0 | todo |
-| US032 | EP03 Dossier | En tant qu'equipe produit, nous pouvons tracer chaque modification de champ afin d'expliquer qui a change quoi, quand, et pourquoi. | P0 | in_progress |
+| US031 | EP03 Dossier | En tant que client, je peux voir la provenance d'un champ sensible afin de distinguer ce que j'ai declare, ce qui a ete detecte et ce qui a ete corrige. | P0 | done |
+| US032 | EP03 Dossier | En tant qu'equipe produit, nous pouvons tracer chaque modification de champ afin d'expliquer qui a change quoi, quand, et pourquoi. | P0 | done |
 | US033 | EP04 Dashboard | En tant que client, je peux consulter un dashboard en 6 onglets afin de comprendre mon profil, mes projets, mes valeurs, mon timing, mon patrimoine et mes flux. | P0 | done |
 | US034 | EP04 Dashboard | En tant que client, je peux modifier mes donnees directement dans le dashboard afin de corriger mon dossier sans relancer tout l'entretien. | P0 | done |
 | US035 | EP04 Dashboard | En tant que client, je peux visualiser et ajuster les evenements de ma timeline afin de fiabiliser les etapes cles de mon plan de vie. | P1 | done |
-| US036 | EP05 Partage | En tant que client, je peux generer une invitation pour un prescripteur avec un role et des blocs autorises afin de partager seulement ce que j'ai valide. | P0 | in_progress |
-| US037 | EP05 Partage | En tant que prescripteur, je peux consulter uniquement les blocs autorises et corriger les champs relevant de mon role afin d'enrichir le dossier client. | P0 | in_progress |
+| US036 | EP05 Partage | En tant que client, je peux generer une invitation pour un prescripteur avec un role et des blocs autorises afin de partager seulement ce que j'ai valide. | P0 | done |
+| US037 | EP05 Partage | En tant que prescripteur, je peux consulter uniquement les blocs autorises et corriger les champs relevant de mon role afin d'enrichir le dossier client. | P0 | done |
 | US038 | EP05 Partage | En tant que client, je peux etre notifie des modifications faites par un prescripteur et les retrouver dans l'historique afin de conserver la maitrise du dossier. | P1 | in_progress |
 | US039 | EP06 Rapport | En tant que client, je peux generer un rapport beta universel lorsque mon dossier est suffisamment complet afin de disposer d'une synthese partageable. | P0 | todo |
 | US040 | EP06 Rapport | En tant que client ou prescripteur autorise, je peux voir dans le rapport les sources des champs corriges afin de comprendre la provenance des informations importantes. | P1 | todo |
@@ -93,12 +93,12 @@ Statuts recalibres apres lecture du code Symfony existant.
 | US029 | done | Une session en cours est retrouvee et reprise, avec messages, phase et donnees persistees. |
 | US030 | done | Le dossier source conserve la valeur courante dans `OnboardingSession.extractedData` et l'historique collaboratif dans `field_edit`, avec sources declaree, detectee, mise a jour et corrigee. |
 | US031 | todo | Aucun badge ou champ de provenance visible par valeur sensible. |
-| US032 | in_progress | Le journal `field_edit` trace les changements issus de l'onboarding et du service de mise a jour de champ. Il reste a brancher les futures interfaces inline/prescripteur sur ce point d'entree. |
+| US032 | done | Le journal `field_edit` couvre l'onboarding, le dashboard inline et la timeline. La finalisation de session est tracee. Le tableau d'audit est visible sur la page admin `/onboarding/{id}`. Les corrections prescripteur attendent US036/US037. |
 | US033 | done | Le portail client expose maintenant un dashboard Planilife en 6 onglets avec score de completude, sources et synthese dossier. |
 | US034 | done | Les champs du dashboard sont editables inline et passent par `OnboardingService::updateSessionField`, avec provenance et historique `field_edit`. |
 | US035 | done | La timeline de vie est visualisee et ajustable depuis le dashboard, puis synchronisee avec `etapes.timeline` et `etapes.etapes`. |
-| US036 | in_progress | Des liens securises existent pour portail et banque, mais le client ne genere pas encore une invitation par role et blocs autorises. |
-| US037 | in_progress | Un interlocuteur bancaire peut completer des produits via lien. La matrice multi-roles prescripteur reste a faire. |
+| US036 | done | `/portal/partage` : le client genere une invitation prescripteur avec role + blocs autorises. Token 64 chars, expiration 30 jours, revocation. Entite `PrescriberInvitation` + migration. |
+| US037 | done | `/prescripteur/{token}` : le prescripteur consulte les blocs autorises et corrige les champs via formulaire inline. Chaque correction cree un `FieldEdit SOURCE_CORRECTED / ROLE_PRESCRIBER`. |
 | US038 | in_progress | L'historique interne trace l'envoi/retour banque. La notification client et l'historique client des corrections restent a faire. |
 | US039 | todo | Pas de generation de rapport beta universel. |
 | US040 | todo | Pas de rapport, donc pas d'affichage des sources dans le rapport. |
@@ -410,8 +410,8 @@ Criteres d'acceptation business :
 Etat code :
 
 - `US030` done : `OnboardingSession.extractedData` reste la valeur courante exploitable par le CRM, et `field_edit` conserve les valeurs precedentes, la source, le role, l'auteur, la raison et l'horodatage.
-- `US031` todo : pas encore d'affichage client des badges ou details de provenance par champ.
-- `US032` in_progress : le journal technique existe et couvre le flux onboarding, mais les futures editions inline/prescripteur doivent utiliser le meme point d'entree.
+- `US031` done : badges de provenance couleur-codes par source (declare=bleu, detecte=violet, mis a jour=jaune, corrige=vert) sur chaque champ du dashboard. Section "Historique recent" enrichie avec labels lisibles et raison de correction.
+- `US032` done : le journal `field_edit` couvre tous les flux actifs (onboarding, dashboard inline, timeline). La finalisation de session est tracee avec `_session.status`. Un tableau d'audit est visible sur la page admin de chaque session (`/onboarding/{id}`). Les corrections prescripteur (`SOURCE_CORRECTED`) seront branchees quand US036/US037 livreront leur interface.
 
 ## EP04 - Synthese Client Et Dashboard 6 Onglets
 

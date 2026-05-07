@@ -79,7 +79,7 @@
 
                             <label for="{{ field.dom_id }}">
                                 <span>{{ field.label }}{% if field.required %} *{% endif %}</span>
-                                <span class="source-badge">{{ field.source_label }}</span>
+                                <span class="source-badge source-{{ field.source ?? 'none' }}">{{ field.source_label }}</span>
                             </label>
 
                             {% if field.type == 'textarea' %}
@@ -201,11 +201,17 @@
         </div>
         <ul class="timeline-list">
             {% for edit in dashboard.recent_edits %}
+                {% set source_labels = {declared: 'Declare', detected: 'Detecte par IA', updated: 'Mis a jour', corrected: 'Corrige'} %}
+                {% set role_labels   = {client: 'par vous', prescriber: 'par un prescripteur', system: 'par le systeme'} %}
                 <li class="timeline-item">
                     <span class="timeline-date">{{ edit.timestamp|date('d/m/Y H:i') }}</span>
                     <span class="timeline-content">
                         <strong>{{ edit.fieldPath }}</strong>
-                        <span class="muted">{{ edit.source }} - {{ edit.role }}</span>
+                        <span>
+                            <span class="source-badge source-{{ edit.source }}">{{ source_labels[edit.source] ?? edit.source }}</span>
+                            <span class="muted"> {{ role_labels[edit.role] ?? edit.role }}</span>
+                            {% if edit.reason %}<span class="muted"> — {{ edit.reason }}</span>{% endif %}
+                        </span>
                     </span>
                 </li>
             {% else %}

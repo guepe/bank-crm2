@@ -411,9 +411,18 @@ class OnboardingService
         $this->persistSession($session);
     }
 
-    public function completeSession(OnboardingSession $session): void
+    public function completeSession(OnboardingSession $session, ?User $author = null): void
     {
         $this->saveSessionData($session);
+        $this->provenanceService->trackFieldUpdate(
+            $session,
+            '_session.status',
+            OnboardingSession::STATUS_COMPLETED,
+            FieldEdit::SOURCE_UPDATED,
+            $author ?? $session->getUser(),
+            'Dossier finalisé par le conseiller',
+            FieldEdit::ROLE_CLIENT,
+        );
         $session->setStatus(OnboardingSession::STATUS_COMPLETED);
         $this->entityManager->flush();
     }
